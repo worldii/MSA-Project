@@ -1,12 +1,12 @@
 package com.jikji.commentserver.exception;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class CustomException extends RuntimeException {
 	private ErrorCode errorcode;
 
