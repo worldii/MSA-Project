@@ -2,7 +2,7 @@ package com.jikji.commentserver.dto;
 
 import java.time.LocalDateTime;
 
-import com.example.comment.domain.User;
+import com.jikji.commentserver.domain.User;
 
 import lombok.Builder;
 import lombok.Data;
