@@ -27,7 +27,6 @@ public class NotificationService {
 		this.emitterRepository = emitterRepository;
 		this.notificationRepository = notificationRepository;
 	}
-
 	public SseEmitter subscribe(String token, String lastEventId) {
 		String id = token + "_" + System.currentTimeMillis();
 		SseEmitter emitter = emitterRepository.save(id, new SseEmitter(DEFAULT_SSE_TIMEOUT));
@@ -60,18 +59,25 @@ public class NotificationService {
 		}
 	}
 
-	public void send(String userId, String content) {
+	public void send(String userId, String content, String type) {
+		Notification notification;
+		if (Objects.equals(type, "chat")) {
+			//type 구분
+		} else if (Objects.equals(type, "comment")) {
+			//comment
+		} else if (Objects.equals(type, "post")) {
+			//post
+		} else if (Objects.equals(type, "tags")) {
+			//tags
+		}
 		Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(userId);
 		sseEmitters.forEach(
 			(key, emitter) -> {
 				emitterRepository.saveEventCache(userId, emitter);
-
-				// 임시로 주석 처리
-				// sendToClient(emitter, key, NotificationResponse.from(notification));
+				sendToClient(emitter, key, NotificationResponse.from(notification));
 			}
 		);
 	}
-
 
 	public Notification findById(Long id){
 		Notification notification = notificationRepository.findById(id).get();

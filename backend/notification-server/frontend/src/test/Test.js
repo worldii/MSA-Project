@@ -1,6 +1,7 @@
 import {Link, useLocation} from "react-router-dom";
 import {useEffect} from "react";
 import axios from "axios";
+import EventSourceObject from "../instance/EventSource";
 function Test() {
     const location = useLocation();
     let eventSource;
@@ -8,12 +9,7 @@ function Test() {
         let subscribeUrl = "http://localhost:8080/notification/subscribe";
         const permission = Notification.requestPermission();
         const accessToken = localStorage.getItem("email");
-        eventSource = new EventSource(subscribeUrl + "?token=" + accessToken);
-        axios.get("/s")
-            .then(event=>{
-                console.log(event.data)
-            })
-            .catch(err => console.log(err))
+        eventSource = new EventSourceObject().getEventSource();
     }, [])
 
 

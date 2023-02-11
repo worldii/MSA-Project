@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import {useNavigate} from "react-router-dom";
-
+import EventSourceObject from "../instance/EventSource";
 function Home() {
     let navigate = useNavigate();
     const [Email, setEmail] = useState("");
@@ -13,6 +13,7 @@ function Home() {
         event.preventDefault();
 
         localStorage.setItem("email",Email);
+        const eventSource = new EventSourceObject().subscribe(Email);
         navigate("board/Test")
     }
 
