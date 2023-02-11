@@ -8,6 +8,9 @@ import Home from "./pages/Home";
 import Profile from "./components/Profile";
 import Messages from "./pages/Messages";
 import User from "./pages/User";
+import Search from "./pages/Search";
+import Notification from "./pages/Notification";
+import Create from "./pages/Create";
 
 const Center = styled.div`
   height: 92vh;
@@ -31,6 +34,14 @@ class App extends React.Component {
             <Routes>
               <Route exact path="/" element={<Home></Home>} />
               <Route path="/messages" element={<Messages></Messages>} />
+              <Route path="/create" element={<Create></Create>} />
+
+              <Route path="/Search" element={<Search></Search>} />
+              <Route
+                path="/Notification"
+                element={<Notification></Notification>}
+              />
+
               <Route path="/Profile" element={<User></User>} />
             </Routes>
           </Layout>
