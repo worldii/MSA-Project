@@ -1,0 +1,21 @@
+.ProfileLayout {
+    padding: 20px;
+    display: flex;
+    .profilePicture{
+        height: 92px;
+        width: 92px;
+        
+            img {
+                width: 72px;
+            }
+    }
+    .nameLayout{
+        font-size: 14px;
+        padding: 10px;
+        .userName{
+            font-weight: bold;
+        }
+        .fullNameP{}
+    }
+
+}
