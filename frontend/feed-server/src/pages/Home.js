@@ -4,24 +4,12 @@ import styled, { createGlobalStyle } from "styled-components";
 import ItemBox from "./ItemBox";
 import Loader from "./Loader";
 
-const GlobalStyle = createGlobalStyle`
-  *, *::before, *::after {
-    box-sizing: border-box;
-    padding: 0px;
-    margin: 0px;
-  }
-
-  body {
-    background-color: #f2f5f7;
-  }
-`;
-
 const AppWrap = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: top;
   text-align: center;
   align-items: center;
 
@@ -308,14 +296,10 @@ const Home = () => {
     console.log(responseData);
 
     console.log("new " + responseData.numberOfElements.toString() + " items");
-    // console.log("index : " + index);
-    // console.log("hasNext : " + response.data.hasNext.toString());
-    // console.log("first index : " + response.data.data[0].id);
-    // console.log("last index : " + response.data.data[response.data.data.length - 1].id);
     console.log(responseData.data);
     setItemLists((itemLists) => itemLists.concat(responseData.data));
     if (responseData.hasNext === true) {
-      index = responseData.data[responseData.data.length - 1].id;
+      index = responseData.data[responseData.data.length - 1].contentId;
     } else index = -1;
 
     setIsLoaded(false);
@@ -333,7 +317,7 @@ const Home = () => {
     let observer;
     if (target) {
       observer = new IntersectionObserver(onIntersect, {
-        threshold: 0.4,
+        threshold: 0,
       });
       observer.observe(target);
     }
@@ -342,13 +326,12 @@ const Home = () => {
 
   return (
     <>
-      <GlobalStyle />
       <AppWrap>
         {itemLists.map((v, i) => {
           return <ItemBox item={itemLists[i]} key={i} />;
         })}
         <div ref={setTarget} className="Target-Element">
-          {isLoaded && <Loader />}
+          {<Loader />}
         </div>
       </AppWrap>
     </>
