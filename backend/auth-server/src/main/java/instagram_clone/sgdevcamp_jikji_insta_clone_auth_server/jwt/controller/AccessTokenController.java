@@ -65,4 +65,26 @@ public class AccessTokenController {
 		String email = jwtService.getEmail(accessToken);
 		return new ResponseEntity<>(email, HttpStatus.OK);
 	}
+
+	@Operation(summary = "유저 정보", description = "accessToken을 통해 유저 정보 전달 API")
+	@ApiResponse(code = 200, message = "OK")
+	@GetMapping("/get-user-info")
+	public ResponseEntity<?> getUserInfo(
+		@ApiParam(value = "accessToken") @RequestHeader(value = "Authorization") String authorization) {
+		String accessToken = authorization.split(" ")[1];
+		Boolean validatedAccessToken = jwtService.validatedAccessToken(accessToken);
+		if (validatedAccessToken) {
+			String email = jwtService.getEmail(accessToken);
+			User user = userService.findByEmail(email);
+			UserInfoDto userInfoDto = UserInfoDto.builder().id(user.getId())
+				.name(user.getName())
+				.nickname(user.getNickname())
+				.email(user.getEmail())
+				.phone(user.getPhone())
+				.profile(user.getProfile())
+				.build();
+			return new ResponseEntity<>(userInfoDto, HttpStatus.OK);
+		}
+		return new ResponseEntity<>("NOTVALIDATEDACCESSTOKEN", HttpStatus.OK);
+	}
 }
