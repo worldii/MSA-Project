@@ -96,6 +96,7 @@ public class SignupController {
 		MessagingException,
 		UnsupportedEncodingException {
 		String email = body.get("email");
+		mailAuthService.deleteByEmail(email);
 		String code = mailService.sendMail(email, "mail");
 		MailAuth mailAuth = MailAuth.builder().email(email).code(code).build();
 		mailAuthService.register(mailAuth);

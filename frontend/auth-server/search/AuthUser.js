@@ -2,6 +2,10 @@ import axios from "axios";
 import React, {useState} from "react";
 import {authUser} from "../action/authUser";
 import {useHistory} from "react-router-dom";
+import "../css/main.css";
+import "../css/signup.css";
+import "../css/login.css";
+import lock from "../img/lock.png";
 
 function AuthUser(){
     const [Email, setEmail] = useState("");
@@ -35,21 +39,26 @@ function AuthUser(){
 
         authUser(body,setEmailError,setNicknameError,setPhoneError,history);
     }
-     return (
-         <div>
-             <form onSubmit={onSubmitHandler}>
-                 <input id={"email"} type={"email"} value={Email} onChange={onEmailHandler} placeholder={"이메일"}/>
-                 <span>{EmailError}</span>
-                 <br/>
-                 <input id={"nickname"} type={"text"} value={Nickname} onChange={onNicknameHandler} placeholder={"닉네임"}/>
-                 <span>{NicknameError}</span>
-                 <br/>
-                 <input id={"phone"} type={"text"} value={Phone} onChange={onPhoneHandler} placeholder={"전화번호"}/>
-                 <span>{PhoneError}</span>
-                 <button formAction={""}>비밀번호 찾기</button>
-             </form>
-         </div>
-     )
+    return (
+        <div className={"contentsWrap"}>
+            <form onSubmit={onSubmitHandler}>
+                <div className={"loginWindow"}>
+                    <img src={lock} alt={""} className={"lock"}/>
+                    <h3>로그인에 문제가 있나요?</h3>
+                    <h6 className="font_size">이메일 주소, 전화번호, 사용자 이름을 입력하시면 가입하신 이메일에 임시 비밀번호를 보내드립니다.</h6>
+                    <input id={"email"} type={"email"} value={Email} onChange={onEmailHandler} placeholder={"이메일"} className={"inlineToBlock"}/>
+                    <span className={"field-error"}>{EmailError}</span>
+                    <br/>
+                    <input id={"nickname"} type={"text"} value={Nickname} onChange={onNicknameHandler} placeholder={"닉네임"} className={"inlineToBlock"}/>
+                    <span className={"field-error"}>{NicknameError}</span>
+                    <br/>
+                    <input id={"phone"} type={"text"} value={Phone} onChange={onPhoneHandler} placeholder={"전화번호"} className={"inlineToBlock"}/>
+                    <span className={"field-error"}>{PhoneError}</span>
+                    <button className="inlineToBlock ordinaryLogin activatedLoginColor" formAction={""}>비밀번호 찾기</button>
+                </div>
+            </form>
+        </div>
+    )
 }
 
 export default AuthUser;
