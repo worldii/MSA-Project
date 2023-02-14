@@ -1,6 +1,6 @@
 package com.jikji.mediaserver.dto;
 
-import com.example.mediaserver.model.MediaType;
+import com.jikji.mediaserver.model.MediaType;
 
 import lombok.Builder;
 import lombok.Data;
