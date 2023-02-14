@@ -18,8 +18,8 @@ public class MediaUtil {
 
 	public static String findFolder(String filename, String userName, String contentType) {
 		String folder = "";
-		folder += contentType + "/" + userName + "/" + contentType+"/"+filename;
-		log.info("folder Name : "+ folder);
+		folder += contentType + "/" + userName + "/" + contentType + "/" + filename;
+		log.info("folder Name : " + folder);
 		return folder;
 	}
 
