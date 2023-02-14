@@ -6,11 +6,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import Profile from "./components/Profile";
-import Messages from "./pages/Messages";
-import User from "./pages/User";
-import Search from "./pages/Search";
-import Notification from "./pages/Notification";
-import Create from "./pages/Create";
+import Messages from "./pages/message/Messages";
+import User from "./pages/user/User";
+import Search from "./pages/search/Search";
+import Notification from "./pages/notification/Notification";
+import Create from "./pages/post/Create";
 
 const Center = styled.div`
   height: 92vh;
