@@ -1,4 +1,4 @@
-package com.example.mediaserver.exception;
+package com.jikji.mediaserver.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
