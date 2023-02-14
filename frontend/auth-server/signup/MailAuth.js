@@ -2,7 +2,10 @@ import {useState, useEffect} from "react";
 import {MailAuthUser} from "../action/mailAuthUser";
 import axios from "axios";
 import {useLocation, useHistory, Link} from "react-router-dom";
-
+import "../css/main.css";
+import "../css/signup.css";
+import "../css/login.css";
+import logo from "../img/instagramLogo.png";
 function MailAuth() {
     const location = useLocation();
     const history = useHistory();
@@ -13,7 +16,6 @@ function MailAuth() {
     useEffect(() => {
         setEmail(location.state);
         const email = location.state.toString()
-        console.log(email, typeof email)
         let body = {
             email: email
         }
@@ -39,18 +41,25 @@ function MailAuth() {
         MailAuthUser(body, setError, history);
     }
     return (
-        <div>
+        <div className={"contentsWrap"}>
             <form onSubmit={onSubmitHandler}>
-                <input type="hidden" value={Email}/>
-                <input type={"text"} value={Code} onChange={onCodeHandler} placeholder={"코드를 입력해주세요."}/>
-                <br/>
-                <span>{Error}</span>
-                <button formAction={""}>
-                    이메일 인증
-                </button>
+                <div className={"loginWindow"}>
+                    <img src={logo} alt={""}/>
+                    <input type="hidden" value={Email}/>
+                    <input type={"text"} value={Code} onChange={onCodeHandler} placeholder={"코드를 입력해주세요."} className={"inlineToBlock"}/>
+                    <br/>
+                    <span className={"field-error"}>{Error}</span>
+                    <button formAction={""} className={"inlineToBlock ordinaryLogin activatedLoginColor"}>
+                        이메일 인증
+                    </button>
+                </div>
             </form>
             <Link to="/">
-                <button>홈으로 가기</button>
+                <div className={"haveAccount"}>
+                    <p>이메일이 도착하지 않나요?
+                        <a className="noneunderline">홈화면 가기</a>
+                    </p>
+                </div>
             </Link>
         </div>
     )

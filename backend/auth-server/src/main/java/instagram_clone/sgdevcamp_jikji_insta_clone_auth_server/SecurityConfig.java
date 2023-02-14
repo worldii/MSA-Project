@@ -36,7 +36,8 @@ public class SecurityConfig{
 			.antMatchers("/searchPassword/**").permitAll()
 			.antMatchers("/accessToken/**").authenticated()
 			.antMatchers("/refreshToken/**").authenticated()
-			.antMatchers("/sub").permitAll()
+			.antMatchers("/subscribe").permitAll()
+			.antMatchers("/add").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

@@ -43,14 +43,13 @@ public class SseController {
 		return notificationService.subscribe(token, lastEventId);
 	}
 
-	@PostMapping("/add")
-	public ResponseEntity<?> send(@RequestBody NotificationDto notificationDto) {
-
-		notificationService.save(notificationDto.toEntity());
-
+	@PostMapping("/send")
+	public ResponseEntity<?> chatNotification(@RequestBody MultiValueMap<String, String> body) {
+		String sender = body.get("sender").get(0);
+		String receiver = body.get("receiver").get(0);
+		String content = body.get("content").get(0);
 		return ResponseEntity.ok("ok");
 	}
-
 
 	@GetMapping("")
 	public List<NotificationResponse> findByUserId(@RequestParam Long userId){
@@ -70,7 +69,7 @@ public class SseController {
 		notificationService.readNotification(notificationId);
 	}
 
-	@GetMapping("delete")
+	@GetMapping("/delete")
 	public void delete(@RequestParam Long notificationId){
 		notificationService.delete(notificationService.findById(notificationId));
 	}
