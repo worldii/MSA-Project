@@ -3,7 +3,6 @@ import { memo, useCallback, useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import ItemBox from "./ItemBox";
 import Loader from "./Loader";
-import FeedMiddle from "./FeedMiddle.js";
 
 const GlobalStyle = createGlobalStyle`
   *, *::before, *::after {
@@ -17,7 +16,26 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const Home = ({}) => {
+const AppWrap = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+
+  .Target-Element {
+    width: 100vw;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+  }
+`;
+
+const Home = () => {
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [itemLists, setItemLists] = useState([]);
@@ -28,29 +46,277 @@ const Home = ({}) => {
     console.log(itemLists);
   }, [itemLists]);
 
+  // api로 받아와서 실행시키는 버전
+  // const getMoreItem = async () => {
+  //   setIsLoaded(true);
+  //   await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  //   const url =
+  //     "http://localhost:8080/slicing?id=" + index.toString() + "&size=10";
+
+  //   axios.get(url).then((response) => {
+  //     console.log(
+  //       "new " + response.data.numberOfElements.toString() + " items"
+  //     );
+  //     // console.log("index : " + index);
+  //     // console.log("hasNext : " + response.data.hasNext.toString());
+  //     // console.log("first index : " + response.data.data[0].id);
+  //     // console.log("last index : " + response.data.data[response.data.data.length - 1].id);
+  //     console.log(response.data.data);
+  //     setItemLists((itemLists) => itemLists.concat(response.data.data));
+  //     if (response.data.hasNext === true) {
+  //       index = response.data.data[response.data.data.length - 1].id;
+  //     } else index = -1;
+  //   });
+
+  //   setIsLoaded(false);
+  // };
+
+  // 임시로 response 객체 생성해서 테스트
   const getMoreItem = async () => {
     setIsLoaded(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    const url =
-      "http://localhost:8080/slicing?id=" + index.toString() + "&size=10";
+    // 임시 테스트 위해 객체 생성, 여기서 responseData는 위의 response.data와 같음
+    const json = `{
+      "numberOfElements": 10,
+      "hasNext": true,
+      "data": [
+        {
+          "id": "63ea653d4cfc8024dd542332",
+          "contentId": 1,
+          "userId": 1,
+          "text": "텍스트 본문 내용 #aaa #aab",
+          "likes": 1234,
+          "imageUrl": [
+              {
+                  "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+                  "order": 1,
+                  "user_id": 1
+              }
+          ],
+          "hashtags": [
+              1,
+              2
+          ],
+          "visibleLikes": null,
+          "visibleComments": null,
+          "createdAt": "2023-01-01",
+          "modifiedAt": "2023-01-01"
+      },
+      {
+        "id": "63ea653d4cfc8024dd542332",
+        "contentId": 1,
+        "userId": 1,
+        "text": "텍스트 본문 내용 #aaa #aab",
+        "likes": 1234,
+        "imageUrl": [
+            {
+                "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+                "order": 1,
+                "user_id": 1
+            }
+        ],
+        "hashtags": [
+            1,
+            2
+        ],
+        "visibleLikes": null,
+        "visibleComments": null,
+        "createdAt": "2023-01-01",
+        "modifiedAt": "2023-01-01"
+    },
+    {
+      "id": "63ea653d4cfc8024dd542332",
+      "contentId": 1,
+      "userId": 1,
+      "text": "텍스트 본문 내용 #aaa #aab",
+      "likes": 1234,
+      "imageUrl": [
+          {
+              "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+              "order": 1,
+              "user_id": 1
+          }
+      ],
+      "hashtags": [
+          1,
+          2
+      ],
+      "visibleLikes": null,
+      "visibleComments": null,
+      "createdAt": "2023-01-01",
+      "modifiedAt": "2023-01-01"
+  },
+  {
+    "id": "63ea653d4cfc8024dd542332",
+    "contentId": 1,
+    "userId": 1,
+    "text": "텍스트 본문 내용 #aaa #aab",
+    "likes": 1234,
+    "imageUrl": [
+        {
+            "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+            "order": 1,
+            "user_id": 1
+        }
+    ],
+    "hashtags": [
+        1,
+        2
+    ],
+    "visibleLikes": null,
+    "visibleComments": null,
+    "createdAt": "2023-01-01",
+    "modifiedAt": "2023-01-01"
+},
+{
+  "id": "63ea653d4cfc8024dd542332",
+  "contentId": 1,
+  "userId": 1,
+  "text": "텍스트 본문 내용 #aaa #aab",
+  "likes": 1234,
+  "imageUrl": [
+      {
+          "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+          "order": 1,
+          "user_id": 1
+      }
+  ],
+  "hashtags": [
+      1,
+      2
+  ],
+  "visibleLikes": null,
+  "visibleComments": null,
+  "createdAt": "2023-01-01",
+  "modifiedAt": "2023-01-01"
+},
+{
+  "id": "63ea653d4cfc8024dd542332",
+  "contentId": 1,
+  "userId": 1,
+  "text": "텍스트 본문 내용 #aaa #aab",
+  "likes": 1234,
+  "imageUrl": [
+      {
+          "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+          "order": 1,
+          "user_id": 1
+      }
+  ],
+  "hashtags": [
+      1,
+      2
+  ],
+  "visibleLikes": null,
+  "visibleComments": null,
+  "createdAt": "2023-01-01",
+  "modifiedAt": "2023-01-01"
+},
+{
+  "id": "63ea653d4cfc8024dd542332",
+  "contentId": 1,
+  "userId": 1,
+  "text": "텍스트 본문 내용 #aaa #aab",
+  "likes": 1234,
+  "imageUrl": [
+      {
+          "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+          "order": 1,
+          "user_id": 1
+      }
+  ],
+  "hashtags": [
+      1,
+      2
+  ],
+  "visibleLikes": null,
+  "visibleComments": null,
+  "createdAt": "2023-01-01",
+  "modifiedAt": "2023-01-01"
+},
+{
+  "id": "63ea653d4cfc8024dd542332",
+  "contentId": 1,
+  "userId": 1,
+  "text": "텍스트 본문 내용 #aaa #aab",
+  "likes": 1234,
+  "imageUrl": [
+      {
+          "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+          "order": 1,
+          "user_id": 1
+      }
+  ],
+  "hashtags": [
+      1,
+      2
+  ],
+  "visibleLikes": null,
+  "visibleComments": null,
+  "createdAt": "2023-01-01",
+  "modifiedAt": "2023-01-01"
+},
+{
+  "id": "63ea653d4cfc8024dd542332",
+  "contentId": 1,
+  "userId": 1,
+  "text": "텍스트 본문 내용 #aaa #aab",
+  "likes": 1234,
+  "imageUrl": [
+      {
+          "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+          "order": 1,
+          "user_id": 1
+      }
+  ],
+  "hashtags": [
+      1,
+      2
+  ],
+  "visibleLikes": null,
+  "visibleComments": null,
+  "createdAt": "2023-01-01",
+  "modifiedAt": "2023-01-01"
+},
+{
+  "id": "63ea653d4cfc8024dd542332",
+  "contentId": 1,
+  "userId": 1,
+  "text": "텍스트 본문 내용 #aaa #aab",
+  "likes": 1234,
+  "imageUrl": [
+      {
+          "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
+          "order": 1,
+          "user_id": 1
+      }
+  ],
+  "hashtags": [
+      1,
+      2
+  ],
+  "visibleLikes": null,
+  "visibleComments": null,
+  "createdAt": "2023-01-01",
+  "modifiedAt": "2023-01-01"
+}
+      ]
+  }`;
+    const responseData = JSON.parse(json);
+    console.log(responseData);
 
-    axios.get(url).then((response) => {
-      console.log(
-        "new " + response.data.numberOfElements.toString() + " items"
-      );
-      // console.log("index : " + index);
-      // console.log("hasNext : " + response.data.hasNext.toString());
-      console.log("first index : " + response.data.data[0].id);
-      console.log(
-        "last index : " + response.data.data[response.data.data.length - 1].id
-      );
-      console.log(response.data.data);
-      setItemLists((itemLists) => itemLists.concat(response.data.data));
-      if (response.data.hasNext === true) {
-        index = response.data.data[response.data.data.length - 1].id;
-      } else index = -1;
-    });
+    console.log("new " + responseData.numberOfElements.toString() + " items");
+    // console.log("index : " + index);
+    // console.log("hasNext : " + response.data.hasNext.toString());
+    // console.log("first index : " + response.data.data[0].id);
+    // console.log("last index : " + response.data.data[response.data.data.length - 1].id);
+    console.log(responseData.data);
+    setItemLists((itemLists) => itemLists.concat(responseData.data));
+    if (responseData.hasNext === true) {
+      index = responseData.data[responseData.data.length - 1].id;
+    } else index = -1;
 
     setIsLoaded(false);
   };
@@ -59,7 +325,6 @@ const Home = ({}) => {
     if (entry.isIntersecting && !isLoaded && index >= 0) {
       observer.unobserve(entry.target);
       await getMoreItem(index);
-      console.log("yea");
       observer.observe(entry.target);
     }
   };
@@ -77,9 +342,17 @@ const Home = ({}) => {
 
   return (
     <>
-      <FeedMiddle></FeedMiddle>
+      <GlobalStyle />
+      <AppWrap>
+        {itemLists.map((v, i) => {
+          return <ItemBox item={itemLists[i]} key={i} />;
+        })}
+        <div ref={setTarget} className="Target-Element">
+          {isLoaded && <Loader />}
+        </div>
+      </AppWrap>
     </>
   );
 };
 
-export default Home;
+export default memo(Home);
