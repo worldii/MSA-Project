@@ -3,9 +3,9 @@
 import React from "react";
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/sidebar/Sidebar";
 import Home from "./pages/Home";
-import Profile from "./components/Profile";
+import Profile from "./components/profile/Profile";
 import Messages from "./pages/message/Messages";
 import User from "./pages/user/User";
 import Search from "./pages/search/Search";

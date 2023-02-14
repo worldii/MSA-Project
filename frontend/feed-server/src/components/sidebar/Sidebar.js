@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import SidebarItem from "./SidebarItem";
-import imgA from "../assets/Instagram_Logo_2016.png";
+import imgA from "../../assets/Instagram_Logo_2016.png";
 import { RxHamburgerMenu } from "react-icons/rx";
 const Side = styled.div`
   display: flex;

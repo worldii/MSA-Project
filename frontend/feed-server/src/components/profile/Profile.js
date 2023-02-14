@@ -1,7 +1,7 @@
 import React from "react";
 
 import styles from "./Profile.module.scss";
-import imageProfile from "../assets/profile.svg";
+import imageProfile from "../../assets/profile.svg";
 
 const Profile = ({ User }) => {
   const userMockup = {
