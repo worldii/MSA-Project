@@ -1,6 +1,5 @@
 server:
-  host: localhost
-  port: 8080
+  port: 0
 
 aws:
   secretsmanager:
@@ -16,6 +15,8 @@ cloud:
 
 # multipartFile 용량 늘려주는 설정
 spring:
+  application:
+    name: media-server
   jpa:
     show-sql: true
     hibernate:
@@ -36,3 +37,12 @@ spring:
 #    org:
 #      springframework: debug
 #      web: debug
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka

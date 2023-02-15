@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MediaService {
 	private final MediaRepository mediaRepository;
 	private final S3Service s3Service;
-	//private final UserRepository userRepository;
 
 	@Transactional
 	public MediaResponseData save(MediaDto mediaDto) throws IOException {

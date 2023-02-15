@@ -4,5 +4,7 @@ include 'discovery-service'
 include 'gateway-service'
 include 'content-command'
 include 'content-query'
+include 'media-server'
 include 'search-service'
 include 'chat-service'
+
