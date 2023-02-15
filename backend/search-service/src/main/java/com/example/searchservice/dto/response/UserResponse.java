@@ -1,0 +1,25 @@
+package com.example.searchservice.dto.response;
+
+import com.example.searchservice.domain.UserIndex;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
+public class UserResponse {
+
+    private Long userId;
+
+    private String name;
+
+    private String loginId;
+
+
+    public UserResponse(UserIndex userIndex) {
+        this.userId = userIndex.getUserId();
+        this.name = userIndex.getName();
+        this.loginId = userIndex.getLoginId();
+    }
+}
