@@ -8,7 +8,7 @@ import ItemBoxMiddle from "./components/ItemBox/ItemBoxMiddle.js";
 import ItemBoxBottom from "./components/ItemBox/ItemBoxBottom.js";
 
 const ItemWrap = styled.div`
-  width: 350px;
+  width: 480px;
   height: auto;
   color: black;
   background-color: white;

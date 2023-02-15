@@ -4,7 +4,7 @@ import React from "react";
 import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import Profile from "./components/profile/Profile";
 import Messages from "./pages/message/Messages";
 import User from "./pages/user/User";
