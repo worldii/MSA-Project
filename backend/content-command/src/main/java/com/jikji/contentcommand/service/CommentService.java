@@ -2,11 +2,16 @@ package com.jikji.contentcommand.service;
 
 import java.util.List;
 
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.jikji.contentcommand.domain.Comment;
 import com.jikji.contentcommand.domain.CommentLikes;
+import com.jikji.contentcommand.dto.message.CommentKafkaMessage;
 import com.jikji.contentcommand.dto.request.CommentCreateDto;
 import com.jikji.contentcommand.dto.request.CommentDto;
 import com.jikji.contentcommand.dto.response.CommentResponseData;
@@ -14,6 +19,7 @@ import com.jikji.contentcommand.exception.CustomException;
 import com.jikji.contentcommand.exception.ErrorCode;
 import com.jikji.contentcommand.repository.CommentLikesRepository;
 import com.jikji.contentcommand.repository.CommentRepository;
+import com.jikji.contentcommand.util.KafkaTopic;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +31,7 @@ public class CommentService {
 	private final CommentRepository commentRepository;
 	private final CommentLikesRepository commentLikesRepository;
 	private final CommentMentionService commentMentionService;
-
-	@Transactional(readOnly = true)
-	public List<Comment> findAllComments(Long postId) {
-		return commentRepository.findAllByPostId(postId);
-	}
+	private final KafkaTemplate<String, String> kafkaTemplate;
 
 	@Transactional
 	public CommentResponseData createComment(Long postId, CommentCreateDto commentCreateDto) {
@@ -41,16 +43,17 @@ public class CommentService {
 			.description(commentCreateDto.getDescription())
 			.postId(postId).build();
 		commentRepository.save(comment);
+		sendMessage(comment,KafkaTopic.ADD_COMMENT);
 
 		log.info("Mention Someone");
 		commentMentionService.mentionMember(commentCreateDto.getUserId(), commentCreateDto);
+
 		CommentResponseData commentResponseData = CommentResponseData.builder()
 			.id(comment.getId())
 			.createdAt(comment.getCreatedAt())
 			.userId(comment.getUserId())
 			.description(comment.getDescription())
 			.build();
-
 		return commentResponseData;
 	}
 
@@ -113,4 +116,19 @@ public class CommentService {
 		List<CommentLikes> allByComment = commentLikesRepository.findAllByCommentId(commentId);
 		commentLikesRepository.deleteAll(allByComment);
 	}
+
+
+	private void sendMessage(Comment comment, String topic) {
+		ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String data = null;
+		try {
+			CommentKafkaMessage message = new CommentKafkaMessage(comment);
+			data = writer.writeValueAsString(message);
+			kafkaTemplate.send(topic, data);
+		} catch (JsonProcessingException e) {
+			log.error(e.getMessage());
+		}
+		log.info("comment kafka send - " + data);
+	}
+
 }

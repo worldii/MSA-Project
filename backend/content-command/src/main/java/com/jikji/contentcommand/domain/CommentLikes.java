@@ -22,15 +22,9 @@ public class CommentLikes {
 	@Column(name = "comment_likes_id")
 	private long id;
 
-//	@JsonIgnore
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_id")
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
-//	@JsonIgnore
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "comment_id")
 	@Column(name = "comment_id", nullable = false)
 	private Long commentId;
 

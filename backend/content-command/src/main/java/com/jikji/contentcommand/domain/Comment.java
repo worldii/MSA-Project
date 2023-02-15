@@ -1,6 +1,7 @@
 package com.jikji.contentcommand.domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +40,8 @@ public class Comment {
 	@NotNull
 	private Long postId;
 
-	@CreationTimestamp
 	@Column(name = "created_at")
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private String createdAt ;
 
 	@Column(nullable = false, length = 3000)
 	private String description;
@@ -50,6 +50,12 @@ public class Comment {
 
 //	@OneToMany(mappedBy = "comment")
 //	private List<CommentLikes> commentLikes = new ArrayList<>();
+
+	@PrePersist
+	public void prePersist() {
+		likes = 0;
+		createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+	}
 
 	@Builder
 	public Comment(Long userId, String userName, String profileUrl, String description, Long postId, int likes, List<CommentLikes> commentLikes) {

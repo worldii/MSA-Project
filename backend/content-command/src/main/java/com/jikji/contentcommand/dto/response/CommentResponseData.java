@@ -11,5 +11,5 @@ public class CommentResponseData {
 	private Long id;
 	private Long userId;
 	private String description;
-	private LocalDateTime createdAt;
+	private String createdAt;
 }

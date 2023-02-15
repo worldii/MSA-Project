@@ -5,11 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jikji.contentquery.domain.Comment;
 import com.jikji.contentquery.domain.CommentLikes;
+import com.jikji.contentquery.domain.Content;
 import com.jikji.contentquery.repository.CommentLikesRepository;
 import com.jikji.contentquery.repository.CommentRepository;
-import com.jikji.contentquery.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CommentService {
 	private final CommentRepository commentRepository;
-	private final UserRepository userRepository;
 	private final CommentLikesRepository commentLikesRepository;
-	private final CommentMentionService commentMentionService;
 
 	@Transactional(readOnly = true)
 	public List<Comment> findAllComments(Long postId) {
@@ -38,8 +37,7 @@ public class CommentService {
 	@Transactional
 	public boolean checkCommentIsLikedByUser(long commentId, long userId) {
 		boolean present = commentLikesRepository.findByUserIdAndCommentId(userId, commentId).isPresent();
-		log.info("좋아요 여부 " + present);
+		log.info("좋아요 여부 "+ present);
 		return present;
 	}
-
 }

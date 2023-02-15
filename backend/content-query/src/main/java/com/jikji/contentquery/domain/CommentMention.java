@@ -1,51 +1,38 @@
 package com.jikji.contentquery.domain;
 
-import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
-import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Document(collection = "comment_mention")
 @Getter
-@Entity
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class CommentMention {
 	@Id
-	@GeneratedValue
-	@Column(name = "comment_mention_id")
-	private Long id;
+	@Field(value = "_id", targetType = FieldType.OBJECT_ID)
+	private String id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sender_id")
-	private User sender;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "receiver_Id")
-	private User receiver;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "comment_id")
-	private Comment comment;
-
-	@CreationTimestamp
-	@Column(name = "created_at")
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private Long bookmarkId;
+	private Long senderId;
+	private Long receiverId;
+	private Long commentId;
+	private String createdAt ;
 
 	@Builder
-	public CommentMention(User sender, User receiver, Comment comment) {
-		this.sender = sender;
-		this.receiver = receiver;
-		this.comment = comment;
+	public CommentMention(Long bookmarkId ,Long senderId, Long receiverId, Long commentId) {
+		this.bookmarkId = bookmarkId;
+		this.senderId = senderId;
+		this.receiverId = receiverId;
+		this.commentId = commentId;
 	}
 }

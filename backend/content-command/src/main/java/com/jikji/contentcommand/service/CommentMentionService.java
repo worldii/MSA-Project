@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.jikji.contentcommand.domain.CommentMention;
@@ -19,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CommentMentionService {
+	private final KafkaTemplate<String, String> kafkaTemplate;
+
 	private final CommentMentionRepository commentMentionRepository;
 	@Transactional
 	public void mentionMember(Long userId, CommentCreateDto commentCreateDto) {
