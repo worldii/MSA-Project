@@ -1,0 +1,20 @@
+.layout {
+    display: flex;
+    .profileLayout {
+            height: 42px;
+            width: 42px;
+    
+            img {
+                width: 32px;
+            }
+        }
+    .contentLayout {
+        font-size: 14px;
+        .userName {
+            font-weight: bold;
+        }
+        .fullName {
+
+        }
+    }
+}

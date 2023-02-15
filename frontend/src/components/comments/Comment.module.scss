@@ -1,0 +1,32 @@
+.formLayout {
+    display: flex;
+    flex-direction: column;
+    .commentLayout {
+        display: flex;
+
+        .comment {
+            border-radius: "5px";
+            background-color: white;
+            border: none;
+
+            &::placeholder {
+                font-size: 14px;
+                color: #999999;
+                padding-left: 10px;
+                padding-top: 10px;
+            }
+
+            flex: 1;
+            width: 85%;
+        }
+
+        .button {
+            border-radius: 5px;
+            border: none;
+            margin: 3px;
+            background-color: white;
+            color: #00aaff;
+        }
+    }
+}
+
