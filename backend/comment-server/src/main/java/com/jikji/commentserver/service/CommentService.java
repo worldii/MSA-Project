@@ -42,11 +42,11 @@ public class CommentService {
 		// 3. Notification Service 에 보냄.
 
 		log.info("comment create");
-		User tempUser = userRepository.findById(commentCreateDto.getUserId())
-			.orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+		// User tempUser = userRepository.findById(commentCreateDto.getUserId())
+		// 	.orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
 		Comment comment = Comment.builder()
-			.user(tempUser)
+			.userId(commentCreateDto.getUserId())
 			.description(commentCreateDto.getDescription())
 			.postId(postId).build();
 		commentRepository.save(comment);
@@ -92,15 +92,15 @@ public class CommentService {
 
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
-		User tempUser = userRepository.findById(userId)
-			.orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
+		// User tempUser = userRepository.findById(userId)
+		// 	.orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
 		if (commentLikesRepository.findByUserAndComment(tempUser, comment).isPresent()) {
 			throw new CustomException(ErrorCode.COMMENT_ALREADY_EXIST);
 		}
 
 		comment.increaseLikes();
-		CommentLikes commentLikes = CommentLikes.builder().comment(comment).user(tempUser).build();
+		CommentLikes commentLikes = CommentLikes.builder().comment.user(tempUser).build();
 		commentLikesRepository.save(commentLikes);
 	}
 

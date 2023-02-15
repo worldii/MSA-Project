@@ -4,63 +4,64 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
-
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "comment")
+@Entity
+@Table(name = "comment")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	//	@ManyToOne(fetch = FetchType.LAZY)
+	//	@NotNull
+	//	@JoinColumn(name = "user_id")
+	//private User user;
+
+	@Column(nullable = false, updatable = false, name = "user_id")
+	private Long userId;
+
+	private String userName;
+	private String profileUrl;
+
 	@NotNull
-	@JoinColumn(name = "user_id")
-	private User user;
+	private Long postId;
 
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDateTime createdAt = LocalDateTime.now();
 
-	@NotNull
+	@Column(nullable = false, length = 3000)
 	private String description;
 
-	@NotNull
-	private Long postId;
 	private int likes;
 
-	@OneToMany(mappedBy = "comment")
-	private List<CommentLikes> commentLikes = new ArrayList<>();
+//	@OneToMany(mappedBy = "comment")
+//	private List<CommentLikes> commentLikes = new ArrayList<>();
 
 	@Builder
-	public Comment(User user, String description, Long postId, int likes, List<CommentLikes> commentLikes) {
-		this.user = user;
+	public Comment(Long userId, String userName, String profileUrl, String description, Long postId, int likes, List<CommentLikes> commentLikes) {
+		this.userId = userId;
+		this.userName = userName;
+		this.profileUrl = profileUrl;
 		this.description = description;
 		this.postId = postId;
 		this.likes = likes;
-		this.commentLikes = commentLikes;
 	}
 
-	public void last_update(String description) {
+	public void update(String description) {
 		this.description = description;
 	}
 	public void increaseLikes() {

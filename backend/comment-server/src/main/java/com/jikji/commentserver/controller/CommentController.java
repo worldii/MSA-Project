@@ -37,8 +37,7 @@ public class CommentController {
 	public ResponseEntity<ResultResponse> getComments(@PathVariable Long postId) {
 		List<Comment> allComments = commentService.findAllComments(postId);
 		List<CommentDto> collect = allComments.stream()
-			.map(comment -> new CommentDto(comment.getId(), comment.getUser().getUserName(),
-				comment.getUser().getProfilePicture(), comment.getDescription(),
+			.map(comment -> new CommentDto(comment.getId(), comment.getUserName(), comment.getDescription(),
 				comment.getLikes()))
 			.collect(
 				Collectors.toList());
@@ -83,7 +82,7 @@ public class CommentController {
 	ResponseEntity<ResultResponse> getCommentLikesList(@PathVariable("commentId") long commentId) {
 		List<CommentLikes> commentLikesList = commentService.getCommentLikesList(commentId);
 		List<CommentLikesDto> collect = commentLikesList.stream()
-			.map(comment -> new CommentLikesDto(comment.getUser().getUserName(), comment.getUser().getProfilePicture(),
+			.map(comment -> new CommentLikesDto(comment.getUserName(), comment.getUser().getProfilePicture(),
 				comment.getUser().getFullName()))
 			.collect(
 				Collectors.toList());

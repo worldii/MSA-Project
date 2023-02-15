@@ -26,26 +26,18 @@ public class CommentMention {
 	@Column(name = "comment_mention_id")
 	private Long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "sender_id")
-	private User sender;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "receiver_Id")
-	private User receiver;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "comment_id")
-	private Comment comment;
+	private Long senderId;
+	private Long receiverId;
+	private Long commentId;
 
 	@CreationTimestamp
 	@Column(name = "created_at")
 	private LocalDateTime createdAt = LocalDateTime.now();
 
 	@Builder
-	public CommentMention(User sender, User receiver, Comment comment) {
-		this.sender = sender;
-		this.receiver = receiver;
-		this.comment = comment;
+	public CommentMention(Long senderId, Long receiverId, Long commentId) {
+		this.senderId = senderId;
+		this.receiverId = receiverId;
+		this.commentId = commentId;
 	}
 }

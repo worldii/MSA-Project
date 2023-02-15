@@ -31,10 +31,10 @@ public class Comment {
 	@Column(name = "comment_id")
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	@NotNull
-	@JoinColumn(name = "user_id")
-	private User user;
+	private String userId;
+
+	private String userName;
 
 	@CreationTimestamp
 	@Column(name = "created_at")
@@ -45,18 +45,20 @@ public class Comment {
 
 	@NotNull
 	private Long postId;
-	private int likes;
 
-	@OneToMany(mappedBy = "comment")
-	private List<CommentLikes> commentLikes = new ArrayList<>();
+	private Long likes;
+
+	// @OneToMany(mappedBy = "comment")
+	// private List<CommentLikes> commentLikes = new ArrayList<>();
 
 	@Builder
-	public Comment(User user, String description, Long postId, int likes, List<CommentLikes> commentLikes) {
-		this.user = user;
+	public Comment(String userId, String userName, String description, Long postId, Long likes) {
+		this.userId = userId;
+		this.userName = userName;
 		this.description = description;
 		this.postId = postId;
 		this.likes = likes;
-		this.commentLikes = commentLikes;
+		//this.commentLikes = commentLikes;
 	}
 
 	public void update(String description) {

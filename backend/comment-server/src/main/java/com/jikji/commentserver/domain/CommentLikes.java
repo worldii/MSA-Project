@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,19 +24,13 @@ public class CommentLikes {
 	@Column(name = "comment_likes_id")
 	private long id;
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private User user;
+	private Long userId;
 
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "comment_id")
-	private Comment comment;
+	private Long commentId;
 
 	@Builder
-	public CommentLikes(User user, Comment comment) {
-		this.user = user;
-		this.comment = comment;
+	public CommentLikes(Long userId, Long commentId) {
+		this.userId = userId;
+		this.commentId = commentId;
 	}
 }
