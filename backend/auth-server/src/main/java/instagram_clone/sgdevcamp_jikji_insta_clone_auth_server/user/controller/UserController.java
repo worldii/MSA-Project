@@ -134,4 +134,23 @@ public class UserController {
 
 		return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
 	}
+
+	@Operation(summary = "유저정보 요청", description = "유저 PK로 유저 정보 요청 API")
+	@ApiResponse(code = 200, message = "OK")
+	@PostMapping("/get-user-info-pk")
+	public ResponseEntity<?> getUserInfoPK(@RequestBody @ApiParam(value = "유저 PK") Long id) {
+		User user = userService.findById(id);
+		if (user == null) {
+			return new ResponseEntity<>("NoSearchUserId", HttpStatus.OK);
+		}
+
+		UserInfoDto userInfoDto = UserInfoDto.builder().id(user.getId())
+			.name(user.getName())
+			.nickname(user.getNickname())
+			.email(user.getEmail())
+			.phone(user.getPhone())
+			.profile(user.getProfile())
+			.build();
+		return new ResponseEntity<>(userInfoDto, HttpStatus.OK);
+	}
 }

@@ -35,6 +35,10 @@ public class UserService {
 		return userRepository.findByNickname(nickname).orElse(null);
 	}
 
+	public User findById(Long id) {
+		return userRepository.findById(id).orElse(null);
+	}
+
 	public List<User> findAll(){
 		return userRepository.findAll();
 	}
