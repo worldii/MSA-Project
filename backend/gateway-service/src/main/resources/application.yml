@@ -59,3 +59,11 @@ spring:
             - Method=POST,DELETE,GET,OPTIONS
           filters:
             - RewritePath=/search-service/(?<segment>.*), /$\{segment}
+
+        - id: media-server
+          uri: lb://MEDIA-SERVER
+          predicates:
+            - Path=/media-server/**
+            - Method=POST,OPTIONS
+          filters:
+            - RewritePath=/media-server/(?<segment>.*), /$\{segment}
