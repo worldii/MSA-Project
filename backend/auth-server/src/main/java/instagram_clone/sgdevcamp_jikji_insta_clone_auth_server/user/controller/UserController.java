@@ -1,15 +1,16 @@
 package instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.controller;
 
-import java.util.Map;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.dto.UserInfoDto;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -137,8 +138,8 @@ public class UserController {
 
 	@Operation(summary = "유저정보 요청", description = "유저 PK로 유저 정보 요청 API")
 	@ApiResponse(code = 200, message = "OK")
-	@PostMapping("/get-user-info-pk")
-	public ResponseEntity<?> getUserInfoPK(@RequestBody @ApiParam(value = "유저 PK") Long id) {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getUserInfoPK(@PathVariable @ApiParam(value = "유저 PK") Integer id) {
 		User user = userService.findById(id);
 		if (user == null) {
 			return new ResponseEntity<>("NoSearchUserId", HttpStatus.OK);
