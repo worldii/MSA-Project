@@ -7,4 +7,4 @@ include 'content-query'
 include 'media-server'
 include 'search-service'
 include 'chat-service'
-
+include 'auth-server'

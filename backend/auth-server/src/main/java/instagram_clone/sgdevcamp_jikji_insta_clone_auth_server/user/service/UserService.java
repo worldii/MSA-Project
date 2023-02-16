@@ -35,7 +35,7 @@ public class UserService {
 		return userRepository.findByNickname(nickname).orElse(null);
 	}
 
-	public User findById(Long id) {
+	public User findById(Integer id) {
 		return userRepository.findById(id).orElse(null);
 	}
 
