@@ -23,7 +23,7 @@ const AppWrap = styled.div`
   }
 `;
 
-const Notification = () => {
+const Home = () => {
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [itemLists, setItemLists] = useState([]);
@@ -75,7 +75,7 @@ const Notification = () => {
           "contentId": 1,
           "userId": 1,
           "text": "텍스트 본문 내용 #aaa #aab",
-          "likes": 12345678,
+          "likes": 1234,
           "imageUrl": [
               {
                   "url": "https://scontent-ssn1-1.xx.fbcdn.net/v/t1.6435-9/182288666_4246933268698221_6094273117017031760_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9267fe&_nc_ohc=9UPusxWuVPoAX_5Try2&_nc_ht=scontent-ssn1-1.xx&oh=00_AfB-mhrNQa2jci1A2UX9hSUEWWAs-4tBWnQNAdA9isMIRA&oe=64138378",
@@ -338,4 +338,4 @@ const Notification = () => {
   );
 };
 
-export default Notification;
+export default memo(Home);
