@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.jikji.contentcommand.domain.CommentMention;
 import com.jikji.contentcommand.dto.request.CommentCreateDto;
 import com.jikji.contentcommand.repository.CommentMentionRepository;
@@ -24,14 +25,13 @@ public class CommentMentionService {
 	private final KafkaTemplate<String, String> kafkaTemplate;
 
 	private final CommentMentionRepository commentMentionRepository;
-	@Transactional
-	public void mentionMember(Long userId, CommentCreateDto commentCreateDto) {
-		List<String> username = extractUsernameFromString(commentCreateDto.getDescription());
-		log.info("USERNAME 멘션" + username);
 
-		// Refactoring 해야 함. User Server 에서 가져올 수 있게.
-		// API 요청으로 username 에 해당하는 user id 가져옴.
+	@Transactional
+	public void mentionMember(Long userId, String description) {
+		List<String> username = extractUsernameFromString(description);
+		// API 요청으로 username 에 해당하는 user id 가져옴. 알림 보내야 함.
 		for (int i = 0; i < username.size(); i++) {
+			// receiver id 수정해야함.
 			CommentMention commentMention = CommentMention.builder().receiverId(userId)
 				.senderId(userId).build();
 			commentMentionRepository.save(commentMention);
@@ -51,7 +51,6 @@ public class CommentMentionService {
 		final Matcher matcher = pattern.matcher(input);
 		while (matcher.find()) {
 			// 존재 여부 판단해야 함 ( from  User Service ) -> Refactoring
-			//userRepository.findByUserName(matcher.group().substring(1)).orElseThrow(()->new CustomException(ErrorCode.MENTION_USER_NOT_FOUND));
 			mentions.add(matcher.group().substring(1));
 		}
 		return new ArrayList<>(mentions);

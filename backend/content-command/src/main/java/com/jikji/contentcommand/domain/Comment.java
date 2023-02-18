@@ -2,14 +2,9 @@ package com.jikji.contentcommand.domain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +20,6 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
 	private Long id;
-
-	//	@ManyToOne(fetch = FetchType.LAZY)
-	//	@NotNull
-	//	@JoinColumn(name = "user_id")
-	//private User user;
 
 	@Column(nullable = false, updatable = false, name = "user_id")
 	private Long userId;

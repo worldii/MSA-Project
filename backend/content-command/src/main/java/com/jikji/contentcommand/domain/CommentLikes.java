@@ -1,9 +1,6 @@
 package com.jikji.contentcommand.domain;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

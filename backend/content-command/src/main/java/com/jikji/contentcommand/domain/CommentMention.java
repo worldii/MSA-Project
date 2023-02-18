@@ -1,11 +1,8 @@
 package com.jikji.contentcommand.domain;
 
 import java.time.LocalDateTime;
-
+import java.time.format.DateTimeFormatter;
 import javax.persistence.*;
-
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,27 +20,20 @@ public class CommentMention {
 	@Column(name = "comment_mention_id")
 	private Long id;
 
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "sender_id")
-//	private User sender;
-
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "receiver_Id")
-//	private User receiver;
-
-//	@OneToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "comment_id")
-//	private Comment comment;
-
 	@Column(name = "sender_id", nullable = false)
 	private Long senderId;
 	@Column(name = "receiver_id", nullable = false)
 	private Long receiverId;
 	@Column(name = "comment_id", nullable = false)
 	private Long commentId;
-	@CreationTimestamp
+
 	@Column(name = "created_at")
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private String createdAt ;
+
+	@PrePersist
+	public void prePersist() {
+		createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+	}
 
 	@Builder
 	public CommentMention(Long senderId, Long receiverId, Long commentId) {

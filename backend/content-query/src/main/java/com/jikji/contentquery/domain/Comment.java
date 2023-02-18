@@ -1,7 +1,5 @@
 package com.jikji.contentquery.domain;
 import java.util.List;
-
-
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -29,18 +27,13 @@ public class Comment {
 	private Long commentId;
 
 	private Long userId;
-
 	private String userName;
 	private String profileUrl;
+	private String description;
 
 	private Long postId;
 
-	// @CreationTimestamp
-	// @Column(name = "created_at")
 	private String createdAt;
-	//@Column(nullable = false, length = 3000)
-	private String description;
-
 	private int likes;
 
 	@Builder

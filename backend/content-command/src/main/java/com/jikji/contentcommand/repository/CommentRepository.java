@@ -8,5 +8,4 @@ import com.jikji.contentcommand.domain.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-	List<Comment> findAllByPostId(Long postId);
 }

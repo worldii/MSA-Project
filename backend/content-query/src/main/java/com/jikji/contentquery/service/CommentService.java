@@ -5,10 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jikji.contentquery.domain.Comment;
 import com.jikji.contentquery.domain.CommentLikes;
-import com.jikji.contentquery.domain.Content;
 import com.jikji.contentquery.repository.CommentLikesRepository;
 import com.jikji.contentquery.repository.CommentRepository;
 
@@ -28,16 +26,16 @@ public class CommentService {
 	}
 
 	@Transactional
-	public List<CommentLikes> getCommentLikesList(long commentId) {
+	public List<CommentLikes> getCommentLikesList(Long commentId) {
 		List<CommentLikes> allByCommentId = commentLikesRepository.findAllByCommentId(commentId);
 		log.info("좋아요 리스트 " + allByCommentId);
 		return allByCommentId;
 	}
 
 	@Transactional
-	public boolean checkCommentIsLikedByUser(long commentId, long userId) {
+	public boolean checkCommentIsLikedByUser(Long commentId, Long userId) {
 		boolean present = commentLikesRepository.findByUserIdAndCommentId(userId, commentId).isPresent();
-		log.info("좋아요 여부 "+ present);
+		log.info("좋아요 여부 " + present);
 		return present;
 	}
 }

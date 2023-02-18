@@ -12,4 +12,5 @@ import com.jikji.contentquery.domain.CommentLikes;
 public interface CommentLikesRepository extends MongoRepository<CommentLikes, Long> {
 	Optional<CommentLikes> findByUserIdAndCommentId(Long userId,Long  commentId);
 	List<CommentLikes> findAllByCommentId(Long commentId);
+	Optional<CommentLikes> findByCommentLikeId(Long commentId);
 }

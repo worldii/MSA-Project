@@ -47,15 +47,15 @@ public class CommentCommandController {
 	}
 
 	@PostMapping("/comments/like/{commentId}/{userId}")
-	ResponseEntity<ResultResponse> addCommentLikes(@PathVariable("commentId") long commentId,
-		@PathVariable("userId") long userId) {
+	ResponseEntity<ResultResponse> addCommentLikes(@PathVariable("commentId") Long commentId,
+		@PathVariable("userId") Long userId) {
 		commentService.addCommentLikes(commentId, userId);
 		return ResponseEntity.ok(new ResultResponse(ResultCode.LIKE_COMMENT_SUCCESS, ""));
 	}
 
 	@PostMapping("comments/unlike/{commentId}/{userId}")
-	ResponseEntity<ResultResponse> deleteCommentLikes(@PathVariable("commentId") long commentId,
-		@PathVariable("userId") long userId) {
+	ResponseEntity<ResultResponse> deleteCommentLikes(@PathVariable("commentId") Long commentId,
+		@PathVariable("userId") Long userId) {
 		commentService.deleteCommentLikes(commentId, userId);
 		return ResponseEntity.ok(new ResultResponse(ResultCode.UNLIKE_COMMENT_SUCCESS, ""));
 	}
