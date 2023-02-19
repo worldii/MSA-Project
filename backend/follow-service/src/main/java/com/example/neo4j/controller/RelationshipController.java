@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.neo4j.dto.relationship.FollowDto;
@@ -13,6 +14,7 @@ import com.example.neo4j.dto.user.UserDto;
 import com.example.neo4j.service.RelationshipService;
 
 @RestController
+@RequestMapping("/follow-server")
 public class RelationshipController {
 
 	final RelationshipService relationshipService;

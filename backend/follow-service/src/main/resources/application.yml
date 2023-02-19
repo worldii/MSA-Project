@@ -7,9 +7,20 @@ org:
         password: movies #neo4j 데스크톱 콘솔에서 설정할 수 있다.
 
 spring:
+  application:
+    name: follow-service
   data:
     neo4j:
-      database: movies # neo4j 데스크톱에서 movies 데이터 베이스를 하나 만들어주자.
+      database: Graph # neo4j 데스크톱에서 movies 데이터 베이스를 하나 만들어주자.
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
 
 logging:
   level:
