@@ -14,7 +14,6 @@ import com.example.neo4j.dto.user.UserDto;
 import com.example.neo4j.service.RelationshipService;
 
 @RestController
-@RequestMapping("/follow-server")
 public class RelationshipController {
 
 	final RelationshipService relationshipService;

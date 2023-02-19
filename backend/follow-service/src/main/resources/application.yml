@@ -11,7 +11,7 @@ spring:
     name: follow-service
   data:
     neo4j:
-      database: Graph # neo4j 데스크톱에서 movies 데이터 베이스를 하나 만들어주자.
+      database: movies # neo4j 데스크톱에서 movies 데이터 베이스를 하나 만들어주자.
 
 eureka:
   instance:
