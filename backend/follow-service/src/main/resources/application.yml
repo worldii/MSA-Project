@@ -1,3 +1,6 @@
+server:
+  port: 8070
+
 org:
   neo4j:
     driver:
@@ -7,6 +10,7 @@ org:
         password: movies #neo4j 데스크톱 콘솔에서 설정할 수 있다.
 
 spring:
+
   application:
     name: follow-service
   data:
