@@ -1,7 +1,8 @@
 .notificationboxmiddle{
     width: 100%;
-    height: 100px;
-}
+    padding: 10px 0px 10px 0px;
+    height: 70px;
+}           
 
 .notificationboxmiddle:hover {
     background-color: rgb(251, 251, 251);
