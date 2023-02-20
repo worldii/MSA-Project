@@ -47,4 +47,12 @@ public interface RelationshipRepository extends Neo4jRepository<User, Long> {
 		+ "return COUNT { ()-[:FOLLOW]->(b) }")
 	Integer countUsersFollower(@Param("user_id") Long user_id);
 
+	@Query("match (a:User) "
+		+ "where a.id = $following_id "
+		+ "match (b:User) "
+		+ "where b.id = $followed_id "
+		+ "match (a)-[f:FOLLOW]->(b) "
+		+ "return f")
+	Object isFollowing(@Param("following_id") Long following_id, @Param("followed_id") Long followed_id);
+
 }

@@ -1,6 +1,7 @@
 package com.example.neo4j.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -58,4 +59,10 @@ public class RelationshipService {
 		return relationshipRepository.countUsersFollower(user_id);
 	}
 
+	public Boolean isFollowing(Long follower, Long following) {
+		if (relationshipRepository.isFollowing(follower, following) == Optional.empty())
+			return false;
+		else
+			return true;
+	}
 }
