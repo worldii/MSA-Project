@@ -2,6 +2,7 @@ package com.jikji.contentquery.service;
 
 
 import com.jikji.contentquery.domain.Content;
+import com.jikji.contentquery.domain.ImageUrl;
 import com.jikji.contentquery.exception.ContentNotFoundException;
 import com.jikji.contentquery.repository.ContentQueryRepository;
 import java.util.List;
