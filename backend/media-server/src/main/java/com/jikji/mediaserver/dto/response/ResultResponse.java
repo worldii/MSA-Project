@@ -1,4 +1,4 @@
-package com.jikji.mediaserver.dto;
+package com.jikji.mediaserver.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

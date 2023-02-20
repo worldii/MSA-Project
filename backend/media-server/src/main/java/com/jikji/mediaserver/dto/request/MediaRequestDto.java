@@ -1,8 +1,6 @@
-package com.jikji.mediaserver.dto;
+package com.jikji.mediaserver.dto.request;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import com.jikji.mediaserver.model.MediaType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MediaDto {
+public class MediaRequestDto {
 	private Long userId;
-	private String userName;
-	private String url;
 	private MultipartFile file;
-	private MediaType mediaType;
 }

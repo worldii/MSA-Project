@@ -13,8 +13,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
-import com.jikji.mediaserver.dto.MediaDto;
-import com.jikji.mediaserver.model.MediaType;
+import com.jikji.mediaserver.dto.request.MediaRequestDto;
 import com.jikji.mediaserver.util.MediaUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -31,26 +30,22 @@ public class S3Service {
 	private final AmazonS3 amazonS3;
 
 	@Transactional
-	public void uploadMediaToS3(MediaDto mediaDto, String username) throws IOException {
+	public String uploadMediaToS3(MediaRequestDto mediaRequestDto, Long userId) throws IOException {
 		long now = (new Date()).getTime();
-		String fileName = now + mediaDto.getFile().getOriginalFilename();
+		String fileName = now + mediaRequestDto.getFile().getOriginalFilename();
 		log.info("File name: " + fileName);
 
-		String contentType = MediaUtil.findContentType(mediaDto.getFile().getContentType());
-		log.info("Content Type change to Enum Type " + MediaType.valueOf(contentType));
-		mediaDto.setMediaType(MediaType.valueOf(contentType));
-
-		String folder = MediaUtil.findFolder(fileName, username, contentType);
-
+		String contentType = MediaUtil.findContentType(mediaRequestDto.getFile().getContentType());
+		String folder = MediaUtil.findFolder(fileName, "" + userId, contentType);
 		ObjectMetadata metadata = new ObjectMetadata();
 		metadata.setContentType(contentType);
 
 		amazonS3.putObject(
-			new PutObjectRequest(bucket, folder, mediaDto.getFile().getInputStream(),
+			new PutObjectRequest(bucket, folder, mediaRequestDto.getFile().getInputStream(),
 				metadata).withCannedAcl(
 				CannedAccessControlList.PublicRead));
 
-		mediaDto.setUrl(amazonS3.getUrl(bucket, fileName).toString());
+		return amazonS3.getUrl(bucket, fileName).toString();
 	}
 }
 
