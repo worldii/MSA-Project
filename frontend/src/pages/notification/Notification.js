@@ -40,7 +40,7 @@ const Notification = () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const url =
-      "http://localhost:8080/notification/slicing?notificationId=" +
+      "http://localhost:8000/slicing?notificationId=" +
       index.toString() +
       "&size=10";
 
