@@ -29,6 +29,13 @@ public class ContentQueryController {
         }
     }
 
+    @GetMapping("/contents/all")
+    public ResponseEntity<?> findAllByContentIds(@RequestParam(name = "ids") List<Long> contentIds) {
+        log.info("content ids:" + contentIds);
+        List<Content> result = contentQueryService.findAllByContentIdIn(contentIds);
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/users")
     public ResponseEntity<List<Content>> findByUserId(@RequestParam(name = "u") Long userId) {
         try {

@@ -83,4 +83,3 @@ spring:
             - Method=POST,GET,DELETE,OPTIONS
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-
