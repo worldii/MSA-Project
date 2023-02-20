@@ -67,3 +67,10 @@ spring:
             - Method=POST,OPTIONS
           filters:
             - RewritePath=/media-server/(?<segment>.*), /$\{segment}
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/**
+            - Method=POST,GET,DELETE< OPTIONS
+          filters:
+            - RewritePath=/auth-service/(?<segment>.*), /$\{segment}
