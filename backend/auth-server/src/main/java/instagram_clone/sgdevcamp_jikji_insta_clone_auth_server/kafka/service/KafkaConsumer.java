@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.kafka.dto.UserEmail;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.kafka.dto.ChatEmail;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.kafka.dto.UserInfo;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.User;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.service.UserService;

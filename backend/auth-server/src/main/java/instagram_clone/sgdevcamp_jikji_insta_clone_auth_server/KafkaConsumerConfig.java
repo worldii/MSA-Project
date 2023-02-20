@@ -14,7 +14,7 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
-import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.kafka.dto.UserEmail;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.kafka.dto.ChatEmail;
 
 @Configuration
 @EnableKafka
@@ -23,20 +23,21 @@ public class KafkaConsumerConfig {
 	private String servers;
 
 	@Bean
-	public ConsumerFactory<String, UserEmail> consumerFactory() {
+	public ConsumerFactory<String, ChatEmail> consumerFactory() {
 		Map<String, Object> config = new HashMap<>();
 
 		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
 		config.put(ConsumerConfig.GROUP_ID_CONFIG, "jikji-project");
 
 		return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(),
-			new JsonDeserializer<>(UserEmail.class,false));
+			new JsonDeserializer<>(ChatEmail.class,false));
 	}
 
 	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, UserEmail> kafkaListener() {
-		ConcurrentKafkaListenerContainerFactory<String, UserEmail> factory = new ConcurrentKafkaListenerContainerFactory<>();
+	public ConcurrentKafkaListenerContainerFactory<String, ChatEmail> kafkaListener() {
+		ConcurrentKafkaListenerContainerFactory<String, ChatEmail> factory = new ConcurrentKafkaListenerContainerFactory<>();
 		factory.setConsumerFactory(consumerFactory());
 		return factory;
 	}
 }
+

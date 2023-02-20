@@ -9,11 +9,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.jwt.service.JwtService;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.User;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.dto.UserInfoDto;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
