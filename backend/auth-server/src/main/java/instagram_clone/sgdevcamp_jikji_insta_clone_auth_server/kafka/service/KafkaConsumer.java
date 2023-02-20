@@ -21,14 +21,19 @@ public class KafkaConsumer {
 		this.kafkaProducer = kafkaProducer;
 	}
 
-	@KafkaListener(topics = "jikji-user-email", groupId = "jikji-project", containerFactory = "kafkaListener")
-	public void consume(UserEmail email) throws IOException {
-		System.out.println("message.getEmail() = " + email.getEmail());
-		String userEmail = email.getEmail();
-		User user = userService.findByEmail(userEmail);
-		UserInfo userInfo = new UserInfo();
-		userInfo.setUserId(user.getId());
-		userInfo.setNickname(user.getNickname());
+	@KafkaListener(topics = "jikji-chat-email", groupId = "jikji-project", containerFactory = "kafkaListener")
+	public void consume(ChatEmail email) throws IOException {
+		Integer senderId = email.getSenderId();
+		Integer receiverId = email.getReceiverId();
+		String type = email.getType();
+		User sender = userService.findById(senderId);
+		UserInfo userInfo = UserInfo.builder()
+			.senderId(senderId)
+			.receiverId(receiverId)
+			.senderNickname(sender.getNickname())
+			.type(type)
+			.build();
 		kafkaProducer.sendMessage(userInfo);
 	}
 }
+

@@ -89,4 +89,15 @@ public class AccessTokenController {
 		}
 		return new ResponseEntity<>("NOTVALIDATEDACCESSTOKEN", HttpStatus.OK);
 	}
+
+	@Operation(summary = "유저 PK", description = "accessToken을 통해 유저 PK 전달 API")
+	@ApiResponse(code = 200, message = "0K")
+	@GetMapping("/get-pk")
+	public ResponseEntity<?> getPK(@ApiParam(value = "accessToken") HttpServletRequest request) {
+		String authorization = request.getHeader("Authorization");
+		String accessToken = authorization.split(" ")[1];
+		String email = jwtService.getEmail(accessToken);
+		User user = userService.findByEmail(email);
+		return new ResponseEntity<>(user.getId(), HttpStatus.OK);
+	}
 }
