@@ -21,7 +21,7 @@ const Profile = ({ User }) => {
       </div>
       <div className={styles.nameLayout}>
         <div className={styles.userName}>{userMockup.userName}</div>
-        <div lassName={styles.fullName}>{userMockup.fullName}</div>
+        <div className={styles.fullName}>{userMockup.fullName}</div>
       </div>
     </div>
   );

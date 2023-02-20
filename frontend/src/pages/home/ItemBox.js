@@ -20,16 +20,17 @@ const ItemWrap = styled.div`
 
 const ItemBox = (props) => {
   // 현재 선택된 아이콘을 관리하는 state
-
+  // console.log(props.item);
   return (
     <ItemWrap>
-      <ItemBoxTop id={props.item.id} createdAt={props.item.createdAt} />
-
-      <img src={props.item.imageUrl[0].url} className="photo" alt="" />
+      <ItemBoxTop id={props.item.contentId} createdAt={props.item.createdAt} />
+      {props.item.imageUrl !== null && (
+        <img src={props.item.imageUrl[0].url} alt="" />
+      )}
       <div>
         <ItemBoxMiddle
           likes={props.item.likes}
-          id={props.item.id}
+          id={props.item.contentId}
           text={props.item.text}
         />
         <ItemBoxBottom />

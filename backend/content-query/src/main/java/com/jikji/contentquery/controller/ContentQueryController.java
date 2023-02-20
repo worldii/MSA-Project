@@ -1,11 +1,14 @@
 package com.jikji.contentquery.controller;
 
-
 import com.jikji.contentquery.domain.Content;
 import com.jikji.contentquery.service.ContentQueryService;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ContentQueryController {
 
-    private final ContentQueryService contentQueryService;
+	private final ContentQueryService contentQueryService;
+
+	@GetMapping("/slicing")
+	public ResponseEntity<Page<Content>> findByContentIdWithSize(@RequestParam(name = "u") Long userId,
+		@RequestParam(name = "c") Long contentId, @RequestParam Integer size) {
+		try {
+			Page<Content> contents = contentQueryService.findByContentIdWithSize(userId, contentId, size);
+			return ResponseEntity.ok(contents);
+		} catch (RuntimeException e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
 
     @GetMapping("/contents/{contentId}")
     public ResponseEntity<?> findByContentId(@PathVariable Long contentId) {
@@ -47,3 +61,5 @@ public class ContentQueryController {
         }
     }
 }
+
+

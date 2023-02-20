@@ -51,11 +51,10 @@ function Sidebar() {
         {sidebarList.map((bar, index) => {
           return (
             <NavLink
-              exact
               style={{ color: "black", textDecoration: "none" }}
               to={bar.path}
               key={index}
-              activeStyle={{ color: "black" }}
+              activestyle={{ color: "black" }}
             >
               <SidebarItem item={bar} />
             </NavLink>
