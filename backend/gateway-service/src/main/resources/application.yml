@@ -83,3 +83,11 @@ spring:
             - Method=POST,GET,DELETE,OPTIONS
           filters:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+
+        - id: chat-service
+          uri: lb://CHAT-SERVICE
+          predicates:
+            - Path=/chat-service/**
+            - Method=GET,POST,DELETE,OPTIONS
+          filters:
+            - RewritePath=/chat-service/(?<segment>.*), /$\{segment}

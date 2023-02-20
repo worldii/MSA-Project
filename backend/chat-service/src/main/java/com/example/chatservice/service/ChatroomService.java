@@ -89,7 +89,7 @@ public class ChatroomService {
     }
 
     private UserInfoDetailDto getUserInfoDetail(Long userId) {
-        return userFeignClient.getUserInfo(userId).getBody();
+        return userFeignClient.getUserInfo(userId.intValue()).getBody();
     }
 
     private ChatroomInfoDto createChatroomInfo(ChatMessage message, Chatroom chatroom, Long userId) {
