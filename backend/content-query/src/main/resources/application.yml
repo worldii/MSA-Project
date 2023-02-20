@@ -6,9 +6,7 @@ spring:
     name: content-query
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: test
+      database: social
 
 eureka:
   instance:

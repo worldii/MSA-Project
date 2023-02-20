@@ -14,12 +14,12 @@ public class UserResponse {
 
     private String name;
 
-    private String loginId;
+    private String nickname;
 
 
     public UserResponse(UserIndex userIndex) {
         this.userId = userIndex.getUserId();
         this.name = userIndex.getName();
-        this.loginId = userIndex.getLoginId();
+        this.nickname = userIndex.getNickname();
     }
 }

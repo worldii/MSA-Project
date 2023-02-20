@@ -8,4 +8,6 @@ public interface ContentQueryService {
     Content findByContentId(Long contentId);
 
     List<Content> findByUserId(Long userId);
+
+    List<Content> findAllByContentIdIn(List<Long> contentIds);
 }
