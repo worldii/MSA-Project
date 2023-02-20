@@ -9,11 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.domain.Notification;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationResponse;
+import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.SliceResponseDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.repository.EmitterRepository;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.repository.NotificationRepository;
 
@@ -59,25 +62,25 @@ public class NotificationService {
 		}
 	}
 
-	public void send(String userId, String content, String type) {
-		Notification notification;
-		if (Objects.equals(type, "chat")) {
-			//type 구분
-		} else if (Objects.equals(type, "comment")) {
-			//comment
-		} else if (Objects.equals(type, "post")) {
-			//post
-		} else if (Objects.equals(type, "tags")) {
-			//tags
-		}
-		Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(userId);
-		sseEmitters.forEach(
-			(key, emitter) -> {
-				emitterRepository.saveEventCache(userId, emitter);
-				sendToClient(emitter, key, NotificationResponse.from(notification));
-			}
-		);
-	}
+	// public void send(String userId, String content, String type) {
+	// 	Notification notification;
+	// 	if (Objects.equals(type, "chat")) {
+	// 		//type 구분
+	// 	} else if (Objects.equals(type, "comment")) {
+	// 		//comment
+	// 	} else if (Objects.equals(type, "post")) {
+	// 		//post
+	// 	} else if (Objects.equals(type, "tags")) {
+	// 		//tags
+	// 	}
+	// 	Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(userId);
+	// 	sseEmitters.forEach(
+	// 		(key, emitter) -> {
+	// 			emitterRepository.saveEventCache(userId, emitter);
+	// 			sendToClient(emitter, key, NotificationResponse.from(notification));
+	// 		}
+	// 	);
+	// }
 
 	public Notification findById(Long id){
 		Notification notification = notificationRepository.findById(id).get();
@@ -104,6 +107,11 @@ public class NotificationService {
 		Notification notification = notificationRepository.findById(id).get();
 		notification.readNotification();
 		notificationRepository.save(notification);
+	}
+
+	public SliceResponseDto findAllNotifications(Long lastStudyId, Integer size) {
+		Slice<Notification> notification = notificationRepository.findAllOrderByNotificationIdDesc(lastStudyId, Pageable.ofSize(size));
+		return SliceResponseDto.create(notification, NotificationResponse::from);
 	}
 
 

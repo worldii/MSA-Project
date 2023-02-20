@@ -76,6 +76,14 @@ spring:
           filters:
             - RewritePath=/follow-service/(?<segment>.*), /$\{segment}
 
+        - id: notification-server
+          uri: http://localhost:8071
+          predicates:
+            - Path=/notification-server/**
+            - Method=GET,POST,PUT,OPTIONS
+          filters:
+            - RewritePath=/notification-server/(?<segment>.*), /$\{segment}
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:

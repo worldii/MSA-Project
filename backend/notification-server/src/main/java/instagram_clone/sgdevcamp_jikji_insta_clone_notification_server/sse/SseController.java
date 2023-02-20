@@ -21,11 +21,11 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.domain.Notification;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationResponse;
+import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.SliceResponseDto;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/notification")
 public class SseController {
 
 	private final NotificationService notificationService;
@@ -43,21 +43,28 @@ public class SseController {
 		return notificationService.subscribe(token, lastEventId);
 	}
 
-	@PostMapping("/send")
-	public ResponseEntity<?> chatNotification(@RequestBody MultiValueMap<String, String> body) {
-		String sender = body.get("sender").get(0);
-		String receiver = body.get("receiver").get(0);
-		String content = body.get("content").get(0);
-		return ResponseEntity.ok("ok");
-	}
+	// @PostMapping("/send")
+	// public ResponseEntity<?> chatNotification(@RequestBody MultiValueMap<String, String> body) {
+	// 	String sender = body.get("sender").get(0);
+	// 	String receiver = body.get("receiver").get(0);
+	// 	String content = body.get("content").get(0);
+	// 	return ResponseEntity.ok("ok");
+	// }
 
-	@GetMapping("")
+	@GetMapping("/user")
 	public List<NotificationResponse> findByUserId(@RequestParam Long userId){
 		return notificationService.findByUserId(userId).stream()
 			.map(NotificationResponse::from)
 			.collect(Collectors.toList());
 	}
 
+	@PostMapping("/add")
+	public ResponseEntity<?> send(@RequestBody NotificationDto notificationDto) {
+
+		notificationService.save(notificationDto.toEntity());
+
+		return ResponseEntity.ok("ok");
+	}
 
 	@GetMapping("/find")
 	public NotificationResponse findById(@RequestParam Long notificationId) {
@@ -72,6 +79,11 @@ public class SseController {
 	@GetMapping("/delete")
 	public void delete(@RequestParam Long notificationId){
 		notificationService.delete(notificationService.findById(notificationId));
+	}
+
+	@GetMapping("/slicing")
+	public SliceResponseDto findAllNotifications(@RequestParam Long notificationId, @RequestParam Integer size) {
+		return notificationService.findAllNotifications(notificationId, size);
 	}
 
 }
