@@ -23,6 +23,7 @@
 
 .createdAt{
     margin-left: 10px;
+    color: gray;
     display:grid;
     align-items:center;
 }

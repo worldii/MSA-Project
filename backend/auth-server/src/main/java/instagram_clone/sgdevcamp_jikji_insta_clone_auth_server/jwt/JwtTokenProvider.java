@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yml")
 public class JwtTokenProvider {
 
 	@Value("${jwtSecretKey}")

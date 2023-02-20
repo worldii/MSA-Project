@@ -1,6 +1,7 @@
 package com.jikji.contentquery.service;
 
 import com.jikji.contentquery.domain.Content;
+import com.jikji.contentquery.domain.ImageUrl;
 import com.jikji.contentquery.exception.ContentNotFoundException;
 import com.jikji.contentquery.repository.ContentQueryRepository;
 
@@ -27,14 +28,6 @@ public class ContentQueryServiceImpl implements ContentQueryService {
 	private final MongoTemplate mongoTemplate;
 	private final ContentQueryRepository contentQueryRepository;
 
-	public Content findByContentId(Long contentId) {
-		return contentQueryRepository.findByContentId(contentId)
-			.orElseThrow(ContentNotFoundException::new);
-	}
-
-	public List<Content> findByUserId(Long userId) {
-		return contentQueryRepository.findByUserId(userId);
-	}
 
 	public Page<Content> findByContentIdWithSize(Long userId, Long contentId, Integer size) {
 		Pageable pageable = Pageable.ofSize(size);
@@ -52,4 +45,18 @@ public class ContentQueryServiceImpl implements ContentQueryService {
 			pageable,
 			() -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Content.class));
 	}
+
+    public Content findByContentId(Long contentId) {
+        return contentQueryRepository.findByContentId(contentId)
+                .orElseThrow(ContentNotFoundException::new);
+    }
+
+    public List<Content> findByUserId(Long userId) {
+        return contentQueryRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Content> findAllByContentIdIn(List<Long> contentIds) {
+        return contentQueryRepository.findByContentIdIn(contentIds);
+    }
 }

@@ -11,5 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface ContentQueryRepository extends MongoRepository<Content, String> {
 	Optional<Content> findByContentId(Long postId);
 
-	List<Content> findByUserId(Long userId);
+    List<Content> findByUserId(Long userId);
+
+    List<Content> findByContentIdIn(List<Long> contentIds);
 }

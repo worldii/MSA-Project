@@ -12,6 +12,6 @@ public interface ContentQueryService {
 
 	List<Content> findByUserId(Long userId);
 
+    List<Content> findAllByContentIdIn(List<Long> contentIds);
 	Page<Content> findByContentIdWithSize(Long userId, Long contentId, Integer size);
-
 }

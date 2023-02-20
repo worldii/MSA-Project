@@ -12,6 +12,7 @@ import com.example.chatservice.dto.UserInfoDto;
 import com.example.chatservice.exception.ChatroomNotFoundException;
 import com.example.chatservice.repository.ChatMessageRepository;
 import com.example.chatservice.repository.ChatroomRepository;
+import com.example.chatservice.repository.MessageLikeRepository;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ChatroomService {
+    private final MessageLikeRepository messageLikeRepository;
 
     private final ChatMessageRepository chatMessageRepository;
 
@@ -45,13 +47,15 @@ public class ChatroomService {
         return chatroomResponse;
     }
 
-    public ChatroomMessageResponse findChatMessagesByChatRoomId(String chatroomId) {
+    public ChatroomMessageResponse findChatMessagesByChatRoomId(String chatroomId, Long userId) {
         List<ChatMessage> messages = chatMessageRepository.findAllByChatroomId(chatroomId);
         ChatroomMessageResponse chatroomMessageResponse = new ChatroomMessageResponse(chatroomId);
         List<ChatMessageDto> chatMessageInfos = new ArrayList<>();
 
-        messages.forEach(chatMessage ->
-            chatMessageInfos.add(new ChatMessageDto(chatMessage)));
+        messages.forEach(chatMessage -> {
+            Boolean exists = messageLikeRepository.existsByMessageIdAndUserId(chatMessage.getId(), userId);
+            chatMessageInfos.add(new ChatMessageDto(chatMessage, exists));
+        });
 
         chatroomMessageResponse.setMessages(chatMessageInfos);
         return chatroomMessageResponse;
@@ -89,7 +93,7 @@ public class ChatroomService {
     }
 
     private UserInfoDetailDto getUserInfoDetail(Long userId) {
-        return userFeignClient.getUserInfo(userId).getBody();
+        return userFeignClient.getUserInfo(userId.intValue()).getBody();
     }
 
     private ChatroomInfoDto createChatroomInfo(ChatMessage message, Chatroom chatroom, Long userId) {

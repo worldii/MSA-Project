@@ -26,9 +26,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/accessToken")
 public class AccessTokenController {
 	JwtService jwtService;
+	UserService userService;
 
-	public AccessTokenController(JwtService jwtService) {
+	public AccessTokenController(JwtService jwtService, UserService userService) {
 		this.jwtService = jwtService;
+		this.userService = userService;
 	}
 
 	@Operation(summary = "accessToken 검증", description = "accessToken 검증 API")

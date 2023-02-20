@@ -9,6 +9,7 @@ import com.jikji.contentcommand.dto.message.BookmarkKafkaMessage;
 import com.jikji.contentcommand.exception.BookmarkNotFoundException;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.repository.BookmarkCommandRepository;
+import com.jikji.contentcommand.repository.CommentRepository;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
 import com.jikji.contentcommand.util.KafkaTopic;
 import com.jikji.contentcommand.util.ValidCheckUtil;
@@ -16,15 +17,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class BookmarkCommandServiceImpl implements BookmarkCommandService {
 
     private final BookmarkCommandRepository bookmarkCommandRepository;
 
     private final ContentCommandRepository contentCommandRepository;
+
+    private final CommentRepository commentRepository;
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
@@ -41,7 +46,9 @@ public class BookmarkCommandServiceImpl implements BookmarkCommandService {
                         .userId(userId)
                         .build());
 
-        sendMessage(savedBookmark, 0, content.getLikes());
+        Integer count = commentRepository.countByPostId(contentId);
+
+        sendMessage(savedBookmark, count, content.getLikes());
         return savedBookmark.getId();
     }
 

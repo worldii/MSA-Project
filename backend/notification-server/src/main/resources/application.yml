@@ -1,0 +1,35 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: jikji
+    consumer:
+      enable-auto-commit: true
+      auto-offset-reset: earliest
+  application:
+    name: notification-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/notification?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: jhkim
+    password: qaz123
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+    hibernate:
+      ddl-auto: create
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+server:
+  port: 0
+

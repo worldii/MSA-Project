@@ -14,6 +14,6 @@ public class MessageResponse {
     private MessageType type;
 
     public enum MessageType {
-        LIKE, UNLIKE, SIGNAL, NEW
+        LIKE, UNLIKE, IMAGE, NEW
     }
 }

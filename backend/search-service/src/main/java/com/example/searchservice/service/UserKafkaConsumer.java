@@ -21,7 +21,6 @@ public class UserKafkaConsumer {
     public void addNewUserInfo(String message) throws JsonProcessingException {
         log.info(message);
         UserInfoDto userInfoDto = mapper.readValue(message, UserInfoDto.class);
-
         userRepository.save(userInfoDto.toIndex());
     }
 }
