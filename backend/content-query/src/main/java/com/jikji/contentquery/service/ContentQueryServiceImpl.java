@@ -16,6 +16,7 @@ public class ContentQueryServiceImpl implements ContentQueryService {
 
     private final ContentQueryRepository contentQueryRepository;
 
+
     public Content findByContentId(Long contentId) {
         return contentQueryRepository.findByContentId(contentId)
                 .orElseThrow(ContentNotFoundException::new);
@@ -23,5 +24,10 @@ public class ContentQueryServiceImpl implements ContentQueryService {
 
     public List<Content> findByUserId(Long userId) {
         return contentQueryRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Content> findAllByContentIdIn(List<Long> contentIds) {
+        return contentQueryRepository.findByContentIdIn(contentIds);
     }
 }
