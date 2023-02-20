@@ -40,7 +40,7 @@ const Notification = () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const url =
-      "http://localhost:8000/slicing?notificationId=" +
+      "http://localhost:8000/notification-server/slicing?notificationId=" +
       index.toString() +
       "&size=10";
 
@@ -330,7 +330,7 @@ const Notification = () => {
     <>
       <AppWrap>
         {itemLists.map((v, i) => {
-          return <NotificationBox item={itemLists[i]} key={i} />;
+          return <NotificationBox item={itemLists[i]} key={i}/>;
         })}
         <div ref={setTarget} className="Target-Element">
           {<Loader />}
