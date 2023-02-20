@@ -1,0 +1,14 @@
+.notificationboxmiddle{
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+    height: 70px;
+}           
+
+.notificationboxmiddle:hover {
+    background-color: rgb(251, 251, 251);
+}
+
+.notificationboxmiddle-createdAt{
+    margin-left: 10px;
+    color: gray;
+}
