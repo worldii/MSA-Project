@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEmail {
-	private String email;
+public class ChatEmail {
+	private Integer senderId;
+	private Integer receiverId;
+	private String type;
 }
+

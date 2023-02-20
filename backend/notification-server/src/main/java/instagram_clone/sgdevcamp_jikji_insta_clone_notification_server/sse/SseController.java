@@ -29,18 +29,20 @@ import lombok.extern.slf4j.Slf4j;
 public class SseController {
 
 	private final NotificationService notificationService;
+	private KafkaConsumer consumer;
 
-	public SseController(NotificationService notificationService) {
+	public SseController(NotificationService notificationService, KafkaConsumer consumer) {
 		this.notificationService = notificationService;
+		this.consumer = consumer;
 	}
 
 	@CrossOrigin("*")
-	@GetMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
-	public SseEmitter subscribe(@RequestParam String token,
+	@PostMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
+	public SseEmitter subscribe(@RequestParam Integer pk,
 		@RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "")
 		String lastEventId) {
 
-		return notificationService.subscribe(token, lastEventId);
+		return notificationService.subscribe(pk.toString(), lastEventId);
 	}
 
 	// @PostMapping("/send")
