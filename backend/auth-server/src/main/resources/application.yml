@@ -35,7 +35,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
   application:
-    name: auth-service
+    name: user-service
 
 jwtSecretKey: sgdevcampinstacloneprojectauthserver
 
