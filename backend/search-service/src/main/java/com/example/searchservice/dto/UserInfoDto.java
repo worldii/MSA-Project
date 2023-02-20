@@ -10,7 +10,7 @@ public class UserInfoDto {
 
     private String name;
 
-    private String loginId;
+    private String nickname;
 
     private String createdAt;
 
@@ -18,7 +18,7 @@ public class UserInfoDto {
         return UserIndex.builder()
                 .userId(userId)
                 .name(name)
-                .loginId(loginId)
+                .nickname(nickname)
                 .createdAt(createdAt)
                 .build();
     }

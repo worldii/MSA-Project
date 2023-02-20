@@ -28,7 +28,7 @@ public class UserIndex {
     private String name;
 
     @Field(type = FieldType.Keyword)
-    private String loginId;
+    private String nickname;
 
     @Field(type = FieldType.Text)
     private String createdAt;
