@@ -59,25 +59,25 @@ public class NotificationService {
 		}
 	}
 
-	public void send(String userId, String content, String type) {
-		Notification notification;
-		if (Objects.equals(type, "chat")) {
-			//type 구분
-		} else if (Objects.equals(type, "comment")) {
-			//comment
-		} else if (Objects.equals(type, "post")) {
-			//post
-		} else if (Objects.equals(type, "tags")) {
-			//tags
-		}
-		Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(userId);
-		sseEmitters.forEach(
-			(key, emitter) -> {
-				emitterRepository.saveEventCache(userId, emitter);
-				sendToClient(emitter, key, NotificationResponse.from(notification));
-			}
-		);
-	}
+	// public void send(String userId, String content, String type) {
+	// 	Notification notification;
+	// 	if (Objects.equals(type, "chat")) {
+	// 		//type 구분
+	// 	} else if (Objects.equals(type, "comment")) {
+	// 		//comment
+	// 	} else if (Objects.equals(type, "post")) {
+	// 		//post
+	// 	} else if (Objects.equals(type, "tags")) {
+	// 		//tags
+	// 	}
+	// 	Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(userId);
+	// 	sseEmitters.forEach(
+	// 		(key, emitter) -> {
+	// 			emitterRepository.saveEventCache(userId, emitter);
+	// 			sendToClient(emitter, key, NotificationResponse.from(notification));
+	// 		}
+	// 	);
+	// }
 
 	public Notification findById(Long id){
 		Notification notification = notificationRepository.findById(id).get();

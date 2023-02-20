@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/notification")
 public class SseController {
 
 	private final NotificationService notificationService;
@@ -43,13 +42,13 @@ public class SseController {
 		return notificationService.subscribe(token, lastEventId);
 	}
 
-	@PostMapping("/send")
-	public ResponseEntity<?> chatNotification(@RequestBody MultiValueMap<String, String> body) {
-		String sender = body.get("sender").get(0);
-		String receiver = body.get("receiver").get(0);
-		String content = body.get("content").get(0);
-		return ResponseEntity.ok("ok");
-	}
+	// @PostMapping("/send")
+	// public ResponseEntity<?> chatNotification(@RequestBody MultiValueMap<String, String> body) {
+	// 	String sender = body.get("sender").get(0);
+	// 	String receiver = body.get("receiver").get(0);
+	// 	String content = body.get("content").get(0);
+	// 	return ResponseEntity.ok("ok");
+	// }
 
 	@GetMapping("")
 	public List<NotificationResponse> findByUserId(@RequestParam Long userId){
