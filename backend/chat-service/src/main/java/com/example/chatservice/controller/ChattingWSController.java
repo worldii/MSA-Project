@@ -1,7 +1,7 @@
 package com.example.chatservice.controller;
 
 import com.example.chatservice.dto.request.ChatMessageRequest;
-import com.example.chatservice.dto.request.MessageLikeRequest;
+import com.example.chatservice.dto.request.LikeRequest;
 import com.example.chatservice.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +23,8 @@ public class ChattingWSController {
     }
 
     @MessageMapping("/messages/like")
-    public void like(@Payload MessageLikeRequest request) {
-        chatMessageService.like(request);
+    public void like(@Payload LikeRequest request) {
+        chatMessageService.likeAndUnlike(request);
     }
 
-    @MessageMapping("/messages/unlike")
-    public void unlike(@Payload MessageLikeRequest request) {
-        chatMessageService.unlike(request);
-    }
 }
