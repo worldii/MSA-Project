@@ -3,16 +3,20 @@ package com.jikji.contentcommand.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.jikji.contentcommand.client.HashtagFeignClient;
 import com.jikji.contentcommand.domain.Content;
 import com.jikji.contentcommand.dto.message.ContentKafkaMessage;
+import com.jikji.contentcommand.dto.message.ContentSearchMessage;
 import com.jikji.contentcommand.dto.message.HashtagKafkaMessage;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
+import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +32,20 @@ public class ContentCommandServiceImpl implements ContentCommandService {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
+    private final HashtagFeignClient hashtagFeignClient;
+
     @Override
     public Long save(final ContentCreateRequest request) {
-        Content savedContent = contentCommandRepository.save(request.toEntity());
+        log.info(request.getText());
+        HashMap<String, List<String>> hashtags = new HashMap<>();
+        List<String> data = List.of(request.getHashtags().get(0).split(", "));
+        hashtags.put("hashtags", data);
+
+        final ResponseEntity<List<Long>> response = hashtagFeignClient.addHashtag(hashtags);
+
+        Content savedContent = contentCommandRepository.save(request.toEntity(response.getBody()));
         sendMessage(savedContent, KafkaTopic.ADD_CONTENT);
+        sendMessage(new ContentSearchMessage(savedContent, data));
         return savedContent.getId();
     }
 
@@ -85,6 +99,18 @@ public class ContentCommandServiceImpl implements ContentCommandService {
         log.info("content kafka send - " + data);
     }
 
+    private void sendMessage(ContentSearchMessage message) {
+        ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String data = null;
+        try {
+            data = writer.writeValueAsString(message);
+            kafkaTemplate.send(KafkaTopic.ADD_CONTENT_SEARCH, data);
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+        }
+        log.info("content kafka send - " + data);
+    }
+
     private void sendMessage(List<Long> hashtags, Long contentId) {
         ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String data = null;
@@ -97,4 +123,5 @@ public class ContentCommandServiceImpl implements ContentCommandService {
         }
         log.info("content kafka send - " + data);
     }
+
 }
