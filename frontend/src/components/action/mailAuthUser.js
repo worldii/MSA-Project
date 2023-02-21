@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export async function MailAuthUser(data, setError, history) {
-    await axios.post('/signup/mailAuth', data)
+    console.log(data)
+    await axios.post('/user-service/signup/mailAuth', data)
         .then(response => {
                 console.log(response.data);
                 setError("");
@@ -9,7 +10,10 @@ export async function MailAuthUser(data, setError, history) {
                     setError(response.data);
                 } else {
                     alert("이메일 인증이 성공하였습니다.");
-                    history.push("/");
+                    axios.post("/follow-service/user",response.data)
+                        .then(res=>console.log(res))
+                        .catch(err=>console.log(err))
+                    history("/")
                 }
             }
         )

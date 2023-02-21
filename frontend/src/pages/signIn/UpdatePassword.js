@@ -1,8 +1,8 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import React from "react";
-import {updatePassword} from "../action/updatePassword";
-
+import {updatePassword} from "../../components/action/updatePassword";
+import header from "../../components/instance/Header";
 function UpdatePassword() {
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
@@ -24,10 +24,7 @@ function UpdatePassword() {
 
     useEffect(() => {
         axios.get("/accessToken/get-email", {
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': 'Bearer ' + localStorage.getItem("accessToken")
-            }
+            headers: header(localStorage.getItem("accessToken"))
         })
             .then(res => {
                 console.log(res.data)

@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const clearFunc = () => {
+    window.location.reload();
+}
+
 export async function loginUser(data, setEmailError, setPasswordError, history) {
-    await axios.post('/user/login', data)
+    await axios.post('/user-service/user/login', data)
         .then(response => {
                 console.log(response.data)
                 setEmailError("")
@@ -11,15 +15,14 @@ export async function loginUser(data, setEmailError, setPasswordError, history) 
                 } else if (response.data === "WrongPassword") {
                     setPasswordError("비밀번호가 일치하지 않습니다.");
                 } else if (response.data === "NotEmailAuthUser") {
-                    history.push("/signup/mailAuth", data.email);
+                    history("/signup/mailAuth",{state:{email:data.email}})
                 }
                 const accessToken = response.data["accessToken"];
                 const refreshToken = response.data["refreshToken"];
                 localStorage.setItem("accessToken", accessToken);
                 localStorage.setItem("refreshToken", refreshToken);
 
-
-                history.push("/board/test",data.email);
+                clearFunc();
             }
         )
         .catch(error => console.log(error));

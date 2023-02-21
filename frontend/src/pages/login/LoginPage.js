@@ -1,18 +1,17 @@
-import React, {useState} from "react";
-import {loginUser} from "../action/loginUser";
-import {Link, useHistory} from "react-router-dom";
+import React,{useState} from "react";
+import {loginUser} from "../../components/action/loginUser";
+import {useNavigate, Link} from "react-router-dom";
 import "./Home.css"
 import "./login.css"
-import logo from '../img/instagramLogo.png';
+import logo from "../../assets/img/instagramLogo.png"
 
-function Home() {
-
+function LoginPage() {
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
     const [EmailError, setEmailError] = useState("");
     const [PasswordError, setPasswordError] = useState("");
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const onEmailHandler = (event) => {
         setEmail(event.currentTarget.value);
     }
@@ -30,7 +29,7 @@ function Home() {
             email: Email,
             password: Password,
         }
-        loginUser(body, setEmailError, setPasswordError, history);
+        loginUser(body, setEmailError, setPasswordError, navigate);
     }
     return (
         <div className={"contentsWrap"}>
@@ -64,4 +63,4 @@ function Home() {
     )
 }
 
-export default Home;
+export default LoginPage;
