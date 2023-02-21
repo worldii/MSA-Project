@@ -13,6 +13,7 @@ import Create from "./pages/post/Create";
 import HashTagSearch from "./components/search/HashTagSearch";
 import ChatRoomList from "./pages/message/ChatRoomList";
 import ChatRoom from "./pages/message/ChatRoom";
+import CreatePost from "./pages/post/Create";
 
 const Center = styled.div`
   height: 92vh;
@@ -38,7 +39,7 @@ class App extends React.Component {
               <Route exact path="/" element={<Home></Home>} />
               <Route path={"/chatlist/:userId"} element={<ChatRoomList/>} />
               <Route path={"/chatroom/:userId/:chatroomId"} element={<ChatRoom/>} />
-              <Route path="/create" element={<Create></Create>} />
+              <Route path="/post" element={<CreatePost />} />
               <Route path="/Search" element={<Search></Search>} />
               <Route
                 path="/Notification"
