@@ -7,6 +7,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import Home from "./pages/home/Home";
 import Profile from "./components/profile/Profile";
 import User from "./pages/user/User";
+import Follow from "./pages/follow/Follow";
 import Search from "./components/search/Search";
 import Notification from "./pages/notification/Notification";
 import Create from "./pages/post/Create";
@@ -46,6 +47,7 @@ class App extends React.Component {
                 element={<Notification></Notification>}
               />
               <Route path="/Profile" element={<User></User>} />
+              <Route path="/Follow" element={<Follow></Follow>} />
               <Route path="/search/tags/:hashTag" element={<HashTagSearch/>} />
             </Routes>
           </Layout>
