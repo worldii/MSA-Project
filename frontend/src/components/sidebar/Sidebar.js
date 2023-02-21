@@ -36,7 +36,7 @@ function Sidebar() {
   const sidebarList = [
     { name: "Home", path: "/" },
     { name: "Search", path: "/Search" },
-    { name: "Messages", path: "/messages" },
+    { name: "Messages", path: "/chatlist" },
     { name: "Notifications", path: "/Notification" },
     { name: "Create", path: "/" },
     { name: "Profile", path: "/profile" },
