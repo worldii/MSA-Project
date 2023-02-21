@@ -1,20 +1,37 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal';
 import {TextInput, Button, Video, Image, Menu, Box} from 'grommet';
 import { AiOutlineHeart, AiFillHeart, AiOutlineEllipsis } from "react-icons/ai";
 import {BsBookmark, BsAspectRatio, BsBoxArrowUpRight, BsArrowReturnLeft, BsFillBookmarkFill} from "react-icons/bs";
 import {Slide} from "react-slideshow-image";
 import UserContentHeader from "./UserContentHeader";
+import axios from "axios";
 
 
 export default function ContentModal(props) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [contentUser, setContentUser] = useState({})
+
+    const findUserInfo = async (userId) => {
+        const response = await axios.get(`/user-service/user/${userId}`)
+        if (response?.data) {
+            console.log(response.data)
+            setContentUser(response?.data)
+        }
+    }
+
+    useEffect(() => {
+        findUserInfo(props.content.userId)
+    }, [props.content.userId])
+
+
     return (
         <>
             <img onClick={() => setModalIsOpen(true)}
                  style= {{height: 200, width: 200}}
-                 src={props.content.imageUrl[0]} alt="사진"/>
+                 src={props.content.imageUrl[0].url} alt="사진"/>
             <Modal isOpen={modalIsOpen} onRequestClose={()=> setModalIsOpen(false)}
+                   ariaHideApp={false}
                    style={{
                        overlay: {
                            position: 'fixed',
@@ -37,20 +54,19 @@ export default function ContentModal(props) {
                             {props.content?.imageUrl.map(image =>{
                                 return (
                                     <div className="each-slide-effect">
-                                        <img src={image}
+                                        <img src={image.url}
                                              alt="사진"
-                                             style={{width: "100%", height: "80%"}}/>
+                                             style={{width: "100%", height: "100%"}}/>
                                     </div>
                                 )})
                             }
                         </Slide>
                     </Box>
                     <div style={{marginLeft: 10, width: "70%", height: "auto"}}>
-                        <UserContentHeader user={props.user} content={props.content}/>
+                        <UserContentHeader user={contentUser} content={props.content}/>
                         <hr/>
                         <div className="modal-content" style={{height: "55%", overflowY: 'auto'}}>
                             댓글
-
                         </div>
                         <hr/>
                         <div style={{display: 'flex'}}>
