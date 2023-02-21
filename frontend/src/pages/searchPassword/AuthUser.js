@@ -1,11 +1,10 @@
-import axios from "axios";
 import React, {useState} from "react";
-import {authUser} from "../action/authUser";
-import {useHistory} from "react-router-dom";
-import "../css/main.css";
-import "../css/signup.css";
-import "../css/login.css";
-import lock from "../img/lock.png";
+import {authUser} from "../../components/action/authUser";
+import {useNavigate} from "react-router-dom";
+import "../../assets/css/login.css"
+import "../../assets/css/signup.css"
+import "../../assets/css/main.css"
+import lock from "../../assets/img/lock.png"
 
 function AuthUser(){
     const [Email, setEmail] = useState("");
@@ -15,7 +14,7 @@ function AuthUser(){
     const [NicknameError, setNicknameError] = useState("");
     const [PhoneError, setPhoneError] = useState("");
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const onEmailHandler=(event)=>{
         setEmail(event.currentTarget.value);
     }
@@ -37,7 +36,7 @@ function AuthUser(){
             phone:Phone
         }
 
-        authUser(body,setEmailError,setNicknameError,setPhoneError,history);
+        authUser(body,setEmailError,setNicknameError,setPhoneError,navigate);
     }
     return (
         <div className={"contentsWrap"}>

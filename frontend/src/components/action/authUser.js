@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function authUser(data, setEmailError, setNicknameError, setPhoneError,history) {
-    await axios.post("searchPassword/authUser", data)
+    await axios.post("/user-service/searchPassword/authUser", data)
         .then(response => {
             console.log(response.data);
             setEmailError("")
@@ -15,7 +15,7 @@ export async function authUser(data, setEmailError, setNicknameError, setPhoneEr
                 setPhoneError("전화번호가 다릅니다.");
             }else{
                 alert("새로운 비밀번호를 사용하신 이메일로 보내드렸습니다.");
-                history.push("/");
+                history("/");
             }
 
         })

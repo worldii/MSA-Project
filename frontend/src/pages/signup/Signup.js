@@ -1,10 +1,12 @@
+import React from "react";
 import {useState} from "react";
-import {SignupUser} from "../action/SignupUser";
-import {Link, useHistory} from "react-router-dom";
-import "../css/login.css";
-import "../css/signup.css";
-import "../css/main.css";
-import logo from "../img/instagramLogo.png";
+import {SignupUser} from "../../components/action/SignupUser";
+import {Link, useNavigate} from "react-router-dom";
+import "../../assets/css/login.css"
+import "../../assets/css/signup.css"
+import "../../assets/css/main.css"
+import logo from "../../assets/img/instagramLogo.png"
+
 function Signup() {
     const [Email, setEmail] = useState("");
     const [Password, setPassword] = useState("");
@@ -15,7 +17,7 @@ function Signup() {
     const [PasswordError,setPasswordError] = useState("");
     const [NicknameError,setNicknameError] = useState("");
     const [PhoneError, setPhoneError] = useState("");
-    const history = useHistory();
+    const navigate = useNavigate();
     const onEmailHandler = (event) => {
         setEmail(event.currentTarget.value);
     }
@@ -47,7 +49,7 @@ function Signup() {
             phone: Phone
         }
 
-        SignupUser(body, setEmailError, setPasswordError, setNicknameError,setPhoneError,history);
+        SignupUser(body, setEmailError, setPasswordError, setNicknameError,setPhoneError,navigate);
 
     }
 

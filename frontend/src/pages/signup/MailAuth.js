@@ -1,25 +1,27 @@
-import {useState, useEffect} from "react";
-import {MailAuthUser} from "../action/mailAuthUser";
+import {useState,useEffect} from "react";
+import {MailAuthUser} from "../../components/action/mailAuthUser";
 import axios from "axios";
-import {useLocation, useHistory, Link} from "react-router-dom";
-import "../css/main.css";
-import "../css/signup.css";
-import "../css/login.css";
-import logo from "../img/instagramLogo.png";
+import {useLocation, useNavigate, Link} from "react-router-dom";
+import "../../assets/css/login.css"
+import "../../assets/css/signup.css"
+import "../../assets/css/main.css"
+import logo from "../../assets/img/lock.png"
+
 function MailAuth() {
     const location = useLocation();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [Email, setEmail] = useState("");
     const [Code, setCode] = useState("");
     const [Error, setError] = useState("");
 
     useEffect(() => {
-        setEmail(location.state);
-        const email = location.state.toString()
+        setEmail(location.state.email);
+        const email = location.state.email.toString()
+        console.log(email)
         let body = {
             email: email
         }
-        axios.post("/signup/sendMail", body)
+        axios.post("/user-service/signup/sendMail", body)
             .then(response => console.log(response))
             .catch(error => console.log(error))
     },[])
@@ -38,7 +40,7 @@ function MailAuth() {
             email: Email,
             code: Code,
         }
-        MailAuthUser(body, setError, history);
+        MailAuthUser(body, setError, navigate);
     }
     return (
         <div className={"contentsWrap"}>

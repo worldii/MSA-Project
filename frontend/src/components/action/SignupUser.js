@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export async function SignupUser(data, setEmailError, setPasswordError, setNicknameError, setPhoneError,history) {
-    await axios.post('/signup/register', data)
+    await axios.post('/user-service/signup/register', data)
         .then(response => {
                 console.log(response.data)
 
@@ -31,7 +31,7 @@ export async function SignupUser(data, setEmailError, setPasswordError, setNickn
                         break;
                     case "SUCCESS":
                         alert("등록하신 이메일로 인증코드를 보냈습니다.");
-                        history.push("/signup/mailAuth", data.email);
+                        history("/signup/mailAuth",{state:{email:data.email}})
                         break;
                 }
 
