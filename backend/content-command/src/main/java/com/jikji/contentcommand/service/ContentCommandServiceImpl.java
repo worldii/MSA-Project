@@ -12,11 +12,12 @@ import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
+import com.jikji.contentcommand.util.HashtagUtil;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,16 +37,20 @@ public class ContentCommandServiceImpl implements ContentCommandService {
 
     @Override
     public Long save(final ContentCreateRequest request) {
-        log.info(request.getText());
+        List<Long> body = new ArrayList<>();
         HashMap<String, List<String>> hashtags = new HashMap<>();
-        List<String> data = List.of(request.getHashtags().get(0).split(", "));
-        hashtags.put("hashtags", data);
+        final List<String> tags = HashtagUtil.getHashtagInText(request.getText());
+        log.info(tags.toString());
 
-        final ResponseEntity<List<Long>> response = hashtagFeignClient.addHashtag(hashtags);
+        if(!tags.isEmpty()) {
+            hashtags.put("hashtags", tags);
+            body = hashtagFeignClient.addHashtag(hashtags).getBody();
+        }
 
-        Content savedContent = contentCommandRepository.save(request.toEntity(response.getBody()));
+        Content savedContent = contentCommandRepository.save(request.toEntity(body));
+        sendMessage(new ContentSearchMessage(savedContent, tags));
         sendMessage(savedContent, KafkaTopic.ADD_CONTENT);
-        sendMessage(new ContentSearchMessage(savedContent, data));
+
         return savedContent.getId();
     }
 

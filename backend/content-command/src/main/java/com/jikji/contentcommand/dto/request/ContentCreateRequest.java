@@ -27,22 +27,18 @@ public class ContentCreateRequest {
     @JsonProperty(required = true)
     private List<ImageUrl> imageUrl;
 
-    private List<String> hashtags;
 
     @Builder
     public ContentCreateRequest(Long userId, String text, boolean visibleComments,
-                                boolean visibleLikes, List<ImageUrl> imageUrl,
-                                List<String> hashtags) {
+                                boolean visibleLikes, List<ImageUrl> imageUrl) {
         this.userId = userId;
         this.text = text;
         this.visibleComments = visibleComments;
         this.visibleLikes = visibleLikes;
         this.imageUrl = imageUrl;
-        this.hashtags = hashtags;
     }
 
     public Content toEntity(List<Long> tags) {
-        log.info("dd" + text);
         return Content.builder()
                 .text(text)
                 .imageUrl(imageUrl)
