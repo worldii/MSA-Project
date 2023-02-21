@@ -116,6 +116,7 @@ public class SignupController {
 		}
 		userService.updateEmailAuth(mailAuth.getEmail());
 		mailAuthService.deleteByEmail(mailAuth.getEmail());
-		return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+		User user = userService.findByEmail(mailAuth.getEmail());
+		return new ResponseEntity<>(user.getId(), HttpStatus.OK);
 	}
 }
