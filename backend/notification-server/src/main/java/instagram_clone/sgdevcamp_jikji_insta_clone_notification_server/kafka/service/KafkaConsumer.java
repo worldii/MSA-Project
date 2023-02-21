@@ -2,6 +2,7 @@ package instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.se
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.http.HttpHeaders;
@@ -40,15 +41,23 @@ public class KafkaConsumer {
 				.receiverId(receiverId).type(type).build();
 			kafkaProducer.sendMessage(chatEmail);
 		} else {
-			httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-			ResponseEntity<UserDtoList> entity = restTemplate.getForEntity(
+
+			httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+			List object = restTemplate.getForObject(
 				"http://localhost:8000/follow-service/user/{user_id}/follower",
-				UserDtoList.class, senderId);
-			List<UserDto> userDtoList = Objects.requireNonNull(entity.getBody()).getUserDtoList();
-			for (UserDto userDto : userDtoList) {
-				Integer receiverId = userDto.getId().intValue();
-				ChatEmail chatEmail = ChatEmail.builder().senderId(senderId).receiverId(receiverId).type(type).build();
+				List.class, senderId.longValue());
+			assert object != null;
+			for (Object obj : object) {
+				Map objMap = (Map)obj;
+				String id = objMap.get("id").toString();
+				ChatEmail chatEmail = ChatEmail.builder()
+					.senderId(senderId)
+					.receiverId(Integer.parseInt(id))
+					.type(type)
+					.build();
+
 				kafkaProducer.sendMessage(chatEmail);
+
 			}
 
 		}
@@ -57,6 +66,7 @@ public class KafkaConsumer {
 
 	@KafkaListener(topics = "jikji-chat-info", groupId = "jikji-project", containerFactory = "kafkaUserListener")
 	public void userConsume(UserInfo userInfo) throws IOException {
+
 		Integer senderId = userInfo.getSenderId();
 		String senderNickname = userInfo.getSenderNickname();
 		Integer receiverId = userInfo.getReceiverId();
