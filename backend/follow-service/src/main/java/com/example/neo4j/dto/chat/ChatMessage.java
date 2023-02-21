@@ -1,12 +1,14 @@
-package instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.chat;
+package com.example.neo4j.dto.chat;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ChatMessage {
 	private Integer senderId;
 	private Integer receiverId;

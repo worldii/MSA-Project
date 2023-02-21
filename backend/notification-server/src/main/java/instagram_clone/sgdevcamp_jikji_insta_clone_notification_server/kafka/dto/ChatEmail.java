@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ChatEmail {
-	private String senderEmail;
-	private String receiverEmail;
+	private Integer senderId;
+	private Integer receiverId;
 	private String type;
 }
