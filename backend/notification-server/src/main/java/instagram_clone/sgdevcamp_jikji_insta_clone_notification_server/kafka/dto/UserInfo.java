@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 public class UserInfo {
 	private Integer senderId;
 	private String senderNickname;
+	private Integer receiverId;
 	private String receiverEmail;
+	private String type;
 }
