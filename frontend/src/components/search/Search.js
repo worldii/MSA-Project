@@ -3,14 +3,14 @@ import {Box, Button, Grommet, TextInput} from "grommet";
 import axios from "axios";
 
 export default function SearchBar() {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = React.useState('')
+    const [hashtag, setHashtag] = useState("")
+    const [suggestions, setSuggestions] = React.useState([])
+
     const onChange = (event) => {
         setValue(event.target.value);
         findKeyword(event.target.value)
     }
-
-    const [hashtag, setHashtag] = useState("")
-    const [suggestions, setSuggestions] = React.useState([])
 
     const findKeyword = async  (keyword) => {
         const response = await axios.get(`/search-service/search?q=${keyword}`)
@@ -47,7 +47,9 @@ export default function SearchBar() {
                     </Box>
                     <Box>
                         <p>결과</p>
-                        <Button href={`/search/tags/${hashtag.name}`}>#{hashtag?.name} {hashtag?.count} </Button>
+                        <Button href={`/search/tags/${hashtag.name}`}>
+                            #{hashtag?.name} {hashtag?.count}
+                        </Button>
                         {
                             suggestions.map((suggestion) =>
                                 <Button>{suggestion?.userId} {suggestion?.name} {suggestion?.nickname}</Button>
@@ -55,7 +57,6 @@ export default function SearchBar() {
                         }
                     </Box>
                 </Box>
-
             </Grommet>
         </>
     )
