@@ -56,7 +56,7 @@ spring:
           uri: lb://SEARCH-SERVICE
           predicates:
             - Path=/search-service/**
-            - Method=GET,OPTIONS
+            - Method=GET,POST,OPTIONS
           filters:
             - RewritePath=/search-service/(?<segment>.*), /$\{segment}
 

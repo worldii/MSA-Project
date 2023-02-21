@@ -39,7 +39,7 @@ public class Content {
     @Column(nullable = false, updatable = false, name = "user_id")
     private Long userId;
 
-    @Column(nullable = false, length = 3000)
+    @Column(length = 3000)
     private String text;
 
     @Convert(converter = ImageConverter.class)
@@ -61,11 +61,15 @@ public class Content {
     @Column(name = "modified_at")
     private String modifiedAt;
 
+    @Column(name = "time_stamp")
+    private Long timeStamp;
+
     @PrePersist
     public void prePersist() {
         likes = 0;
         createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         modifiedAt = createdAt;
+        timeStamp = System.currentTimeMillis();
     }
 
     @PreUpdate

@@ -8,9 +8,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Slf4j
 public class ContentCreateRequest {
 
     @JsonProperty(required = true)
@@ -25,28 +27,25 @@ public class ContentCreateRequest {
     @JsonProperty(required = true)
     private List<ImageUrl> imageUrl;
 
-    private List<Long> hashtags;
 
     @Builder
     public ContentCreateRequest(Long userId, String text, boolean visibleComments,
-                                boolean visibleLikes, List<ImageUrl> imageUrl,
-                                List<Long> hashtags) {
+                                boolean visibleLikes, List<ImageUrl> imageUrl) {
         this.userId = userId;
         this.text = text;
         this.visibleComments = visibleComments;
         this.visibleLikes = visibleLikes;
         this.imageUrl = imageUrl;
-        this.hashtags = hashtags;
     }
 
-    public Content toEntity() {
+    public Content toEntity(List<Long> tags) {
         return Content.builder()
                 .text(text)
                 .imageUrl(imageUrl)
                 .userId(userId)
                 .visibleComments(visibleComments)
                 .visibleLikes(visibleLikes)
-                .hashtags(hashtags)
+                .hashtags(tags)
                 .build();
     }
 }

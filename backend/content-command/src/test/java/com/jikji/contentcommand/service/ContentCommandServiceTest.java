@@ -38,14 +38,13 @@ class ContentCommandServiceTest {
         String url = "http://test.jikji/asd12sdf452";
         int order = 1;
         List<ImageUrl> imageUrl = List.of(new ImageUrl(url, order, userId));
-        List<Long> hashtags = Arrays.asList(1L, 2L, 3L, 4L);
+        List<String> hashtags = List.of("해시태그");
 
         ContentCreateRequest contentCreateRequest = new ContentCreateRequest(
                 userId, text,
                 visibleComments,
                 visibleLikes,
-                imageUrl,
-                hashtags);
+                imageUrl);
 
         // when
         Long savedId = contentCommandService.save(contentCreateRequest);

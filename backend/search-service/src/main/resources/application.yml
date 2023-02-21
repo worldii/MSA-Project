@@ -12,6 +12,19 @@ server:
 spring:
   application:
     name: search-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jikji
+    username: root
+    password: 1234
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
 
 eureka:
   instance:
