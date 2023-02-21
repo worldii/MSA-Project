@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.neo4j.dto.relationship.FollowDto;
@@ -45,6 +46,11 @@ public class RelationshipController {
 	@GetMapping("/user/{user_id}/follower/count")
 	public Integer countUsersFollower(@PathVariable Long user_id) {
 		return relationshipService.countUsersFollower(user_id);
+	}
+
+	@GetMapping("/isFollowing")
+	public Boolean isFollowing(@RequestParam Long follower, @RequestParam Long following) {
+		return relationshipService.isFollowing(follower,following);
 	}
 
 	@PostMapping("/follow/delete")
