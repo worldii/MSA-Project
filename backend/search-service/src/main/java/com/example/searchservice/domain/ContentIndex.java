@@ -19,6 +19,8 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class ContentIndex {
 
     @Id
+    private String id;
+
     @Field(type = FieldType.Long)
     private Long contentId;
 
