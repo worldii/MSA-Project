@@ -2,6 +2,8 @@
     width: 100%;
     padding: 10px 0px 10px 0px;
     height: 70px;
+    display:flex;
+    align-items:center; 
 }           
 
 .notificationboxmiddle:hover {
@@ -9,6 +11,9 @@
 }
 
 .notificationboxmiddle-createdAt{
-    margin-left: 10px;
     color: gray;
+}
+
+.notificationboxmiddle-text-area{
+    padding-left: 20px;
 }

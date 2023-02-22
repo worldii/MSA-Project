@@ -21,12 +21,18 @@ const NotificationBoxMiddle = (props) => {
 
   return (
     <div className="notificationboxmiddle" onClick={() => readNotification()}>
-      <span style={isRead ? { color: "gray" } : { color: "black" }}>
-        {props.item.content}
-      </span>
-      <span className="notificationboxmiddle-createdAt">
-        {props.item.createdAt}
-      </span>
+      <img
+        className="notificationboxmiddle-profileImg"
+        src="https://img.youtube.com/vi/N7iIvIV-ZCs/mqdefault.jpg"
+      ></img>
+      <p className="notificationboxmiddle-text-area">
+        <span style={isRead ? { color: "gray" } : { color: "black" }}>
+          {props.item.content}
+        </span>
+        <span className="notificationboxmiddle-createdAt">
+          {props.item.createdAt}
+        </span>
+      </p>
     </div>
   );
 };
