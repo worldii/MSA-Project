@@ -4,7 +4,6 @@ import com.jikji.contentcommand.dto.message.NotificationMessage;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
-import com.jikji.contentcommand.service.ContentCommandService;
 import com.jikji.contentcommand.service.content.ContentCommandService;
 import com.jikji.contentcommand.service.content.ContentSaver;
 import com.jikji.contentcommand.util.KafkaProducer;

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { memo, useCallback, useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
+import header from "../../components/instance/Header";
 import FollowerBox from "./FollowerBox";
 import Loader from "./Loader";
 
@@ -30,7 +31,19 @@ const Follow = () => {
   let index = Number.MAX_SAFE_INTEGER;
 
   useEffect(() => {
-    const url = "http://localhost:8000/follow-service/user/6/follower";
+    const accessToken = localStorage.getItem("accessToken");
+    const userpk = 0;
+    axios
+      .get("/user-service/accessToken/get-pk", {
+        headers: header(accessToken),
+      })
+      .then((res) => {
+        console.log("response data : " + res.data);
+        userpk = res.data;
+      })
+      .catch((err) => console.log(err));
+
+    const url = "g/follow-service/user/" + userpk + "/follower";
     axios.get(url).then((response) => {
       console.log(response.data);
       setItemLists((itemLists) => itemLists.concat(response.data));

@@ -9,12 +9,12 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/insta_clone_auth_db
     username: root
-    password: 1q2w3e4r!
+    password: mysql123
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
   main:
     allow-bean-definition-overriding: true
