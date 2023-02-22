@@ -6,8 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-public interface UserRepository extends ElasticsearchRepository<UserIndex, Long> {
+public interface UserRepository extends ElasticsearchRepository<UserIndex, String> {
 
-    @Query(value = "{\"bool\": {\"should\": [{\"match\": {\"name\": \"?0\" }},{\"match\": {\"nickname\": \"?0\"}}]}}")
+    @Query(value = "{\"bool\": {\n"
+            + "        \"should\": [\n"
+            + "          {\"match_phrase\": {\"name\": \"?0\"}}, \n"
+            + "          {\"match_phrase\": {\"nickname\": \"?0\"}}\n"
+            + "        ]\n"
+            + "      }}")
     List<UserIndex> findAllByNameOrLoginIdUsingQuery(String keyword, Pageable pageable);
 }
