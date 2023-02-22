@@ -5,34 +5,44 @@ import imageProfile from "../../assets/profile.svg";
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Modal from "react-modal";
-import LikesList from "../CommentLikes/LikesList";
+import LikesList from "../commentLikes/LikesList";
 import axios from "axios";
 
-function Commentlayout({ commentitem, toggleLikeMutation, deleteFunc }) {
+function Commentlayout({
+  commentitem,
+  toggleLikeMutation,
+  deleteFunc,
+  refreshfunc,
+}) {
   const description = commentitem.description;
   const userName = commentitem.userName;
-  const commentId = commentitem?.id;
-  const likes = commentitem.likes;
+  const commentId = commentitem?.commentId;
   const userProfileUrl = commentitem?.profileUrl;
-
+  const likes = commentitem?.likes;
   const [isLiked, setIsLiked] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [likesList, setLikesList] = useState([]);
+  const userId = 1;
 
-  const showLikesList = async (commentId) => {
-    axios.get(`/comments/like/${commentId}`).then((response) => {
-      console.log(response.data.data);
-      setLikesList(response.data.data);
-      setModalIsOpen(true);
-    });
+  const showLikesList = async () => {
+    axios
+      .get(`http://localhost:8000/content-query/comments/like/${commentId}/`)
+      .then((response) => {
+        //console.log(response.data.data);
+        setLikesList(response.data.data);
+        setModalIsOpen(true);
+      });
   };
 
   useEffect(() => {
-    let userId = 1;
-    axios.get(`/comments/isLiked/${commentId}/${userId}`).then((response) => {
-      console.log(response.data.data);
-      setIsLiked(JSON.parse(response.data.data));
-    });
+    axios
+      .get(
+        `http://localhost:8000/content-query/comments/isLiked/${commentId}/${userId}`
+      )
+      .then((response) => {
+        //  console.log(response.data.data);
+        setIsLiked(JSON.parse(response.data.data));
+      });
   }, [commentId]);
 
   return (
@@ -75,7 +85,7 @@ function Commentlayout({ commentitem, toggleLikeMutation, deleteFunc }) {
                 className={styles.likes_list}
                 onClick={(e) => {
                   e.preventDefault();
-                  showLikesList(commentitem?.id);
+                  showLikesList(commentId);
                 }}
               >
                 좋아요 {likes}개
@@ -85,7 +95,7 @@ function Commentlayout({ commentitem, toggleLikeMutation, deleteFunc }) {
                 className={styles.delete}
                 onClick={(e) => {
                   e.preventDefault();
-                  deleteFunc(commentitem?.id);
+                  deleteFunc(commentId);
                 }}
               >
                 삭제
@@ -97,8 +107,8 @@ function Commentlayout({ commentitem, toggleLikeMutation, deleteFunc }) {
           className={styles.like_box}
           onClick={(e) => {
             e.preventDefault();
-            toggleLikeMutation(commentitem?.id, isLiked);
             setIsLiked(!isLiked);
+            toggleLikeMutation(commentId, isLiked);
           }}
         >
           <CiHeart size={15} color={isLiked === true ? "#ff6f8b" : "gray"} />

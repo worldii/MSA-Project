@@ -1,6 +1,6 @@
-import React from 'react';
-import styles from './LikesLayout.module.scss';
-import imageProfile from '../../images/profile.svg';
+import React from "react";
+import styles from "./LikesLayout.module.scss";
+import imageProfile from "../../assets/profile.svg";
 
 function LikesLayout({ likesItem }) {
   console.log(likesItem);
