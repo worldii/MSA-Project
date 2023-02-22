@@ -8,6 +8,8 @@ import com.jikji.contentcommand.domain.ImageUrl;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
+import com.jikji.contentcommand.service.content.ContentCommandService;
+import com.jikji.contentcommand.service.content.ContentSaver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +25,8 @@ class ContentCommandServiceTest {
 
     @Autowired
     private ContentCommandService contentCommandService;
+    @Autowired
+    private ContentSaver saver;
     @Autowired
     private ContentCommandRepository contentCommandRepository;
 
@@ -47,7 +51,7 @@ class ContentCommandServiceTest {
                 imageUrl);
 
         // when
-        Long savedId = contentCommandService.save(contentCreateRequest);
+        Long savedId = saver.save(contentCreateRequest);
 
         // then
         assertThat(savedId).isNotNull();

@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service;
+package com.jikji.contentcommand.service.comment;
 
 import java.util.ArrayList;
 import java.util.HashSet;
