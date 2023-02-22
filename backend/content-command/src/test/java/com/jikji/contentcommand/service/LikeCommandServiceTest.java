@@ -10,6 +10,7 @@ import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.exception.LikeDuplicatedException;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
 import com.jikji.contentcommand.repository.LikeCommandRepository;
+import com.jikji.contentcommand.service.content.LikeCommandService;
 import com.jikji.contentcommand.util.ValidCheckUtil;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

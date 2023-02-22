@@ -40,6 +40,7 @@ function Sidebar() {
     { name: "Notifications", path: "/Notification" },
     { name: "Create", path: "/post" },
     { name: "Profile", path: "/profile" },
+    { name: "Follow", path: "/follow" },
   ];
 
   return (

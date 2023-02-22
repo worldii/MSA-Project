@@ -5,8 +5,9 @@ import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.service.ContentCommandService;
+import com.jikji.contentcommand.service.content.ContentCommandService;
+import com.jikji.contentcommand.service.content.ContentSaver;
 import com.jikji.contentcommand.util.KafkaProducer;
-
 import java.net.URI;
 
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,11 @@ public class ContentCommandController {
     private final ContentCommandService contentCommandService;
     private final KafkaProducer kafkaProducer;
 
+    private final ContentSaver contentSaver;
+
     @PostMapping
     public ResponseEntity<Void> createContent(@RequestBody ContentCreateRequest request) {
-        Long savedId = contentCommandService.save(request);
+        Long savedId = contentSaver.save(request);
         NotificationMessage notificationMessage = NotificationMessage.builder()
             .senderId(request.getUserId().intValue())
             .type("post")

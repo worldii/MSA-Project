@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.service.KafkaConsumer;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.domain.Notification;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationResponse;

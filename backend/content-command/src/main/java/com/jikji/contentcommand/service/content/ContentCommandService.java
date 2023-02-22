@@ -1,11 +1,11 @@
-package com.jikji.contentcommand.service;
+package com.jikji.contentcommand.service.content;
 
-import com.jikji.contentcommand.dto.request.ContentCreateRequest;
+import com.jikji.contentcommand.domain.Content;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 
 public interface ContentCommandService {
 
-    Long save(final ContentCreateRequest request);
+    Content save(final Content content);
 
     void update(final Long contentId, final ContentUpdateRequest request);
 

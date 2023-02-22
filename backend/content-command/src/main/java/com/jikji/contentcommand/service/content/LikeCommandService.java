@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service;
+package com.jikji.contentcommand.service.content;
 
 public interface LikeCommandService {
 

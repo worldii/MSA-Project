@@ -1,6 +1,6 @@
 package com.jikji.contentcommand.controller;
 
-import com.jikji.contentcommand.service.BookmarkCommandService;
+import com.jikji.contentcommand.service.content.BookmarkCommandService;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
