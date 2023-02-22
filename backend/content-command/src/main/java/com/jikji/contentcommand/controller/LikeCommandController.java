@@ -1,6 +1,6 @@
 package com.jikji.contentcommand.controller;
 
-import com.jikji.contentcommand.service.LikeCommandService;
+import com.jikji.contentcommand.service.content.LikeCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
