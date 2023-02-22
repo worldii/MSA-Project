@@ -7,9 +7,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jikji.contentquery.domain.Comment;
 import com.jikji.contentquery.domain.CommentLikes;
+import com.jikji.contentquery.domain.Content;
 import com.jikji.contentquery.exception.CustomException;
 import com.jikji.contentquery.exception.ErrorCode;
 import com.jikji.contentquery.repository.CommentLikesRepository;
+import com.jikji.contentquery.repository.CommentRepository;
 import com.jikji.contentquery.util.KafkaTopic;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,8 @@ public class KafkaCommentLikeConsumer {
 		CommentLikes commentLikes = readCommentByJson(message);
 		commentLikesRepository.save(commentLikes);
 	}
+
+
 
 	@KafkaListener(topics = KafkaTopic.DELETE_COMMENT_LIKE)
 	public void unlikeComment(String message) throws JsonProcessingException {

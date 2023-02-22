@@ -1,10 +1,10 @@
-import React from 'react';
-import styles from './Comment.module.scss';
-import { useState } from 'react';
-import axios from 'axios';
+import React from "react";
+import styles from "./Comment.module.scss";
+import { useState } from "react";
+import axios from "axios";
 
 const Comment = ({ postId, refreshfunc }) => {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
 
   const handleClickComment = (e) => {
     setComment(e.currentTarget.value);
@@ -16,11 +16,15 @@ const Comment = ({ postId, refreshfunc }) => {
       description: comment,
       userId: 1,
     };
-    axios.post(`/comments/${postId}`, body).then((response) => {
-      console.log(response);
-      setComment('');
-      refreshfunc(postId);
-    });
+    axios
+      .post(`http://localhost:8000/content-command/comments/${postId}`, body)
+      .then((response) => {
+        console.log(response);
+        setComment("");
+      })
+      .then((res) => {
+        refreshfunc(postId);
+      });
   };
 
   return (
