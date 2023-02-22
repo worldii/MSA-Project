@@ -37,7 +37,6 @@ public class CommentService {
 
 	@Transactional
 	public CommentResponseData createComment(Long postId, CommentCreateDto commentCreateDto) {
-		// Notification Service 에 보냄. -> Refactoring
 		log.info("comment create");
 		Comment comment = Comment.builder()
 			.userId(commentCreateDto.getUserId())
@@ -63,7 +62,6 @@ public class CommentService {
 
 	@Transactional
 	public void deleteComment(Long commentId) {
-		// Refactoring , delete하는 comment의 User와 login 한 User 가 같아야 함.-> Error 처리. (User Server)
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
 
@@ -75,8 +73,7 @@ public class CommentService {
 
 	@Transactional
 	public void updateComment(Long commentId, CommentDto commentDto) {
-		// Refactoring
-		// 댓글 쓰려는 유저가 맞지 않을 때 -> from user server.
+
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
 		comment.update(commentDto.getDescription());
@@ -84,9 +81,7 @@ public class CommentService {
 
 	@Transactional
 	public void addCommentLikes(Long commentId, Long userId) {
-		// Refactoring 필요
-		// 1. 현재 로그인 한 유저를 가져옴 (from UserService) (Refactoring 해야 함.)
-		// 2. Notification 서비스 보내기. ( Notification refactoring)
+
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
 
@@ -100,14 +95,12 @@ public class CommentService {
 		CommentLikes commentLikes = CommentLikes.builder().commentId(commentId).userId(userId).build();
 		commentLikesRepository.save(commentLikes);
 		sendMessage(commentLikes, KafkaTopic.ADD_COMMENT_LIKE);
+		sendMessage(comment, KafkaTopic.INCREASE_COMMENT_LIKES);
+
 	}
 
 	@Transactional
 	public void deleteCommentLikes(Long commentId, Long userId) {
-		// for Refactoring
-		// 1. 현재 로그인 한 유저를 가져옴 (from UserService)
-		// 2. Notification 보내기 ( to Notification service) -> Refactoring
-
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
 
@@ -118,6 +111,7 @@ public class CommentService {
 		commentRepository.save(comment);
 		commentLikesRepository.delete(commentLikes);
 		sendMessage(commentLikes, KafkaTopic.DELETE_COMMENT_LIKE);
+		sendMessage(comment, KafkaTopic.DECREASE_COMMENT_LIKES);
 	}
 
 	private void deleteCommentLikesAll(Long commentId) {

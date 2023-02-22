@@ -23,4 +23,7 @@ public final class KafkaTopic {
     public static final String ADD_COMMENT_LIKE = "comment-like-add";
     public static final String DELETE_COMMENT_LIKE = "comment-like-delete";
 
+    public static final String INCREASE_COMMENT_LIKES = "comment-likes-increase";
+    public static final String DECREASE_COMMENT_LIKES = "comment-likes-decrease";
+
 }
