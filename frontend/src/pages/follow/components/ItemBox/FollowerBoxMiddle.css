@@ -2,6 +2,8 @@
     width: 100%;
     padding: 10px 0px 10px 0px;
     height: 70px;
+    display:flex;
+    align-items:center; 
 }           
 
 .notificationboxmiddle:hover {
@@ -11,4 +13,31 @@
 .notificationboxmiddle-createdAt{
     margin-left: 10px;
     color: gray;
+}
+
+
+.notificationboxmiddle-profileImg{
+    width: 47px;
+    height: 47px;
+    border-radius: 100%;
+    display:inline-block;
+    align-items:center;
+
+}
+
+.notificationboxmiddle-textarea{
+    padding-left: 20px;
+    display: grid;
+
+}
+
+.notificationboxmiddle-nickname{
+    padding-left: 4px;
+    padding-bottom: 3px;
+}
+
+.notificationboxmiddle-name{
+    font-size:13px;
+    color: gray;
+    padding-bottom: 4px;
 }

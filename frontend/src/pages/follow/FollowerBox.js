@@ -17,7 +17,7 @@ const ItemWrap = styled.div`
 `;
 
 const FollowerBox = (props) => {
-  // 현재 선택된 아이콘을 관리하는 state
+  // 현재 선택된 아이콘을 관리하는 statez
 
   return (
     <ItemWrap>

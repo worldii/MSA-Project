@@ -32,22 +32,22 @@ const Follow = () => {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    const userpk = 0;
+    let userpk = 0;
     axios
       .get("/user-service/accessToken/get-pk", {
         headers: header(accessToken),
       })
       .then((res) => {
-        console.log("response data : " + res.data);
         userpk = res.data;
+        console.log("userpk : " + userpk);
+
+        const url = "/follow-service/user/" + userpk + "/follower";
+        axios.get(url).then((response) => {
+          console.log(response.data);
+          setItemLists((itemLists) => itemLists.concat(response.data));
+        });
       })
       .catch((err) => console.log(err));
-
-    const url = "g/follow-service/user/" + userpk + "/follower";
-    axios.get(url).then((response) => {
-      console.log(response.data);
-      setItemLists((itemLists) => itemLists.concat(response.data));
-    });
   }, []);
 
   useEffect(() => {

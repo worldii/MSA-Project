@@ -138,7 +138,7 @@ public class UserController {
 
 	@Operation(summary = "유저정보 요청", description = "유저 PK로 유저 정보 요청 API")
 	@ApiResponse(code = 200, message = "OK")
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<?> getUserInfoPK(@PathVariable @ApiParam(value = "유저 PK") Integer id) {
 		User user = userService.findById(id);
 		if (user == null) {
