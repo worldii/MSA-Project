@@ -38,21 +38,13 @@ public class SseController {
 	}
 
 	@CrossOrigin("*")
-	@PostMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
-	public SseEmitter subscribe(@RequestParam Integer pk,
+	@GetMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
+	public SseEmitter subscribe(@RequestParam("pk") String pk,
 		@RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "")
 		String lastEventId) {
 
-		return notificationService.subscribe(pk.toString(), lastEventId);
+		return notificationService.subscribe(pk, lastEventId);
 	}
-
-	// @PostMapping("/send")
-	// public ResponseEntity<?> chatNotification(@RequestBody MultiValueMap<String, String> body) {
-	// 	String sender = body.get("sender").get(0);
-	// 	String receiver = body.get("receiver").get(0);
-	// 	String content = body.get("content").get(0);
-	// 	return ResponseEntity.ok("ok");
-	// }
 
 	@GetMapping("/user")
 	public List<NotificationResponse> findByUserId(@RequestParam Long userId){

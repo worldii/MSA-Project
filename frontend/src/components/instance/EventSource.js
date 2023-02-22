@@ -1,6 +1,6 @@
 let instance;
 let eventSource;
-let subscribeUrl = "http://localhost:8080/subscribe";
+let subscribeUrl = "http://localhost:8071/subscribe";
 
 class singletonEventSource {
     constructor() {
@@ -11,7 +11,7 @@ class singletonEventSource {
     }
 
     subscribe(accessToken) {
-        eventSource = new EventSource(subscribeUrl + "?=" + accessToken);
+        eventSource = new EventSource(subscribeUrl + "?pk=" + parseInt(accessToken));
         console.log(eventSource)
         return eventSource;
     }

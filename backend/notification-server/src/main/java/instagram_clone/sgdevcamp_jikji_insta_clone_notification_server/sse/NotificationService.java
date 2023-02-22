@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.domain.Notification;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationResponse;
+import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationSseDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.SliceResponseDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.repository.EmitterRepository;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.repository.NotificationRepository;
@@ -30,6 +32,7 @@ public class NotificationService {
 		this.emitterRepository = emitterRepository;
 		this.notificationRepository = notificationRepository;
 	}
+
 	public SseEmitter subscribe(String pk, String lastEventId) {
 		String id = pk + "_" + System.currentTimeMillis();
 		SseEmitter emitter = emitterRepository.save(id, new SseEmitter(DEFAULT_SSE_TIMEOUT));
@@ -62,27 +65,29 @@ public class NotificationService {
 		}
 	}
 
-	// public void send(String userId, String content, String type) {
-	// 	Notification notification;
-	// 	if (Objects.equals(type, "chat")) {
-	// 		//type 구분
-	// 	} else if (Objects.equals(type, "comment")) {
-	// 		//comment
-	// 	} else if (Objects.equals(type, "post")) {
-	// 		//post
-	// 	} else if (Objects.equals(type, "tags")) {
-	// 		//tags
-	// 	}
-	// 	Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(userId);
-	// 	sseEmitters.forEach(
-	// 		(key, emitter) -> {
-	// 			emitterRepository.saveEventCache(userId, emitter);
-	// 			sendToClient(emitter, key, NotificationResponse.from(notification));
-	// 		}
-	// 	);
-	// }
+	public void send(String senderNickname, String receiverId, String type) {
+		String content = "";
+		if (Objects.equals(type, "chat")) {
+			content = senderNickname + "님께서 메시지를 보내셨습니다";
+		} else if (Objects.equals(type, "post")) {
+			content = senderNickname + "님께서 포스트를 올렸습니다";
+		} else if (Objects.equals(type, "follow")) {
+			content = senderNickname + "님께서 팔로우를 요청하셨습니다";
+			System.out.println("content = " + content);
+			System.out.println("senderNickname = " + senderNickname);
+			System.out.println("receiverId = " + receiverId);
+		}
+		Map<String, SseEmitter> sseEmitters = emitterRepository.findAllWithId(receiverId);
+		NotificationSseDto notificationSseDto = NotificationSseDto.builder().content(content).build();
+		sseEmitters.forEach(
+			(key, emitter) -> {
+				emitterRepository.saveEventCache(receiverId, emitter);
+				sendToClient(emitter, key, notificationSseDto);
+			}
+		);
+	}
 
-	public Notification findById(Long id){
+	public Notification findById(Long id) {
 		Notification notification = notificationRepository.findById(id).get();
 		return notification;
 	}
@@ -97,7 +102,7 @@ public class NotificationService {
 		return notification.getId();
 	}
 
-	public void delete(Notification notification){
+	public void delete(Notification notification) {
 		notificationRepository.delete(notification);
 	}
 
@@ -110,9 +115,9 @@ public class NotificationService {
 	}
 
 	public SliceResponseDto findAllNotifications(Long lastStudyId, Integer size) {
-		Slice<Notification> notification = notificationRepository.findAllOrderByNotificationIdDesc(lastStudyId, Pageable.ofSize(size));
+		Slice<Notification> notification = notificationRepository.findAllOrderByNotificationIdDesc(lastStudyId,
+			Pageable.ofSize(size));
 		return SliceResponseDto.create(notification, NotificationResponse::from);
 	}
-
 
 }
