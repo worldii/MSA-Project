@@ -21,6 +21,8 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 public class UserIndex {
 
     @Id
+    private String id;
+
     @Field(type = FieldType.Long)
     private Long userId;
 
