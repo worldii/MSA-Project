@@ -3,7 +3,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import NotificationBox from "./NotificationBox";
 import Loader from "./Loader";
-
+import EventSourceObject from "../../components/instance/EventSource";
 const AppWrap = styled.div`
   width: 100%;
   height: 100%;
@@ -24,6 +24,7 @@ const AppWrap = styled.div`
 `;
 
 const Notification = () => {
+  const eventSource = new EventSourceObject().getEventSource();
   const [target, setTarget] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [itemLists, setItemLists] = useState([]);
@@ -32,6 +33,11 @@ const Notification = () => {
   useEffect(() => {
     console.log("itemLists");
     console.log(itemLists);
+    eventSource.addEventListener("sse",function (event){
+      const json = JSON.parse(event.data)
+      console.log(json)
+      new Notification("알림",{body:json.content})
+    })
   }, [itemLists]);
 
   //api로 받아와서 실행시키는 버전
@@ -40,13 +46,13 @@ const Notification = () => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const url =
-      "http://localhost:8000/notification-server/slicing?notificationId=" +
-      index.toString() +
-      "&size=10";
+        "http://localhost:8000/notification-server/slicing?notificationId=" +
+        index.toString() +
+        "&size=10";
 
     axios.get(url).then((response) => {
       console.log(
-        "new " + response.data.numberOfElements.toString() + " items"
+          "new " + response.data.numberOfElements.toString() + " items"
       );
       // console.log("index : " + index);
       // console.log("hasNext : " + response.data.hasNext.toString());
@@ -327,16 +333,16 @@ const Notification = () => {
   }, [target]);
 
   return (
-    <>
-      <AppWrap>
-        {itemLists.map((v, i) => {
-          return <NotificationBox item={itemLists[i]} key={i}/>;
-        })}
-        <div ref={setTarget} className="Target-Element">
-          {<Loader />}
-        </div>
-      </AppWrap>
-    </>
+      <>
+        <AppWrap>
+          {itemLists.map((v, i) => {
+            return <NotificationBox item={itemLists[i]} key={i}/>;
+          })}
+          <div ref={setTarget} className="Target-Element">
+            {<Loader />}
+          </div>
+        </AppWrap>
+      </>
   );
 };
 

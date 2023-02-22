@@ -17,6 +17,7 @@ import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.dto
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.dto.UserDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.dto.UserDtoList;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.dto.UserInfo;
+import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.NotificationService;
 
 @Service
 public class KafkaConsumer {
@@ -24,11 +25,14 @@ public class KafkaConsumer {
 	KafkaProducer kafkaProducer;
 	HttpHeaders httpHeaders;
 	RestTemplate restTemplate;
+	NotificationService notificationService;
 
-	public KafkaConsumer(KafkaProducer kafkaProducer, HttpHeaders httpHeaders, RestTemplate restTemplate) {
+	public KafkaConsumer(KafkaProducer kafkaProducer, HttpHeaders httpHeaders, RestTemplate restTemplate,
+		NotificationService notificationService) {
 		this.kafkaProducer = kafkaProducer;
 		this.httpHeaders = httpHeaders;
 		this.restTemplate = restTemplate;
+		this.notificationService = notificationService;
 	}
 
 	@KafkaListener(topics = "${spring.kafka.template.default-topic}", groupId = "jikji-project", containerFactory = "kafkaListener")
@@ -72,5 +76,6 @@ public class KafkaConsumer {
 		Integer receiverId = userInfo.getReceiverId();
 		String receiverEmail = userInfo.getReceiverEmail();
 		String type = userInfo.getType();
+		notificationService.send(senderNickname,receiverId.toString(), type);
 	}
 }

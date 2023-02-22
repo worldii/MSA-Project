@@ -10,9 +10,15 @@ export async function MailAuthUser(data, setError, history) {
                     setError(response.data);
                 } else {
                     alert("이메일 인증이 성공하였습니다.");
-                    axios.post("/follow-service/user",response.data)
-                        .then(res=>console.log(res))
-                        .catch(err=>console.log(err))
+                    const userId = parseInt(response.data.toString())
+
+                    axios.post("/follow-service/user", JSON.stringify({"id": userId}),
+                        {
+                            headers:
+                                {"Content-Type": 'application/json'}
+                        })
+                        .then(res => console.log(res))
+                        .catch(err => console.log(err))
                     history("/")
                 }
             }

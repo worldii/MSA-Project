@@ -1,6 +1,5 @@
 import axios from "axios";
-import EventSourceObject from "../instance/EventSource";
-import header from "../instance/Header";
+
 const clearFunc = () => {
   window.location.reload();
 };
@@ -11,7 +10,6 @@ export async function loginUser(
   setPasswordError,
   history
 ) {
-  const eventSource = new EventSourceObject();
   await axios
     .post("/user-service/user/login", data)
     .then((response) => {
@@ -31,14 +29,7 @@ export async function loginUser(
       const refreshToken = response.data["refreshToken"];
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      axios
-        .get("/user-service/accessToken/get-pk", {
-          headers: header(accessToken),
-        })
-        .then((res) => {
-          eventSource.subscribe(res.data);
-        })
-        .catch((err) => console.log(err));
+
 
       clearFunc();
     })
