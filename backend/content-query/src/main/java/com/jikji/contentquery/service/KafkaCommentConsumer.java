@@ -1,11 +1,14 @@
 package com.jikji.contentquery.service;
 
+import java.util.Optional;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jikji.contentquery.domain.Comment;
+import com.jikji.contentquery.domain.Content;
 import com.jikji.contentquery.exception.CustomException;
 import com.jikji.contentquery.exception.ErrorCode;
 import com.jikji.contentquery.repository.CommentRepository;
@@ -26,6 +29,23 @@ public class KafkaCommentConsumer {
 		Comment comment = readCommentByJson(message);
 		commentRepository.save(comment);
 	}
+
+	@KafkaListener(topics = KafkaTopic.INCREASE_COMMENT_LIKES)
+	public void increaseCommentLikes(String message) throws JsonProcessingException {
+		Comment comment = readCommentByJson(message);
+		Comment updateComment = commentRepository.findByCommentId(comment.getCommentId()).orElseThrow();
+		updateComment.increaseLikes();
+		commentRepository.save(updateComment);
+	}
+
+	@KafkaListener(topics = KafkaTopic.DECREASE_COMMENT_LIKES)
+	public void decreaseCommentLikes(String message) throws JsonProcessingException {
+		Comment comment = readCommentByJson(message);
+		Comment updateComment = commentRepository.findByCommentId(comment.getCommentId()).orElseThrow();
+		updateComment.decreaseLikes();
+		commentRepository.save(updateComment);
+	}
+
 
 	@KafkaListener(topics = KafkaTopic.DELETE_COMMENT)
 	public void deleteComment(String message) throws JsonProcessingException {
