@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.jikji.contentcommand.domain.Content;
 import com.jikji.contentcommand.dto.message.ContentKafkaMessage;
+import com.jikji.contentcommand.dto.message.ContentSearchMessage;
 import com.jikji.contentcommand.dto.message.HashtagKafkaMessage;
+import com.jikji.contentcommand.dto.message.SavedContentMessage;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
@@ -28,8 +30,11 @@ public class ContentCommandServiceImpl implements ContentCommandService {
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Override
-    public Content save(final Content content) {
-        return contentCommandRepository.save(content);
+    public Long save(final Content content, final List<String> tags) {
+        Content savedContent = contentCommandRepository.save(content);
+        sendMessage(new ContentSearchMessage(savedContent, tags), KafkaTopic.ADD_CONTENT_SEARCH);
+        sendMessage(new SavedContentMessage(savedContent), KafkaTopic.ADD_CONTENT);
+        return savedContent.getId();
     }
 
     @Override
@@ -74,6 +79,18 @@ public class ContentCommandServiceImpl implements ContentCommandService {
         String data = null;
         try {
             ContentKafkaMessage message = new ContentKafkaMessage(content);
+            data = writer.writeValueAsString(message);
+            kafkaTemplate.send(topic, data);
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+        }
+        log.info("content kafka send - " + data);
+    }
+
+    private void sendMessage(Object message, String topic) {
+        ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String data = null;
+        try {
             data = writer.writeValueAsString(message);
             kafkaTemplate.send(topic, data);
         } catch (JsonProcessingException e) {

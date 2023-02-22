@@ -2,10 +2,11 @@ package com.jikji.contentcommand.service.content;
 
 import com.jikji.contentcommand.domain.Content;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
+import java.util.List;
 
 public interface ContentCommandService {
 
-    Content save(final Content content);
+    Long save(final Content content, List<String> tags);
 
     void update(final Long contentId, final ContentUpdateRequest request);
 
