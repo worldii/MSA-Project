@@ -1,13 +1,18 @@
 package com.jikji.contentcommand.controller;
 
+import com.jikji.contentcommand.dto.message.NotificationMessage;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
+import com.jikji.contentcommand.service.ContentCommandService;
 import com.jikji.contentcommand.service.content.ContentCommandService;
 import com.jikji.contentcommand.service.content.ContentSaver;
+import com.jikji.contentcommand.util.KafkaProducer;
 import java.net.URI;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,18 +29,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class ContentCommandController {
 
     private final ContentCommandService contentCommandService;
+    private final KafkaProducer kafkaProducer;
 
     private final ContentSaver contentSaver;
 
     @PostMapping
     public ResponseEntity<Void> createContent(@RequestBody ContentCreateRequest request) {
         Long savedId = contentSaver.save(request);
+        NotificationMessage notificationMessage = NotificationMessage.builder()
+            .senderId(request.getUserId().intValue())
+            .type("post")
+            .build();
+        kafkaProducer.sendMessage(notificationMessage);
         return ResponseEntity.created(URI.create("/contents" + savedId)).build();
     }
 
     @PatchMapping("/{contentId}")
     public ResponseEntity<?> updateContent(@RequestBody ContentUpdateRequest request,
-                                           @PathVariable Long contentId) {
+        @PathVariable Long contentId) {
         try {
             contentCommandService.update(contentId, request);
             return ResponseEntity.ok(contentId);
