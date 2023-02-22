@@ -3,7 +3,8 @@ package com.jikji.contentcommand.controller;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
-import com.jikji.contentcommand.service.ContentCommandService;
+import com.jikji.contentcommand.service.content.ContentCommandService;
+import com.jikji.contentcommand.service.content.ContentSaver;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,11 @@ public class ContentCommandController {
 
     private final ContentCommandService contentCommandService;
 
+    private final ContentSaver contentSaver;
+
     @PostMapping
     public ResponseEntity<Void> createContent(@RequestBody ContentCreateRequest request) {
-        Long savedId = contentCommandService.save(request);
+        Long savedId = contentSaver.save(request);
         return ResponseEntity.created(URI.create("/contents" + savedId)).build();
     }
 

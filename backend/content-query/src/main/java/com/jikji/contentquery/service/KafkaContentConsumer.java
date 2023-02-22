@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jikji.contentquery.domain.Content;
 import com.jikji.contentquery.dto.message.HashtagKafkaMessage;
+import com.jikji.contentquery.dto.message.SavedContentMessage;
 import com.jikji.contentquery.exception.ContentNotFoundException;
 import com.jikji.contentquery.repository.ContentQueryRepository;
 import com.jikji.contentquery.util.KafkaTopic;
@@ -24,8 +25,8 @@ public class KafkaContentConsumer {
 
     @KafkaListener(topics = KafkaTopic.ADD_CONTENT)
     public void addContent(String message) throws JsonProcessingException {
-        Content content = readContentByJson(message);
-        contentQueryRepository.save(content);
+        SavedContentMessage content = mapper.readValue(message, SavedContentMessage.class);
+        contentQueryRepository.save(content.toIndex());
     }
 
     @KafkaListener(topics = KafkaTopic.UPDATE_CONTENT)

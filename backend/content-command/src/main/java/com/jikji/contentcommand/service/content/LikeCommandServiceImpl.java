@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service;
+package com.jikji.contentcommand.service.content;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
