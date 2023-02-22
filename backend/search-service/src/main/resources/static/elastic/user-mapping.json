@@ -8,7 +8,8 @@
       "analyzer": "korean"
     },
     "nickname": {
-      "type": "keyword"
+      "type": "keyword",
+      "analyzer": "korean"
     },
     "followerCount": {
       "type": "long"
