@@ -9,11 +9,15 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.jwt.service.JwtService;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.User;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.dto.UserInfoDto;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -88,5 +92,16 @@ public class AccessTokenController {
 			return new ResponseEntity<>(userInfoDto, HttpStatus.OK);
 		}
 		return new ResponseEntity<>("NOTVALIDATEDACCESSTOKEN", HttpStatus.OK);
+	}
+
+	@Operation(summary = "유저 PK", description = "accessToken을 통해 유저 PK 전달 API")
+	@ApiResponse(code = 200, message = "0K")
+	@GetMapping("/get-pk")
+	public ResponseEntity<?> getPK(@ApiParam(value = "accessToken") HttpServletRequest request) {
+		String authorization = request.getHeader("Authorization");
+		String accessToken = authorization.split(" ")[1];
+		String email = jwtService.getEmail(accessToken);
+		User user = userService.findByEmail(email);
+		return new ResponseEntity<>(user.getId(), HttpStatus.OK);
 	}
 }

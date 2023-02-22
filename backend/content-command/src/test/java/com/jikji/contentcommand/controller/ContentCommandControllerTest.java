@@ -42,7 +42,6 @@ class ContentCommandControllerTest {
                 .visibleLikes(true)
                 .imageUrl(imageUrl)
                 .text("변경전 텍스트 #aaa #bb #ccc #dde")
-                .hashtags(Arrays.asList(1L, 2L, 3L, 4L))
                 .build();
 
         // when
@@ -65,7 +64,6 @@ class ContentCommandControllerTest {
                 .visibleLikes(true)
                 .imageUrl(List.of(new ImageUrl("https://before.url", 1, userId)))
                 .text("변경전 텍스트 #aaa #bb #ccc #dde")
-                .hashtags(Arrays.asList(1L, 2L, 3L, 4L))
                 .build();
 
         ContentUpdateRequest updateRequest = ContentUpdateRequest.builder()
@@ -98,7 +96,6 @@ class ContentCommandControllerTest {
                 .visibleLikes(true)
                 .imageUrl(List.of(new ImageUrl("https://before.url", 1, userId)))
                 .text("description")
-                .hashtags(new ArrayList<>())
                 .build();
 
         // when
@@ -121,7 +118,6 @@ class ContentCommandControllerTest {
                 .visibleLikes(true)
                 .imageUrl(List.of(new ImageUrl("https://before.url", 1, 1L)))
                 .text("description")
-                .hashtags(new ArrayList<>())
                 .build();
         final String api = "http://localhost:" + port + "/contents";
         saveContent(api, createRequest);
@@ -144,7 +140,6 @@ class ContentCommandControllerTest {
                 .visibleLikes(true)
                 .imageUrl(List.of(new ImageUrl("https://before.url", 1, 1L)))
                 .text("description")
-                .hashtags(new ArrayList<>())
                 .build();
         final String api = "http://localhost:" + port + "/contents";
         saveContent(api, createRequest);

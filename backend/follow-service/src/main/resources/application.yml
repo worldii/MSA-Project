@@ -10,7 +10,13 @@ org:
         password: movies #neo4j 데스크톱 콘솔에서 설정할 수 있다.
 
 spring:
-
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: jikji
+    consumer:
+      enable-auto-commit: true
+      auto-offset-reset: earliest
   application:
     name: follow-service
   data:

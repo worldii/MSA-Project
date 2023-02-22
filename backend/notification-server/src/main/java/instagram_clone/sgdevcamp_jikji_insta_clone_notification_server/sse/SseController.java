@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.service.KafkaConsumer;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.domain.Notification;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.sse.dto.NotificationResponse;
@@ -29,18 +30,20 @@ import lombok.extern.slf4j.Slf4j;
 public class SseController {
 
 	private final NotificationService notificationService;
+	private KafkaConsumer consumer;
 
-	public SseController(NotificationService notificationService) {
+	public SseController(NotificationService notificationService, KafkaConsumer consumer) {
 		this.notificationService = notificationService;
+		this.consumer = consumer;
 	}
 
 	@CrossOrigin("*")
-	@GetMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
-	public SseEmitter subscribe(@RequestParam String token,
+	@PostMapping(value = "/subscribe", consumes = MediaType.ALL_VALUE)
+	public SseEmitter subscribe(@RequestParam Integer pk,
 		@RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "")
 		String lastEventId) {
 
-		return notificationService.subscribe(token, lastEventId);
+		return notificationService.subscribe(pk.toString(), lastEventId);
 	}
 
 	// @PostMapping("/send")

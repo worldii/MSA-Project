@@ -5,6 +5,7 @@ public final class KafkaTopic {
     public static final String ADD_CONTENT = "content-add";
     public static final String DELETE_CONTENT = "content-delete";
     public static final String UPDATE_CONTENT = "content-update";
+    public static final String ADD_CONTENT_SEARCH = "content-search-add";
 
     public static final String ADD_BOOKMARK = "bookmark-add";
     public static final String DELETE_BOOKMARK = "bookmark-delete";

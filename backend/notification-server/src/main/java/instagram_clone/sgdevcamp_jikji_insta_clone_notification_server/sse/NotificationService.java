@@ -30,18 +30,18 @@ public class NotificationService {
 		this.emitterRepository = emitterRepository;
 		this.notificationRepository = notificationRepository;
 	}
-	public SseEmitter subscribe(String token, String lastEventId) {
-		String id = token + "_" + System.currentTimeMillis();
+	public SseEmitter subscribe(String pk, String lastEventId) {
+		String id = pk + "_" + System.currentTimeMillis();
 		SseEmitter emitter = emitterRepository.save(id, new SseEmitter(DEFAULT_SSE_TIMEOUT));
 
 		emitter.onCompletion(() -> emitterRepository.deleteById(id));
 		emitter.onTimeout(() -> emitterRepository.deleteById(id));
 		emitter.onError((e) -> emitterRepository.deleteById(id));
 
-		sendToClient(emitter, id, "Server-Sent-Event Created. [userId" + token + "]");
+		sendToClient(emitter, id, "Server-Sent-Event Created. [userId" + pk + "]");
 
 		if (!lastEventId.isEmpty()) {
-			Map<String, SseEmitter> events = emitterRepository.findAllWithId(token);
+			Map<String, SseEmitter> events = emitterRepository.findAllWithId(pk);
 			events.entrySet().stream()
 				.filter(entry -> lastEventId.compareTo(entry.getKey()) < 0)
 				.forEach(entry -> sendToClient(emitter, entry.getKey(), entry.getValue()));
