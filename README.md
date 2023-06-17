@@ -15,6 +15,31 @@ Spring 을 이용한 MSA 아키텍쳐 기반 인스타 클론 프로젝트입니
 ## 기술 스택  및 아키텍쳐 구조
 ![Untitled](https://github.com/worldii/MSA-Project/assets/87687210/74b75253-b1fe-4c10-964b-ff1b9db594db)
 
+## 기술 스택
+### BackEnd
+<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=Java&logoColor=#007396" style="height : auto; margin-left : 10px; margin-right : 10px;"/> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white" style="height : auto; margin-left : 10px; margin-right : 10px;"/> <img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=for-the-badge&logo=JSON Web Tokens&logoColor=white" style="height : auto; margin-left : 10px; margin-right : 10px;"/> <img src="https://img.shields.io/badge/Redis-000000?style=for-the-badge&logo=Redis&logoColor=white" style="height : auto; margin-left : 10px; margin-right : 10px;"/> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" style="height : auto; margin-left : 10px; margin-right : 10px;"/> <img src="https://img.shields.io/badge/Gradle-02303A?style=for-the-badge&logo=Gradle&logoColor=white" style="height : auto; margin-left : 10px; margin-right : 10px;"/>
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=black">
+<img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=SpringSecurity&logoColor=white">
+<img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=for-the-badge&logo=Hibernate&logoColor=white">
+
+
+### FrontEnd
+ <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/axios-007CE2?style=for-the-badge&logo=axios&logoColor=white" >
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/Styled_components-DB7093?style=for-the-badge&logo=StyledComponents&logoColor=white">
+
+
+### 기타
+<img src="https://img.shields.io/badge/vim-%23121011.svg?style=for-the-badge&logo=vim&logoColor=white"><img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"> <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=Jenkins&logoColor=white"> <img src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=NGINX&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"> <img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white">
+
+
+### 협업툴
+<img src="https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white"><img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white">
+  <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white">
+
+
 ## 회고록
 한편으로는 아쉬움이 많이 남습니다.각각의 서비스는 완성했지만,유저 서비스 연동이 되어있지 않은 상태입니다. 또한, 구현을 하면서도 스프링 부트를 통해 처음 프로젝트를 진행하였기 떄문에, 현재는 대규모 서비스에 대해서 성능의 요구사항에 맞는 적절한 아키텍쳐를 고려하는 능력이 부족하다고 생각하였습니다. 단순히 기술을 사용했다고 다가 아닌 점을 알기에, 대규모 서비스를 설계할 때 왜? 내가 이렇게 설계했는지에 대한 타당성을 갖는 능력을 갖추고, 이를 다시 리팩토링할 예졍입니다. 
 
