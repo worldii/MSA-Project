@@ -1,19 +1,15 @@
 package com.jikji.contentcommand.dto.request;
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class CommentCreateDto {
-	@JsonProperty(required = true)
+public class CommentRequest {
+	private Long id;
 	private Long userId;
-
 	private String userName;
-	private String profileUrl;
+	private String ProfileUrl;
 	private String description;
+	private int likes;
 }

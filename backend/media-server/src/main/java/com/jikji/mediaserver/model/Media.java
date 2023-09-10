@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Media {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "media_id")
@@ -32,23 +33,21 @@ public class Media {
 
 	@CreationTimestamp
 	@Column(name = "created_at")
-	private LocalDateTime createdAt = LocalDateTime.now();
+	private LocalDateTime createdAt;
 
+	@Column(name = "url")
 	private String url;
-
-	// @ManyToOne(fetch = FetchType.LAZY)
-	// @JoinColumn(name = "user_id")
-	// private User user;
+	@Column(name = "user_id")
 	private Long userId;
+	@Column(name = "user_name")
 	private String userName;
 
 	@Builder
-	public Media(String url, Long userId, MediaType mediaType, String userName) {
+	public Media(final String url, final Long userId, final MediaType mediaType, final String userName) {
 		this.mediaType = mediaType;
 		this.url = url;
-		//this.user = user;
 		this.userId = userId;
 		this.userName = userName;
+		this.createdAt = LocalDateTime.now();
 	}
-
 }

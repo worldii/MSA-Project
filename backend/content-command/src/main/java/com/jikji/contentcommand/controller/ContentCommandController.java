@@ -29,23 +29,27 @@ public class ContentCommandController {
 
     private final ContentCommandService contentCommandService;
     private final KafkaProducer kafkaProducer;
-
     private final ContentSaver contentSaver;
 
     @PostMapping
-    public ResponseEntity<Void> createContent(@RequestBody ContentCreateRequest request) {
+    public ResponseEntity<Void> createContent(@RequestBody final ContentCreateRequest request) {
         Long savedId = contentSaver.save(request);
+
         NotificationMessage notificationMessage = NotificationMessage.builder()
             .senderId(request.getUserId().intValue())
             .type("post")
             .build();
+
         kafkaProducer.sendMessage(notificationMessage);
+
         return ResponseEntity.created(URI.create("/contents" + savedId)).build();
     }
 
     @PatchMapping("/{contentId}")
-    public ResponseEntity<?> updateContent(@RequestBody ContentUpdateRequest request,
-        @PathVariable Long contentId) {
+    public ResponseEntity<?> updateContent(
+        @RequestBody final ContentUpdateRequest request,
+        @PathVariable Long contentId
+    ) {
         try {
             contentCommandService.update(contentId, request);
             return ResponseEntity.ok(contentId);
@@ -55,13 +59,15 @@ public class ContentCommandController {
     }
 
     @DeleteMapping("/{contentId}")
-    public ResponseEntity<?> deleteContent(@PathVariable Long contentId) {
+    public ResponseEntity<?> deleteContent(
+        @PathVariable Long contentId
+    ) {
         contentCommandService.delete(contentId);
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/visibility/likes/{contentId}")
-    public ResponseEntity<?> visibilityLikes(@PathVariable Long contentId) {
+    public ResponseEntity<?> visibilityLikes(@PathVariable final Long contentId) {
         try {
             boolean result = contentCommandService.visibilityLikes(contentId);
             return ResponseEntity.ok(result);
@@ -71,7 +77,7 @@ public class ContentCommandController {
     }
 
     @PostMapping("/visibility/comments/{contentId}")
-    public ResponseEntity<?> visibilityComments(@PathVariable Long contentId) {
+    public ResponseEntity<?> visibilityComments(@PathVariable final Long contentId) {
         try {
             boolean result = contentCommandService.visibilityComments(contentId);
             return ResponseEntity.ok(result);

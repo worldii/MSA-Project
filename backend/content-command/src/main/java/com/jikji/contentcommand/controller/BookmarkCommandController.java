@@ -19,8 +19,8 @@ public class BookmarkCommandController {
     private final BookmarkCommandService bookmarkCommandService;
 
     @PostMapping("{userId}/save/{contentId}")
-    public ResponseEntity<?> saveBookmark(@PathVariable Long userId,
-                                          @PathVariable Long contentId) {
+    public ResponseEntity<?> saveBookmark(@PathVariable final Long userId,
+                                          @PathVariable final Long contentId) {
         try {
             Long savedBookmarkId = bookmarkCommandService.saveBookmark(userId, contentId);
             return ResponseEntity.created(new URI(savedBookmarkId.toString())).build();
@@ -30,8 +30,8 @@ public class BookmarkCommandController {
     }
 
     @PostMapping("{userId}/unsave/{contentId}")
-    public ResponseEntity<?> unsaveBookmark(@PathVariable Long userId,
-                                            @PathVariable Long contentId) {
+    public ResponseEntity<?> unsaveBookmark(@PathVariable final Long userId,
+                                            @PathVariable final Long contentId) {
 
         try {
             bookmarkCommandService.unsaveBookmark(userId, contentId);

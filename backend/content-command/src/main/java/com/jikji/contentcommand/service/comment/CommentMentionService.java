@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jikji.contentcommand.domain.CommentMention;
-import com.jikji.contentcommand.dto.request.CommentCreateDto;
 import com.jikji.contentcommand.repository.CommentMentionRepository;
 
 import lombok.RequiredArgsConstructor;

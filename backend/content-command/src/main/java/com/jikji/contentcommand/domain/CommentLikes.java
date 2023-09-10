@@ -22,12 +22,15 @@ public class CommentLikes {
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 
-	@Column(name = "comment_id", nullable = false)
-	private Long commentId;
+
+	@JoinColumn
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Comment comment;
 
 	@Builder
-	public CommentLikes(Long userId, Long commentId) {
+	public CommentLikes(final Long userId, final Comment comment) {
+		this.comment = comment;
 		this.userId = userId;
-		this.commentId = commentId;
+		this.comment.addCommentLikes(this);
 	}
 }

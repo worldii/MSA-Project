@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface HashtagFeignClient {
 
     @PostMapping("/hashtags")
-    ResponseEntity<List<Long>> addHashtag(@RequestBody Map<String, List<String>> hashtags);
+    ResponseEntity<List<Long>> addHashtag(@RequestBody final Map<String, List<String>> hashtags);
 }

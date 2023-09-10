@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/jikji
-    username: root
-    password: mysql123
+    username: ssafy
+    password: whdgk13579!
   jpa:
     generate-ddl : true
     show-sql: true

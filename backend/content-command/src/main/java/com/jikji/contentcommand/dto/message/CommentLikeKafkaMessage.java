@@ -1,5 +1,6 @@
 package com.jikji.contentcommand.dto.message;
 
+import com.jikji.contentcommand.domain.Comment;
 import com.jikji.contentcommand.domain.CommentLikes;
 
 import lombok.AccessLevel;
@@ -13,13 +14,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CommentLikeKafkaMessage {
-	private Long commentLikeId;
-	private Long commentId;
+	private Long id;
+	private Comment comment;
 	private Long userId;
 
 	public CommentLikeKafkaMessage(CommentLikes commentLikes) {
-		this.commentLikeId = commentLikes.getId();
-		this.commentId = commentLikes.getCommentId();
+		this.id = commentLikes.getId();
+		this.comment= commentLikes.getComment();
 		this.userId = commentLikes.getUserId();
 	}
+
 }

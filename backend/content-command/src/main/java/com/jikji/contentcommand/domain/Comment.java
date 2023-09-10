@@ -2,6 +2,7 @@ package com.jikji.contentcommand.domain;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -23,11 +24,11 @@ public class Comment {
 
 	@Column(nullable = false, updatable = false, name = "user_id")
 	private Long userId;
-
 	private String userName;
 	private String profileUrl;
 
 	@NotNull
+	@Column(name = "post_id")
 	private Long postId;
 
 	@Column(name = "created_at")
@@ -36,35 +37,33 @@ public class Comment {
 	@Column(nullable = false, length = 3000)
 	private String description;
 
-	private int likes;
+	private Long likes = 0L;
 
-//	@OneToMany(mappedBy = "comment")
-//	private List<CommentLikes> commentLikes = new ArrayList<>();
+	@OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<CommentLikes> commentLikes = new ArrayList<>();
 
 	@PrePersist
 	public void prePersist() {
-		likes = 0;
 		createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 	}
 
 	@Builder
-	public Comment(Long userId, String userName, String profileUrl, String description, Long postId, int likes, List<CommentLikes> commentLikes) {
+	public Comment(final Long userId, final String userName, final String profileUrl,
+				   final String description, final Long postId
+	) {
 		this.userId = userId;
 		this.userName = userName;
 		this.profileUrl = profileUrl;
 		this.description = description;
 		this.postId = postId;
-		this.likes = likes;
 	}
 
-	public void update(String description) {
+	public void updateDescription(String description) {
 		this.description = description;
 	}
-	public void increaseLikes() {
-		this.likes = this.likes + 1;
-	}
-	public void decreaseLikes() {
-		this.likes = this.likes - 1;
+
+	public void addCommentLikes(CommentLikes commentLikes) {
+		this.commentLikes.add(commentLikes);
 	}
 }
 

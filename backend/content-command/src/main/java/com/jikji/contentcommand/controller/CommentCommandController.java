@@ -10,53 +10,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jikji.contentcommand.dto.request.CommentCreateDto;
-import com.jikji.contentcommand.dto.request.CommentDto;
-import com.jikji.contentcommand.dto.response.CommentResponseData;
+import com.jikji.contentcommand.dto.request.CommentCreateRequest;
+import com.jikji.contentcommand.dto.request.CommentRequest;
 import com.jikji.contentcommand.dto.response.ResultCode;
 import com.jikji.contentcommand.dto.response.ResultResponse;
 import com.jikji.contentcommand.service.comment.CommentService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
+import static com.jikji.contentcommand.dto.response.ResultCode.*;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class CommentCommandController {
-	private final CommentService commentService;
+    private final CommentService commentService;
 
-	@PostMapping(value = "/comments/{postId}")
-	public ResponseEntity<ResultResponse> createComment(@PathVariable("postId") Long postId,
-		@RequestBody @Valid CommentCreateDto commentCreateDto) {
-		CommentResponseData responseData = commentService.createComment(postId, commentCreateDto);
-		return ResponseEntity.ok(new ResultResponse(ResultCode.CREATE_COMMENT_SUCCESS, responseData));
-	}
+    @PostMapping(value = "/comments/{postId}")
+    public ResponseEntity<ResultResponse> createComment(
+        @PathVariable final Long postId,
+        @RequestBody @Valid final CommentCreateRequest req
+    ) {
+        return ResponseEntity.ok(
+            new ResultResponse(CREATE_COMMENT_SUCCESS, commentService.createComment(postId, req))
+        );
+    }
 
-	@DeleteMapping("/comments/{commentId}")
-	ResponseEntity<ResultResponse> deleteComment(@PathVariable("commentId") Long commentId) {
-		commentService.deleteComment(commentId);
-		return ResponseEntity.ok(new ResultResponse(ResultCode.DELETE_COMMENT_SUCCESS, ""));
-	}
+    @DeleteMapping("/comments/{commentId}")
+    ResponseEntity<ResultResponse> deleteComment(@PathVariable("commentId") final Long commentId) {
+        commentService.deleteComment(commentId);
+        return ResponseEntity.ok(ResultResponse.from(ResultCode.DELETE_COMMENT_SUCCESS));
+    }
 
-	@PutMapping("/comments/{commentId}")
-	ResponseEntity<ResultResponse> updateComment(@PathVariable("commentId") Long commentId,
-		@RequestBody @Valid CommentDto commentDto) {
-		commentService.updateComment(commentId, commentDto);
-		return ResponseEntity.ok(new ResultResponse(ResultCode.UPDATE_COMMENT_SUCCESS, ""));
-	}
+    @PutMapping("/comments/{commentId}")
+    ResponseEntity<ResultResponse> updateComment(
+        @PathVariable("commentId") final Long commentId,
+        @RequestBody @Valid final CommentRequest commentRequest
+    ) {
+        commentService.updateComment(commentId, commentRequest);
+        return ResponseEntity.ok(ResultResponse.from(UPDATE_COMMENT_SUCCESS));
+    }
 
-	@PostMapping("/comments/like/{commentId}/{userId}")
-	ResponseEntity<ResultResponse> addCommentLikes(@PathVariable("commentId") Long commentId,
-		@PathVariable("userId") Long userId) {
-		commentService.addCommentLikes(commentId, userId);
-		return ResponseEntity.ok(new ResultResponse(ResultCode.LIKE_COMMENT_SUCCESS, ""));
-	}
+    @PostMapping("/comments/like/{commentId}/{userId}")
+    ResponseEntity<ResultResponse> addCommentLikes(
+        @PathVariable("commentId") final Long commentId,
+        @PathVariable("userId") final Long userId
+    ) {
+        commentService.addCommentLikes(commentId, userId);
+        return ResponseEntity.ok(ResultResponse.from(LIKE_COMMENT_SUCCESS));
+    }
 
-	@PostMapping("comments/unlike/{commentId}/{userId}")
-	ResponseEntity<ResultResponse> deleteCommentLikes(@PathVariable("commentId") Long commentId,
-		@PathVariable("userId") Long userId) {
-		commentService.deleteCommentLikes(commentId, userId);
-		return ResponseEntity.ok(new ResultResponse(ResultCode.UNLIKE_COMMENT_SUCCESS, ""));
-	}
+    @PostMapping("comments/unlike/{commentId}/{userId}")
+    ResponseEntity<ResultResponse> deleteCommentLikes(
+        @PathVariable("commentId") final Long commentId,
+        @PathVariable("userId") final Long userId
+    ) {
+        commentService.deleteCommentLikes(commentId, userId);
+        return ResponseEntity.ok(ResultResponse.from(UNLIKE_COMMENT_SUCCESS));
+    }
 }

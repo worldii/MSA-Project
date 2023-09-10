@@ -9,10 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 	@ExceptionHandler(value = {CustomException.class})
-	protected ResponseEntity<ErrorResponse> handleCustomException(CustomException e) {
-		log.error("Error : " + e.getErrorcode());
+	protected ResponseEntity<ErrorResponse> handleCustomException(final CustomException e) {
 		return ErrorResponse.toResponseEntity(e.getErrorcode());
 	}
 }

@@ -11,23 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 public class LikeCommandController {
 
     private final LikeCommandService likeCommandService;
 
     @PostMapping("{userId}/like/{contentId}")
-    public ResponseEntity<?> likeContent(@PathVariable Long userId, @PathVariable Long contentId) {
+    public ResponseEntity<?> likeContent(@PathVariable final Long userId, @PathVariable final Long contentId) {
         try {
-            long count = likeCommandService.likeContent(userId, contentId);
-            return new ResponseEntity<>(count, HttpStatus.CREATED);
+            return new ResponseEntity<>(likeCommandService.likeContent(userId, contentId), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping("{userId}/unlike/{contentId}")
-    public ResponseEntity<?> unlikeContent(@PathVariable Long userId, @PathVariable Long contentId) {
+    public ResponseEntity<?> unlikeContent(@PathVariable final Long userId, @PathVariable final Long contentId) {
         try {
             int count = likeCommandService.unlikeContent(userId, contentId);
             return new ResponseEntity<>(count, HttpStatus.NO_CONTENT);

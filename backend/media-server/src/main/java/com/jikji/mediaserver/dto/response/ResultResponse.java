@@ -1,12 +1,12 @@
 package com.jikji.mediaserver.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ResultResponse<T> {
 	private int status;
 	private String code;

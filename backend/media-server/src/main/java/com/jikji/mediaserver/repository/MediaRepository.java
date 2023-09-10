@@ -7,5 +7,4 @@ import com.jikji.mediaserver.model.Media;
 
 @Repository
 public interface MediaRepository extends JpaRepository<Media, Long> {
-
 }

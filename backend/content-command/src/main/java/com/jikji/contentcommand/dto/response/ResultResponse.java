@@ -19,4 +19,7 @@ public class ResultResponse<T> {
 		this.message = resultCode.getMessage();
 		this.data = data;
 	}
+	public static ResultResponse from (ResultCode resultCode) {
+		return new ResultResponse(resultCode, null);
+	}
 }
