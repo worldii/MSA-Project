@@ -32,7 +32,6 @@ public class CommentService {
 
 	private final CommentRepository commentRepository;
 	private final CommentLikesRepository commentLikesRepository;
-	private final CommentMentionService commentMentionService;
 	private final KafkaTemplate<String, String> kafkaTemplate;
 
 	@Transactional
@@ -47,8 +46,6 @@ public class CommentService {
 		commentRepository.save(comment);
 
 		sendMessage(comment, KafkaTopic.ADD_COMMENT);
-		commentMentionService.mentionMember(req.getUserId(), req.getDescription());
-
 		return CommentResponse.from(comment);
 	}
 
@@ -57,7 +54,6 @@ public class CommentService {
 		Comment comment = commentRepository.findById(commentId)
 			.orElseThrow(() -> new CustomException(NOT_FOUND_COMMENT));
 
-		commentMentionService.deleteMentionAll(commentId);
 		commentRepository.delete(comment);
 
 		kafkaTemplate.send(KafkaTopic.DELETE_COMMENT, String.valueOf(commentId));

@@ -28,9 +28,9 @@ public class KafkaBookmarkConsumer {
     @KafkaListener(topics = KafkaTopic.DELETE_BOOKMARK)
     public void deleteBookmark(String message) throws JsonProcessingException {
         Long bookmarkId = mapper.readValue(message, Long.class);
-        Bookmark bookmark = bookmarkQueryRepository.findByBookmarkId(bookmarkId).orElseThrow(
-                BookmarkNotFoundException::new
-        );
+        Bookmark bookmark = bookmarkQueryRepository.findByBookmarkId(bookmarkId)
+            .orElseThrow(BookmarkNotFoundException::new);
+
         bookmarkQueryRepository.delete(bookmark);
     }
 }

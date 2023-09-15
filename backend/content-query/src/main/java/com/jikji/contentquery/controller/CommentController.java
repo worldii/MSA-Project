@@ -24,23 +24,23 @@ public class CommentController {
 
 	@GetMapping("/comments/{postId}")
 	public ResponseEntity<ResultResponse> getComments(@PathVariable Long postId) {
-
 		List<Comment> allComments = commentService.findAllComments(postId);
 		return ResponseEntity.ok(new ResultResponse(ResultCode.GET_COMMENT_PAGE_SUCCESS, allComments));
 	}
 
 	@GetMapping("/comments/like/{commentId}")
-	ResponseEntity<ResultResponse> getCommentLikesList(@PathVariable("commentId") long commentId) {
+	ResponseEntity<ResultResponse> getCommentLikesList(@PathVariable("commentId") Long commentId
+	) {
 		List<CommentLikes> commentLikesList = commentService.getCommentLikesList(commentId);
 		return ResponseEntity.ok(new ResultResponse(ResultCode.GET_COMMENT_LIKES_SUCCESS, commentLikesList));
 	}
 
 	@GetMapping("/comments/isLiked/{commentId}/{userId}")
-	ResponseEntity<ResultResponse> getCommentIsLikedByUser(@PathVariable("commentId") long commentId,
-														   @PathVariable("userId") long userId) {
+	ResponseEntity<ResultResponse> getCommentIsLikedByUser(
+		@PathVariable("commentId") long commentId,
+		@PathVariable("userId") long userId
+	) {
 		boolean result = commentService.checkCommentIsLikedByUser(commentId, userId);
 		return ResponseEntity.ok(new ResultResponse(ResultCode.GET_COMMENT_IS_LIKED_SUCCESS, result));
 	}
-
-
 }

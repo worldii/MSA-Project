@@ -1,7 +1,6 @@
 package com.jikji.contentquery.service;
 
 import com.jikji.contentquery.domain.Content;
-import com.jikji.contentquery.domain.ImageUrl;
 import com.jikji.contentquery.exception.ContentNotFoundException;
 import com.jikji.contentquery.repository.ContentQueryRepository;
 
@@ -28,8 +27,11 @@ public class ContentQueryServiceImpl implements ContentQueryService {
 	private final MongoTemplate mongoTemplate;
 	private final ContentQueryRepository contentQueryRepository;
 
-
-	public Page<Content> findByContentIdWithSize(Long userId, Long contentId, Integer size) {
+	public Page<Content> findByContentIdWithSize(
+		final Long userId,
+		final Long contentId,
+		final Integer size
+	) {
 		Pageable pageable = Pageable.ofSize(size);
 
 		Query query = new Query();
@@ -40,10 +42,10 @@ public class ContentQueryServiceImpl implements ContentQueryService {
 
 		List<Content> contentList = mongoTemplate.find(query, Content.class);
 
-		return PageableExecutionUtils.getPage(
-			contentList,
-			pageable,
-			() -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Content.class));
+		return PageableExecutionUtils
+			.getPage(contentList, pageable,
+			() -> mongoTemplate.count(Query.of(query).limit(-1).skip(-1), Content.class)
+			);
 	}
 
     public Content findByContentId(Long contentId) {

@@ -8,8 +8,8 @@ spring:
       auto-offset-reset: earliest
   datasource:
     url: jdbc:mysql://localhost:3306/insta_clone_auth_db
-    username: root
-    password: mysql123
+    username: ssafy
+    password: whdgk13579!
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql

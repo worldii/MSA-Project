@@ -13,7 +13,6 @@ public class CommentKafkaMessage {
 	private Long postId;
 	private String userName;
 	private String profileUrl;
-	private int likes;
 	private String createdAt;
 	private String description;
 
@@ -25,7 +24,6 @@ public class CommentKafkaMessage {
 		this.userName = comment.getUserName();
 		this.profileUrl = comment.getProfileUrl();
 		this.createdAt = comment.getCreatedAt();
-		this.likes = comment.getLikes();
 		this.description = comment.getDescription();
 	}
 }

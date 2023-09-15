@@ -24,8 +24,11 @@ public class ContentQueryController {
 	private final ContentQueryService contentQueryService;
 
 	@GetMapping("/slicing")
-	public ResponseEntity<Page<Content>> findByContentIdWithSize(@RequestParam(name = "u") Long userId,
-		@RequestParam(name = "c") Long contentId, @RequestParam Integer size) {
+	public ResponseEntity<Page<Content>> findByContentIdWithSize(
+        @RequestParam(name = "u") final Long userId,
+		@RequestParam(name = "c") final Long contentId,
+        @RequestParam final Integer size
+    ) {
 		try {
 			Page<Content> contents = contentQueryService.findByContentIdWithSize(userId, contentId, size);
 			return ResponseEntity.ok(contents);
@@ -35,7 +38,7 @@ public class ContentQueryController {
 	}
 
     @GetMapping("/contents/{contentId}")
-    public ResponseEntity<?> findByContentId(@PathVariable Long contentId) {
+    public ResponseEntity<?> findByContentId(@PathVariable final Long contentId) {
         try {
             Content content = contentQueryService.findByContentId(contentId);
             return ResponseEntity.ok(content);
@@ -45,14 +48,16 @@ public class ContentQueryController {
     }
 
     @GetMapping("/contents/all")
-    public ResponseEntity<?> findAllByContentIds(@RequestParam(name = "ids") List<Long> contentIds) {
+    public ResponseEntity<?> findAllByContentIds(
+        @RequestParam(name = "ids") final List<Long> contentIds
+    ) {
         log.info("content ids:" + contentIds);
         List<Content> result = contentQueryService.findAllByContentIdIn(contentIds);
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<List<Content>> findByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<Content>> findByUserId(@PathVariable final Long userId) {
         try {
             List<Content> contents = contentQueryService.findByUserId(userId);
             return ResponseEntity.ok(contents);

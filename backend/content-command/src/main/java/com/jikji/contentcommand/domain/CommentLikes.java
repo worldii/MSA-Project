@@ -23,7 +23,7 @@ public class CommentLikes {
 	private Long userId;
 
 
-	@JoinColumn
+	@JoinColumn(name = "comment_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Comment comment;
 

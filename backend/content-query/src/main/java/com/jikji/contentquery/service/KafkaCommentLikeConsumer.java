@@ -26,22 +26,23 @@ public class KafkaCommentLikeConsumer {
 	private final CommentLikesRepository commentLikesRepository;
 
 	@KafkaListener(topics = KafkaTopic.ADD_COMMENT_LIKE)
-	public void likeComment(String message) throws JsonProcessingException {
+	public void likeComment(final String message) throws JsonProcessingException {
 		CommentLikes commentLikes = readCommentByJson(message);
 		commentLikesRepository.save(commentLikes);
 	}
 
-
-
 	@KafkaListener(topics = KafkaTopic.DELETE_COMMENT_LIKE)
-	public void unlikeComment(String message) throws JsonProcessingException {
-		CommentLikes commentLikes = mapper.readValue(message, CommentLikes.class);
+	public void unlikeComment(final String message) throws JsonProcessingException {
 		log.info("[Kafka message]: " + message);
-		CommentLikes storedComment = commentLikesRepository.findByCommentLikeId(commentLikes.getCommentLikeId())
+		CommentLikes commentLikes = mapper.readValue(message, CommentLikes.class);
+
+		CommentLikes storedComment = commentLikesRepository
+			.findByCommentLikeId(commentLikes.getCommentLikeId())
 			.orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMENT));
+
 		commentLikesRepository.delete(storedComment);
 	}
-	private CommentLikes readCommentByJson(String json) throws JsonProcessingException {
+	private CommentLikes readCommentByJson(final String json) throws JsonProcessingException {
 		log.info("[Kafka message]: " + json);
 		return mapper.readValue(json, CommentLikes.class);
 	}
