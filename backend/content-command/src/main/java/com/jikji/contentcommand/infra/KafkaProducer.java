@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.util;
+package com.jikji.contentcommand.infra;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;

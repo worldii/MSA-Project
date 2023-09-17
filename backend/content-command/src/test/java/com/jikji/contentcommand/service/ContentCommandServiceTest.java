@@ -8,8 +8,6 @@ import com.jikji.contentcommand.domain.ImageUrl;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
-import com.jikji.contentcommand.service.content.ContentCommandService;
-import com.jikji.contentcommand.service.content.ContentSaver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service.comment;
+package com.jikji.contentcommand.service;
 
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import com.jikji.contentcommand.exception.CustomException;
 import com.jikji.contentcommand.exception.ErrorCode;
 import com.jikji.contentcommand.repository.CommentLikesRepository;
 import com.jikji.contentcommand.repository.CommentRepository;
-import com.jikji.contentcommand.util.KafkaTopic;
+import com.jikji.contentcommand.infra.KafkaTopic;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +28,7 @@ import static com.jikji.contentcommand.exception.ErrorCode.NOT_FOUND_COMMENT;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommentService {
 
 	private final CommentRepository commentRepository;
@@ -43,10 +44,10 @@ public class CommentService {
 			.description(req.getDescription())
 			.postId(postId)
 			.build();
-		commentRepository.save(comment);
+		Comment saveComment = commentRepository.save(comment);
 
 		sendMessage(comment, KafkaTopic.ADD_COMMENT);
-		return CommentResponse.from(comment);
+		return CommentResponse.from(saveComment);
 	}
 
 	@Transactional

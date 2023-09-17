@@ -4,9 +4,9 @@ import com.jikji.contentcommand.dto.message.NotificationMessage;
 import com.jikji.contentcommand.dto.request.ContentCreateRequest;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;
 import com.jikji.contentcommand.exception.ContentNotFoundException;
-import com.jikji.contentcommand.service.content.ContentCommandService;
-import com.jikji.contentcommand.service.content.ContentSaver;
-import com.jikji.contentcommand.util.KafkaProducer;
+import com.jikji.contentcommand.service.ContentCommandService;
+import com.jikji.contentcommand.service.ContentSaver;
+import com.jikji.contentcommand.infra.KafkaProducer;
 import java.net.URI;
 
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public class ContentCommandController {
     }
 
     @PatchMapping("/{contentId}")
-    public ResponseEntity<?> updateContent(
+    public ResponseEntity<Long> updateContent(
         @RequestBody final ContentUpdateRequest request,
         @PathVariable Long contentId
     ) {
@@ -59,7 +59,7 @@ public class ContentCommandController {
     }
 
     @DeleteMapping("/{contentId}")
-    public ResponseEntity<?> deleteContent(
+    public ResponseEntity<Void> deleteContent(
         @PathVariable Long contentId
     ) {
         contentCommandService.delete(contentId);
@@ -67,7 +67,7 @@ public class ContentCommandController {
     }
 
     @PostMapping("/visibility/likes/{contentId}")
-    public ResponseEntity<?> visibilityLikes(@PathVariable final Long contentId) {
+    public ResponseEntity<Boolean> visibilityLikes(@PathVariable final Long contentId) {
         try {
             boolean result = contentCommandService.visibilityLikes(contentId);
             return ResponseEntity.ok(result);
@@ -77,7 +77,7 @@ public class ContentCommandController {
     }
 
     @PostMapping("/visibility/comments/{contentId}")
-    public ResponseEntity<?> visibilityComments(@PathVariable final Long contentId) {
+    public ResponseEntity<Boolean> visibilityComments(@PathVariable final Long contentId) {
         try {
             boolean result = contentCommandService.visibilityComments(contentId);
             return ResponseEntity.ok(result);

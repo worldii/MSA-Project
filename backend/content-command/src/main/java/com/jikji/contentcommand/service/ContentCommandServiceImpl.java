@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service.content;
+package com.jikji.contentcommand.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,18 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.jikji.contentcommand.util.KafkaTopic;
+import com.jikji.contentcommand.infra.KafkaTopic;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional
 public class ContentCommandServiceImpl implements ContentCommandService {
 
     private final ContentCommandRepository contentCommandRepository;
-
     private final KafkaTemplate<String, String> kafkaTemplate;
 
+    @Transactional
     @Override
     public Long save(final Content content, final List<String> tags) {
         Content savedContent = contentCommandRepository.save(content);
@@ -37,6 +36,7 @@ public class ContentCommandServiceImpl implements ContentCommandService {
         return savedContent.getId();
     }
 
+    @Transactional
     @Override
     public void update(final Long contentId, final ContentUpdateRequest request) {
         final Content content = contentCommandRepository.findById(contentId)
@@ -47,12 +47,14 @@ public class ContentCommandServiceImpl implements ContentCommandService {
         sendMessage(content.getHashtags(), contentId);
     }
 
+    @Transactional
     @Override
     public void delete(Long contentId) {
         contentCommandRepository.deleteById(contentId);
         kafkaTemplate.send(KafkaTopic.DELETE_CONTENT, String.valueOf(contentId));
     }
 
+    @Transactional
     public boolean visibilityLikes(Long contentId) {
         Content content = getContent(contentId);
         content.changeVisibleLikes();
@@ -61,6 +63,7 @@ public class ContentCommandServiceImpl implements ContentCommandService {
         return savedContent.getVisibleLikes();
     }
 
+    @Transactional
     public boolean visibilityComments(Long contentId) {
         Content content = getContent(contentId);
         content.changeVisibleComments();

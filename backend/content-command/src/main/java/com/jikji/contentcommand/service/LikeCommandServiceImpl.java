@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service.content;
+package com.jikji.contentcommand.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +10,7 @@ import com.jikji.contentcommand.exception.ContentNotFoundException;
 import com.jikji.contentcommand.exception.LikeNotFoundException;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
 import com.jikji.contentcommand.repository.LikeCommandRepository;
-import com.jikji.contentcommand.util.KafkaTopic;
+import com.jikji.contentcommand.infra.KafkaTopic;
 import com.jikji.contentcommand.util.ValidCheckUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class LikeCommandServiceImpl implements LikeCommandService {
 
@@ -30,6 +29,7 @@ public class LikeCommandServiceImpl implements LikeCommandService {
 
     private final ContentCommandRepository contentCommandRepository;
 
+    @Transactional
     @Override
     public int likeContent(Long userId, Long contentId) {
         ValidCheckUtil.checkDuplicatedLike(userId, contentId, likeCommandRepository);
@@ -47,6 +47,7 @@ public class LikeCommandServiceImpl implements LikeCommandService {
         return content.getLikes();
     }
 
+    @Transactional
     @Override
     public int unlikeContent(Long userId, Long contentId) {
         Content content = contentCommandRepository.findById(contentId)

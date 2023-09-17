@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service.content;
+package com.jikji.contentcommand.service;
 
 public interface BookmarkCommandService {
 

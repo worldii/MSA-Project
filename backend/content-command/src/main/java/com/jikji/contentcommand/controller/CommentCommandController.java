@@ -14,7 +14,7 @@ import com.jikji.contentcommand.dto.request.CommentCreateRequest;
 import com.jikji.contentcommand.dto.request.CommentRequest;
 import com.jikji.contentcommand.dto.response.ResultCode;
 import com.jikji.contentcommand.dto.response.ResultResponse;
-import com.jikji.contentcommand.service.comment.CommentService;
+import com.jikji.contentcommand.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
 

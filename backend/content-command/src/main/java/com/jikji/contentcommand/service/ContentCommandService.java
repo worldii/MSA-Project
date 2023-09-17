@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service.content;
+package com.jikji.contentcommand.service;
 
 import com.jikji.contentcommand.domain.Content;
 import com.jikji.contentcommand.dto.request.ContentUpdateRequest;

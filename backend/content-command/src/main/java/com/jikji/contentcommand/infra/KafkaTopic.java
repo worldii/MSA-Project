@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.util;
+package com.jikji.contentcommand.infra;
 
 public final class KafkaTopic {
 

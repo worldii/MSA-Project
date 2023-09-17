@@ -1,4 +1,4 @@
-package com.jikji.contentcommand.service.content;
+package com.jikji.contentcommand.service;
 
 
 import com.jikji.contentcommand.client.HashtagFeignClient;
@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class ContentSaver {
 
     private final HashtagFeignClient hashtagFeignClient;
 
+    @Transactional
     public Long save(final ContentCreateRequest request) {
         final List<String> tags = HashtagUtil.getHashtagInText(request.getText());
         final List<Long> hashtagIdByName = getHashtagIdByName(tags);

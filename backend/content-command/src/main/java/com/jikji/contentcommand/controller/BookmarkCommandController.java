@@ -1,6 +1,6 @@
 package com.jikji.contentcommand.controller;
 
-import com.jikji.contentcommand.service.content.BookmarkCommandService;
+import com.jikji.contentcommand.service.BookmarkCommandService;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public class BookmarkCommandController {
     private final BookmarkCommandService bookmarkCommandService;
 
     @PostMapping("{userId}/save/{contentId}")
-    public ResponseEntity<?> saveBookmark(@PathVariable final Long userId,
+    public ResponseEntity<String> saveBookmark(@PathVariable final Long userId,
                                           @PathVariable final Long contentId) {
         try {
             Long savedBookmarkId = bookmarkCommandService.saveBookmark(userId, contentId);
@@ -30,7 +30,7 @@ public class BookmarkCommandController {
     }
 
     @PostMapping("{userId}/unsave/{contentId}")
-    public ResponseEntity<?> unsaveBookmark(@PathVariable final Long userId,
+    public ResponseEntity<String> unSaveBookmark(@PathVariable final Long userId,
                                             @PathVariable final Long contentId) {
 
         try {

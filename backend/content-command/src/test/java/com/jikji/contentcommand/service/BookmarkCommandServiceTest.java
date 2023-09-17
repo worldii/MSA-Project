@@ -10,7 +10,6 @@ import com.jikji.contentcommand.domain.ImageUrl;
 import com.jikji.contentcommand.exception.BookmarkDuplicatedException;
 import com.jikji.contentcommand.repository.BookmarkCommandRepository;
 import com.jikji.contentcommand.repository.ContentCommandRepository;
-import com.jikji.contentcommand.service.content.BookmarkCommandService;
 import com.jikji.contentcommand.util.ValidCheckUtil;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
