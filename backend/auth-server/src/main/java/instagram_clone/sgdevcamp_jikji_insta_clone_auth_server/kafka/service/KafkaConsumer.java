@@ -2,6 +2,7 @@ package instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.kafka.service;
 
 import java.io.IOException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,11 @@ import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.User;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.user.service.UserService;
 
 @Service
+@RequiredArgsConstructor
 public class KafkaConsumer {
 
-	UserService userService;
-	KafkaProducer kafkaProducer;
-
-	public KafkaConsumer(UserService userService, KafkaProducer kafkaProducer) {
-		this.userService = userService;
-		this.kafkaProducer = kafkaProducer;
-	}
+	private final UserService userService;
+	private final KafkaProducer kafkaProducer;
 
 	@KafkaListener(topics = "jikji-chat-email", groupId = "jikji-project", containerFactory = "kafkaListener")
 	public void consume(ChatEmail email) throws IOException {

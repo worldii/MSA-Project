@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -25,13 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Api(tags = "RefreshToken 관련 컨트롤러")
 @RequestMapping("/refreshToken")
+@RequiredArgsConstructor
 public class RefreshTokenController {
 
-	JwtService jwtService;
-
-	public RefreshTokenController(JwtService jwtService) {
-		this.jwtService = jwtService;
-	}
+	private final JwtService jwtService;
 
 	@Operation(summary = "RefreshToken 검증", description = "RefreshToken 검증을 통해 AccessToken 발급 API")
 	@ApiResponse(code = 200, message = "OK")

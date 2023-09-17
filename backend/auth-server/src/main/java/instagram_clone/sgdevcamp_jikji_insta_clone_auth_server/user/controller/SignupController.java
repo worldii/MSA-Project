@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail.MailAuth;
+import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail.domain.MailAuth;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail.dto.MailAuthDto;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail.service.MailAuthService;
 import instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail.service.MailService;

@@ -1,4 +1,4 @@
-package instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail;
+package instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.mail.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

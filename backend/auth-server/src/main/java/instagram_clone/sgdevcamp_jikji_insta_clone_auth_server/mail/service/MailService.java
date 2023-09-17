@@ -20,8 +20,26 @@ public class MailService {
 	private final JavaMailSender mailSender;
 	private final SpringTemplateEngine templateEngine;
 	private String authCode;
+	public MimeMessage createMailForm(String email,String type) throws MessagingException, UnsupportedEncodingException {
+		createCode();
+		String setFrom = "smilestagram.clone@gmail.com";
 
-	public void createCode() {
+		String title;
+		if(Objects.equals(type, "password")){
+			title = authCode + "is your Smilestagram New Password";
+		}else{
+			title = authCode + "is your Smilestagram code";
+		}
+
+		MimeMessage message = mailSender.createMimeMessage();
+		message.addRecipients(MimeMessage.RecipientType.TO, email);
+		message.setSubject(title);
+		message.setFrom(setFrom);
+		message.setText(setContext(email, authCode,type), "utf-8", "html");
+
+		return message;
+	}
+	private void createCode() {
 		Random random = new Random();
 		StringBuffer key = new StringBuffer();
 
@@ -43,34 +61,7 @@ public class MailService {
 		authCode = key.toString();
 	}
 
-	public MimeMessage createMailForm(String email,String type) throws MessagingException, UnsupportedEncodingException {
-		createCode();
-		String setFrom = "smilestagram.clone@gmail.com";
-
-		String title;
-		if(Objects.equals(type, "password")){
-			title = authCode + "is your Smilestagram New Password";
-		}else{
-			title = authCode + "is your Smilestagram code";
-		}
-
-		MimeMessage message = mailSender.createMimeMessage();
-		message.addRecipients(MimeMessage.RecipientType.TO, email);
-		message.setSubject(title);
-		message.setFrom(setFrom);
-		message.setText(setContext(email, authCode,type), "utf-8", "html");
-
-		return message;
-	}
-
-	public String sendMail(String toEmail,String type) throws MessagingException, UnsupportedEncodingException {
-		MimeMessage emailForm = createMailForm(toEmail,type);
-		mailSender.send(emailForm);
-
-		return authCode;
-	}
-
-	public String setContext(String email, String code, String type) {
+	private String setContext(String email, String code, String type) {
 		Context context = new Context();
 		context.setVariable("email", email);
 		context.setVariable("code", code);
@@ -81,4 +72,10 @@ public class MailService {
 		}
 	}
 
+	public String sendMail(String toEmail,String type) throws MessagingException, UnsupportedEncodingException {
+		MimeMessage emailForm = createMailForm(toEmail,type);
+		mailSender.send(emailForm);
+
+		return authCode;
+	}
 }

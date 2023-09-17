@@ -14,11 +14,11 @@ public class KafkaProducer {
 
 	private final KafkaTemplate<String, UserInfo> kafkaTemplate;
 
-	public KafkaProducer(KafkaTemplate<String, UserInfo> kafkaTemplate) {
+	public KafkaProducer(final KafkaTemplate<String, UserInfo> kafkaTemplate) {
 		this.kafkaTemplate = kafkaTemplate;
 	}
 
-	public void sendMessage(UserInfo userInfo) {
+	public void sendMessage(final UserInfo userInfo) {
 		kafkaTemplate.send(topicName, userInfo);
 	}
 }

@@ -1,4 +1,4 @@
-package instagram_clone.sgdevcamp_jikji_insta_clone_auth_server;
+package instagram_clone.sgdevcamp_jikji_insta_clone_auth_server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
