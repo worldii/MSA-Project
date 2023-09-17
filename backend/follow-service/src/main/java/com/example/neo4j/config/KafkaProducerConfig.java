@@ -1,4 +1,4 @@
-package com.example.neo4j;
+package com.example.neo4j.config;
 
 import java.util.HashMap;
 import java.util.Map;

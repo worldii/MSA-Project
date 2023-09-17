@@ -1,5 +1,6 @@
 package com.example.neo4j.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +13,10 @@ import com.example.neo4j.dto.user.UserDto;
 import com.example.neo4j.service.UserService;
 
 @RestController
+@RequiredArgsConstructor
 public class UserController {
 
-	final UserService userService;
-
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
-
+	private final UserService userService;
 	@PostMapping("/user")
 	public UserDto createUser(@RequestBody UserDto userDto) {
 		return userService.saveUser(userDto);

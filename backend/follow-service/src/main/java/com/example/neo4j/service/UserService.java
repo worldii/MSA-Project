@@ -1,5 +1,6 @@
 package com.example.neo4j.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.example.neo4j.dto.user.UserDto;
@@ -7,8 +8,9 @@ import com.example.neo4j.entity.User;
 import com.example.neo4j.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
-	final UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	private User userDtoToUser(UserDto userDto) {
 		return new User(
@@ -20,10 +22,6 @@ public class UserService {
 		return new UserDto(
 			user.getId()
 		);
-	}
-
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
 	}
 
 	public UserDto saveUser(UserDto userDto) {

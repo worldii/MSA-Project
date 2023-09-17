@@ -1,4 +1,4 @@
-package com.example.neo4j;
+package com.example.neo4j.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

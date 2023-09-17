@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.example.neo4j.dto.relationship.FollowDto;
@@ -12,8 +13,9 @@ import com.example.neo4j.entity.User;
 import com.example.neo4j.repository.RelationshipRepository;
 
 @Service
+@RequiredArgsConstructor
 public class RelationshipService {
-	final RelationshipRepository relationshipRepository;
+	private final RelationshipRepository relationshipRepository;
 
 	private User userDtoToUser(UserDto userDto) {
 		return new User(
@@ -25,10 +27,6 @@ public class RelationshipService {
 		return new UserDto(
 			user.getId()
 		);
-	}
-
-	public RelationshipService(RelationshipRepository relationshipRepository) {
-		this.relationshipRepository = relationshipRepository;
 	}
 
 	public FollowDto createFollowing(FollowDto followDto) {
