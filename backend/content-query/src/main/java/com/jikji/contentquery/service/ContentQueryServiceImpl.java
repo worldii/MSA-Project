@@ -18,10 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class ContentQueryServiceImpl implements ContentQueryService {
 
 	private final MongoTemplate mongoTemplate;

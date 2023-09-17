@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 public class KafkaContentConsumer {
 
     private final ObjectMapper mapper;
-
     private final ContentQueryRepository contentQueryRepository;
 
     @KafkaListener(topics = KafkaTopic.ADD_CONTENT)

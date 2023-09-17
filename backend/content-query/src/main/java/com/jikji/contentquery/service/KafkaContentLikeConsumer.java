@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 public class KafkaContentLikeConsumer {
 
     private final ObjectMapper mapper;
-
     private final ContentLikeQueryRepository contentLikeQueryRepository;
 
     @KafkaListener(topics = KafkaTopic.ADD_CONTENT_LIKE)

@@ -16,23 +16,21 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class CommentService {
 	private final CommentRepository commentRepository;
 	private final CommentLikesRepository commentLikesRepository;
 
-	@Transactional(readOnly = true)
 	public List<Comment> findAllComments(final Long postId) {
 		return commentRepository.findAllByPostId(postId);
 	}
 
-	@Transactional
 	public List<CommentLikes> getCommentLikesList(final Long commentId) {
 		List<CommentLikes> allByCommentId = commentLikesRepository.findAllByCommentId(commentId);
 		log.info("좋아요 리스트 " + allByCommentId);
 		return allByCommentId;
 	}
 
-	@Transactional
 	public boolean checkCommentIsLikedByUser(final Long commentId,final Long userId) {
 		boolean present = commentLikesRepository.findByUserIdAndCommentId(userId, commentId).isPresent();
 		log.info("좋아요 여부 " + present);

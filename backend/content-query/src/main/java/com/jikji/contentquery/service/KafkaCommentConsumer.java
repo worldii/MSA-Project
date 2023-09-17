@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+// TODO : 실패 했을 떄 재시도 로직 추가
 public class KafkaCommentConsumer {
 	private final ObjectMapper mapper;
 	private final CommentRepository commentRepository;

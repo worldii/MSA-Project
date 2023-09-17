@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+// TODO : 실패했을 때 재시도 로직 추가
 public class KafkaBookmarkConsumer {
 
     private final BookmarkQueryRepository bookmarkQueryRepository;
