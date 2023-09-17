@@ -18,34 +18,42 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class ChattingController {
-
     private final ChatroomService chatroomService;
 
-
     @GetMapping("/chatrooms/user/{userId}")
-    public ResponseEntity<ChatroomResponse> findChatrooms(@PathVariable Long userId) {
+    public ResponseEntity<ChatroomResponse> findChatrooms(@PathVariable final Long userId) {
         ChatroomResponse response = chatroomService.findChatroomsByUserId(userId);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/chatrooms/{userId}/{chatroomId}")
-    public ResponseEntity<ChatroomMessageResponse> findChatMessages(@PathVariable Long userId,
-                                                                    @PathVariable String chatroomId) {
+    public ResponseEntity<ChatroomMessageResponse> findChatMessages(
+        @PathVariable final Long userId,
+        @PathVariable final String chatroomId
+    ) {
         ChatroomMessageResponse response = chatroomService.findChatMessagesByChatRoomId(chatroomId, userId);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/chatrooms/{userId}/{anotherId}")
-    public ResponseEntity<?> createChatroom(@PathVariable Long userId, @PathVariable Long anotherId) {
+    public ResponseEntity<String> createChatroom(
+        @PathVariable final Long userId,
+        @PathVariable final Long anotherId
+    ) {
         String result = chatroomService.createChatroom(userId, anotherId);
         if (result.equals("duplicated")) {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.created(URI.create("/chatrooms/" + userId + "/" + anotherId)).build();
+        return ResponseEntity
+            .created(URI.create("/chatrooms/" + userId + "/" + anotherId))
+            .build();
     }
 
     @DeleteMapping("/chatrooms/{userId}/{chatroomId}")
-    public ResponseEntity<?> deleteChatroom(@PathVariable Long userId, @PathVariable String chatroomId) {
+    public ResponseEntity<Void> deleteChatroom(
+        @PathVariable final Long userId,
+        @PathVariable final String chatroomId
+    ) {
         chatroomService.deleteChatroom(userId, chatroomId);
         return ResponseEntity.noContent().build();
     }

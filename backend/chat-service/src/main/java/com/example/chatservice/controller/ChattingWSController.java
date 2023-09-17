@@ -13,9 +13,7 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 @Slf4j
 public class ChattingWSController {
-
     private final ChatMessageService chatMessageService;
-
 
     @MessageMapping("/messages")
     public void sendMessage(@Payload ChatMessageRequest chatMessageRequest) {
@@ -26,5 +24,4 @@ public class ChattingWSController {
     public void like(@Payload LikeRequest request) {
         chatMessageService.likeAndUnlike(request);
     }
-
 }

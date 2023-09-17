@@ -18,28 +18,28 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ChatroomService {
+
     private final MessageLikeRepository messageLikeRepository;
-
     private final ChatMessageRepository chatMessageRepository;
-
     private final ChatroomRepository chatroomRepository;
-
     private final UserFeignClient userFeignClient;
-
 
     public ChatroomResponse findChatroomsByUserId(Long userId) {
         List<Chatroom> chatrooms = chatroomRepository.findAllByUsers(userId);
         ChatroomResponse chatroomResponse = new ChatroomResponse(userId);
         List<ChatroomInfoDto> chatroomInfos = new ArrayList<>();
 
-        for(Chatroom chatroom: chatrooms) {
-            ChatMessage message = chatMessageRepository.findTop1ByChatroomIdOrderByTimestampDesc(chatroom.getId())
-                    .orElse(createDummyMessage(chatroom.getId(), userId));
+        for (Chatroom chatroom : chatrooms) {
+            ChatMessage message = chatMessageRepository.findTop1ByChatroomIdOrderByTimestampDesc(
+                    chatroom.getId())
+                .orElse(createDummyMessage(chatroom.getId(), userId));
             chatroomInfos.add(createChatroomInfo(message, chatroom, userId));
         }
 
@@ -50,10 +50,11 @@ public class ChatroomService {
     public ChatroomMessageResponse findChatMessagesByChatRoomId(String chatroomId, Long userId) {
         List<ChatMessage> messages = chatMessageRepository.findAllByChatroomId(chatroomId);
         ChatroomMessageResponse chatroomMessageResponse = new ChatroomMessageResponse(chatroomId);
-        List<ChatMessageDto> chatMessageInfos = new ArrayList<>();
 
+        List<ChatMessageDto> chatMessageInfos = new ArrayList<>();
         messages.forEach(chatMessage -> {
-            Boolean exists = messageLikeRepository.existsByMessageIdAndUserId(chatMessage.getId(), userId);
+            Boolean exists = messageLikeRepository.existsByMessageIdAndUserId(chatMessage.getId(),
+                userId);
             chatMessageInfos.add(new ChatMessageDto(chatMessage, exists));
         });
 
@@ -61,6 +62,7 @@ public class ChatroomService {
         return chatroomMessageResponse;
     }
 
+    @Transactional
     public String createChatroom(Long myId, Long anotherId) {
         Chatroom chatroom = new Chatroom(myId, anotherId);
         if (findUserIds(myId, anotherId) != 0) {
@@ -71,9 +73,10 @@ public class ChatroomService {
         return saved.getId();
     }
 
+    @Transactional
     public Chatroom deleteChatroom(Long userId, String chatroomId) {
         Chatroom chatroom = chatroomRepository.findByUserIdAndId(userId, chatroomId)
-                .orElseThrow(ChatroomNotFoundException::new);
+            .orElseThrow(ChatroomNotFoundException::new);
         chatroom.offVisibility(userId);
 
         if (chatroom.isDeletedAll()) {
@@ -96,7 +99,8 @@ public class ChatroomService {
         return userFeignClient.getUserInfo(userId.intValue()).getBody();
     }
 
-    private ChatroomInfoDto createChatroomInfo(ChatMessage message, Chatroom chatroom, Long userId) {
+    private ChatroomInfoDto createChatroomInfo(ChatMessage message, Chatroom chatroom,
+        Long userId) {
         final Long anotherUserId = chatroom.getUsers().getAnotherUserId(userId);
         final UserInfoDetailDto anotherUserInfo = getUserInfoDetail(anotherUserId);
         UserInfoDto user = new UserInfoDto(anotherUserInfo);

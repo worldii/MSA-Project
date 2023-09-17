@@ -22,19 +22,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class ChatMessageService {
+
     private final MessageLikeRepository messageLikeRepository;
-
     private final ChatMessageRepository chatMessageRepository;
-
     private final ChatroomRepository chatroomRepository;
-
     private final SimpMessageSendingOperations sMSOperations;
 
+    @Transactional
     public void send(ChatMessageRequest request) {
         final Chatroom chatroom = getChatroom(request.getChatroomId());
         final List<UserInfo> users = chatroom.getUserAll();
@@ -46,6 +47,7 @@ public class ChatMessageService {
         sMSOperations.convertAndSend("/sub/" + chatroom.getId(), response);
     }
 
+    @Transactional
     public void likeAndUnlike(LikeRequest request) {
         final ChatMessage message = getChatMessage(request.getMessageId());
         final Chatroom chatroom = getChatroom(message.getChatroomId());
@@ -62,7 +64,9 @@ public class ChatMessageService {
     }
 
     private MessageType checkType(LikeRequest request) {
-        if (!messageLikeRepository.existsByMessageIdAndUserId(request.getMessageId(), request.getUserId())) {
+        if (Boolean.FALSE.equals(
+            messageLikeRepository.existsByMessageIdAndUserId(request.getMessageId(), request.getUserId()))
+        ) {
             messageLikeRepository.save(new MessageLike(request));
             return MessageType.LIKE;
         }

@@ -17,7 +17,7 @@ public class UserInfoDto {
 
     private String nickname;
 
-    public UserInfoDto(UserInfoDetailDto userInfoDetailDto) {
+    public UserInfoDto(final UserInfoDetailDto userInfoDetailDto) {
         this.userId = userInfoDetailDto.getId();
         this.profileImage = "";
         this.name = userInfoDetailDto.getName();

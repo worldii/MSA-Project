@@ -69,12 +69,14 @@ class ChatroomServiceTest {
     @Test
     void findChatMessagesByChatRoomId() {
         // given
+        final Long userId = 1L;
         Chatroom chatroom = chatroomRepository.findByUserIds(11L, 1L)
                 .orElseThrow(() -> new RuntimeException("NOT_FOUND_CHATROOM"));
         String chatroomId = chatroom.getId();
 
         // when
-        ChatroomMessageResponse messages = chatroomService.findChatMessagesByChatRoomId(chatroomId);
+        ChatroomMessageResponse messages = chatroomService.findChatMessagesByChatRoomId(
+            chatroomId, userId);
 
         // then
         assertThat(messages.getChatroomId()).isEqualTo(chatroomId);
@@ -122,7 +124,7 @@ class ChatroomServiceTest {
         Chatroom result = chatroomService.deleteChatroom(myId, chatroomId);
 
         // then
-        assertThat(result.getUsers().getMyUser(myId).getDeleted()).isEqualTo(true);
+        assertThat(result.getUsers().getMyUser(myId).getDeleted()).isTrue();
     }
 
     @DisplayName("사용자 둘다 채팅방을 삭제하면 db에서도 삭제된다")
