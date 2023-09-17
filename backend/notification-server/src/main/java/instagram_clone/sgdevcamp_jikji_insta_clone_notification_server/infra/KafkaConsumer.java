@@ -1,4 +1,4 @@
-package instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.service;
+package instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka;
 
 import java.io.IOException;
 import java.util.List;

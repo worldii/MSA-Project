@@ -1,4 +1,4 @@
-package instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka.service;
+package instagram_clone.sgdevcamp_jikji_insta_clone_notification_server.kafka;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
